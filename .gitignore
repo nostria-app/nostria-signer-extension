@@ -6,6 +6,8 @@
 dist
 # dependencies
 node_modules
+__azurite*
+doc/.tmp*
 
 # IDEs and editors
 /.idea
