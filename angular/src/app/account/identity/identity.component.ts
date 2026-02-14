@@ -6,14 +6,14 @@ import { CryptoUtility, SettingsService, UIState, WalletManager } from 'src/app/
 import { copyToClipboard } from 'src/app/shared/utilities';
 import { Network } from '../../../shared/networks';
 import { IdentityService } from 'src/app/services/identity.service';
-import { BlockcoreIdentity, BlockcoreIdentityTools } from '@blockcore/identity';
+import { BlockcoreIdentity as NostriaIdentity, BlockcoreIdentityTools as NostriaIdentityTools } from '@blockcore/identity';
 import { TranslateService } from '@ngx-translate/core';
 const { v4: uuidv4 } = require('uuid');
 import { ES256KSigner } from 'did-jwt';
 import { base64url } from 'jose';
 import { IdentityResolverService } from 'src/app/services/identity-resolver.service';
 import { DIDDocument } from 'did-resolver';
-import { BlockcoreDns } from '@blockcore/dns';
+import { BlockcoreDns as NostriaDns } from '@blockcore/dns';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordDialog } from 'src/app/shared/password-dialog/password-dialog';
 import * as secp from '@noble/secp256k1';
@@ -104,12 +104,12 @@ export class IdentityComponent implements OnInit, OnDestroy {
       // The very first receive address is the actual identity of the account.
       let address = accountState.receive[0];
 
-      const tools = new BlockcoreIdentityTools();
+      const tools = new NostriaIdentityTools();
       const identityNode = this.identityService.getIdentityNode(this.walletManager.activeWallet, this.walletManager.activeAccount);
 
       if (!this.walletManager.activeAccount.prv) {
         const verificationMethod = tools.getVerificationMethod(identityNode.publicKey, 0, this.network.symbol);
-        const identity = new BlockcoreIdentity(verificationMethod);
+        const identity = new NostriaIdentity(verificationMethod);
         this.identifier = identity.did;
         this.readableId = identity.short;
       }
@@ -291,7 +291,7 @@ export class IdentityComponent implements OnInit, OnDestroy {
   async publish() {
     const jws = await this.generateOperation(0);
 
-    const dns = new BlockcoreDns();
+    const dns = new NostriaDns();
     await dns.load(undefined, 'Identity');
 
     let serviceUrl = 'https://id.blockcore.net'; // Fallback
@@ -328,13 +328,13 @@ export class IdentityComponent implements OnInit, OnDestroy {
   }
 
   async generateOperation(version: number) {
-    const tools = new BlockcoreIdentityTools();
+    const tools = new NostriaIdentityTools();
 
     const identityNode = this.identityService.getIdentityNode(this.walletManager.activeWallet, this.walletManager.activeAccount);
     const signer = tools.getSigner(identityNode.privateKey);
 
     const verificationMethod = tools.getVerificationMethod(identityNode.publicKey, 0, this.network.symbol);
-    const identity = new BlockcoreIdentity(verificationMethod);
+    const identity = new NostriaIdentity(verificationMethod);
 
     const didDocument = this.generateDIDDocument(identityNode.publicKey);
     const kid = didDocument.id + '#key0';
@@ -344,19 +344,19 @@ export class IdentityComponent implements OnInit, OnDestroy {
   }
 
   generateDIDDocument(publicKey: Uint8Array): DIDDocument {
-    const tools = new BlockcoreIdentityTools();
+    const tools = new NostriaIdentityTools();
 
     const verificationMethod = tools.getVerificationMethod(publicKey, 0, this.network.symbol);
-    const identity = new BlockcoreIdentity(verificationMethod);
+    const identity = new NostriaIdentity(verificationMethod);
     const didDocument: DIDDocument = identity.document();
     return didDocument;
   }
 
   async generateWellKnownConfiguration(publicKey: Uint8Array, privateKey: Uint8Array, domain: string) {
-    const tools = new BlockcoreIdentityTools();
+    const tools = new NostriaIdentityTools();
 
     const verificationMethod = tools.getVerificationMethod(publicKey, 0, this.network.symbol);
-    const identity = new BlockcoreIdentity(verificationMethod);
+    const identity = new NostriaIdentity(verificationMethod);
     const issuer = tools.getIssuer(identity.did, privateKey);
 
     const document = await identity.configuration(domain, issuer, verificationMethod.id);

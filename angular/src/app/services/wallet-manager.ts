@@ -705,7 +705,7 @@ export class WalletManager {
       // chrome.runtime.sendMessage(
       //   {
       //     type: 'reload',
-      //     ext: 'blockcore',
+      //     ext: 'nostria',
       //     source: 'tab',
       //     target: 'tabs',
       //     host: location.host,

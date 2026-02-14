@@ -1,4 +1,4 @@
-import { BlockcoreDns, ServiceListEntry } from '@blockcore/dns';
+import { BlockcoreDns as NostriaDns, ServiceListEntry } from '@blockcore/dns';
 import { Nameservers } from './nameservers';
 
 export class NameserverService {
@@ -8,7 +8,7 @@ export class NameserverService {
 
   async loadServices(networkGroup: string) {
     if (networkGroup !== 'custom') {
-      let dns = new BlockcoreDns();
+      let dns = new NostriaDns();
       await dns.load(Nameservers[networkGroup]);
 
       this.services = dns.getServices();

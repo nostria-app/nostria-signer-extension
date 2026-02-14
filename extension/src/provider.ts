@@ -3,14 +3,14 @@
 import { ActionMessage, ActionRequest, ActionResponse, EventEmitter, Listener } from '../../angular/src/shared/provider-types';
 
 const EXTENSION_ID = 'nostria';
-const LEGACY_EXTENSION_ID = 'blockcore';
+const LEGACY_PROVIDER_ID = 'blockcore';
 
 export interface RequestArguments {
   method: string;
   params?: any[];
 }
 
-export class BlockcoreRequestProvider {
+export class NostriaRequestProvider {
   name = 'Nostria';
   #requests = {};
   #events = new EventEmitter();
@@ -20,7 +20,7 @@ export class BlockcoreRequestProvider {
     // is not related to the extension.
     globalThis.addEventListener('message', (message) => {
       // Make sure there is response in the data, extension is setup and it belongs to the existing promises in this web app.
-      if (!message.data || !message.data.response || (message.data.ext !== EXTENSION_ID && message.data.ext !== LEGACY_EXTENSION_ID) || !this.#requests[message.data.id]) {
+      if (!message.data || !message.data.response || (message.data.ext !== EXTENSION_ID && message.data.ext !== LEGACY_PROVIDER_ID) || !this.#requests[message.data.id]) {
         return;
       }
 
@@ -129,7 +129,7 @@ export class BlockcoreRequestProvider {
 }
 
 class NostrProvider {
-  constructor(private provider: BlockcoreRequestProvider) { }
+  constructor(private provider: NostriaRequestProvider) { }
 
   /** Nostr NIP-07 function: https://github.com/nostr-protocol/nips/blob/master/07.md */
   async getPublicKey(): Promise<string | unknown> {
@@ -168,7 +168,7 @@ class NostrProvider {
 }
 
 export class NostrNip04 {
-  constructor(private provider: BlockcoreRequestProvider) { }
+  constructor(private provider: NostriaRequestProvider) { }
 
   async encrypt(peer: string, plaintext: string): Promise<string> {
     const result = (await this.provider.request({
@@ -190,7 +190,7 @@ export class NostrNip04 {
 }
 
 export class NostrNip44 {
-  constructor(private provider: BlockcoreRequestProvider) { }
+  constructor(private provider: NostriaRequestProvider) { }
 
   async encrypt(peer: string, plaintext: string): Promise<string> {
     const result = (await this.provider.request({
@@ -211,7 +211,7 @@ export class NostrNip44 {
   }
 }
 
-const provider = new BlockcoreRequestProvider();
+const provider = new NostriaRequestProvider();
 
 // Make our provider available on "nostria".
 globalThis.nostria = provider;

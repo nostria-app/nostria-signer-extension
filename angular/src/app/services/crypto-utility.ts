@@ -137,7 +137,7 @@ export class CryptoUtility {
   }
 
   // getIdentity(keyPair: Secp256k1KeyPair) {
-  //   var identity = new BlockcoreIdentity(keyPair.toKeyPair(false));
+  //   var identity = new NostriaIdentity(keyPair.toKeyPair(false));
   //   return identity;
   // }
 
@@ -204,7 +204,7 @@ export class CryptoUtility {
     //   { alg: 'ES256K' }
     // )
 
-    // const tools = new BlockcoreIdentityTools();
+    // const tools = new NostriaIdentityTools();
 
     // let keyPair = await tools.keyPairFrom({
     //   publicKeyBase58: bs58.encode(node.publicKey),

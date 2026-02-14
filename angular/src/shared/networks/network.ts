@@ -1,6 +1,6 @@
 /** Network definitions that holds details about networks and contains providers for address generation and more. */
 export interface Network {
-  /** Unique identifier for the network, should correspond to same as Blockcore (e.g. STRAX, CRS, CITY) */
+  /** Unique identifier for the network, should correspond to same as Nostria defaults (e.g. STRAX, CRS, CITY) */
   id: string;
 
   /** Human readable name that is used to show network name to users. */

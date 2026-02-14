@@ -78,7 +78,7 @@ export class ActionTransactionSendComponent {
           //   prompt: false, // This indicates that message comes from the popup promt.
           //   target: 'provider',
           //   source: 'tabs',
-          //   ext: 'blockcore',
+          //   ext: 'nostria',
           //   // permission: 'once',
           //   request: { method: 'payment', params: undefined }, // Re-create the request object.
           //   type: 'broadcast',

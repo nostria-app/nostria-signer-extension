@@ -104,7 +104,7 @@ interface Account {
   purpose: number;
 
   /** This is the purpose of address types, which can be used to override the default (44, 49, 84).
-   * Some Blockcore chains have used same derivatoin path for different address formats, and this property allows overriding the default.
+   * Some Nostria-supported chains have used same derivatoin path for different address formats, and this property allows overriding the default.
    */
   purposeAddress: number;
 

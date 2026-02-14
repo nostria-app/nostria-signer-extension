@@ -2,7 +2,7 @@ import { CryptoUtility } from './crypto-utility';
 import * as bip32 from 'bip32';
 import { decodeJWT, verifyJWT } from 'did-jwt';
 import { ServiceEndpoint } from 'did-resolver';
-import { BlockcoreIdentity } from '@blockcore/identity';
+import { BlockcoreIdentity as NostriaIdentity } from '@blockcore/identity';
 import { Issuer } from 'did-jwt-vc';
 import { AppManager } from './application-manager';
 import { Injectable } from '@angular/core';
@@ -15,7 +15,7 @@ const axios = require('axios');
 export class DataSyncService {
   timer: any;
 
-  // The Blockcore Vault instances operate on a log of operations, this DataSyncService must be
+  // The Nostria Vault instances operate on a log of operations, this DataSyncService must be
   // refactored to perform similar logic. If the user edits an identity twice while being offline
   // then we must be sure of syncing the first edit first in a queue when user come back online.
 
@@ -194,19 +194,19 @@ export class DataSyncService {
   //     return keyPair;
   // }
 
-  // async getIdentity(keyPair: Secp256k1KeyPair): Promise<BlockcoreIdentity> {
+  // async getIdentity(keyPair: Secp256k1KeyPair): Promise<NostriaIdentity> {
   //     // Get the identity corresponding with the key pair, does not contain the private key any longer.
   //     var identity = this.crypto.getIdentity(keyPair);
   //     return identity;
   // }
 
-  // async getIssuer(identity: BlockcoreIdentity, keyPair: Secp256k1KeyPair) {
+  // async getIssuer(identity: NostriaIdentity, keyPair: Secp256k1KeyPair) {
   //     // Create an issuer from the identity, this is used to issue VCs.
   //     const issuer = identity.issuer({ privateKey: keyPair.privateKeyBuffer?.toString('hex') });
   //     return issuer;
   // }
 
-  // async signDocument(identity: BlockcoreIdentity, keyPair: Secp256k1KeyPair, document: any) {
+  // async signDocument(identity: NostriaIdentity, keyPair: Secp256k1KeyPair, document: any) {
   //     const jws = await identity.jws({
   //         payload: document,
   //         privateKey: keyPair.privateKeyBuffer?.toString('hex')

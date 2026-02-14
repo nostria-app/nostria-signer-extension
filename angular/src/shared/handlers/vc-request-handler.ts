@@ -4,7 +4,7 @@ import { ActionMessage, ActionPrepareResult, ActionRequest, ActionResponse, Acti
 import * as bitcoinMessage from 'bitcoinjs-message';
 import { HDKey } from '@scure/bip32';
 import { Network } from '../networks';
-import { BlockcoreIdentity, BlockcoreIdentityTools } from '@blockcore/identity';
+import { BlockcoreIdentity as NostriaIdentity, BlockcoreIdentityTools as NostriaIdentityTools } from '@blockcore/identity';
 import { createJWS } from 'did-jwt';
 
 export class VcRequestHandler implements ActionHandler {
@@ -36,12 +36,12 @@ export class VcRequestHandler implements ActionHandler {
     const { network, node } = await this.backgroundManager.getKey(permission.walletId, permission.accountId, permission.keyId);
 
     if (state.content) {
-      const tools = new BlockcoreIdentityTools();
+      const tools = new NostriaIdentityTools();
       const publicKey = node.publicKey;
       const privateKey = node.privateKey;
 
       const verificationMethod = tools.getVerificationMethod(publicKey, 0, network.symbol);
-      const identity = new BlockcoreIdentity(verificationMethod);
+      const identity = new NostriaIdentity(verificationMethod);
 
       const issuer = tools.getIssuer(identity.did, privateKey);
       const kid = `${verificationMethod.controller}${verificationMethod.id}`;

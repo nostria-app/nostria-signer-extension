@@ -60,7 +60,7 @@ export class SettingsComponent {
       // chrome.runtime.sendMessage({
       //   type: 'store-reload',
       //   data: 'setting',
-      //   ext: 'blockcore',
+      //   ext: 'nostria',
       //   source: 'tab',
       //   target: 'tabs',
       //   host: location.host
