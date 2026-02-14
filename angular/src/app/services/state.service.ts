@@ -8,7 +8,6 @@ import { PermissionStore } from 'src/shared/store/permission-store';
 import { StandardTokenStore } from 'src/shared/store/standard-token-store';
 import { StateStore } from 'src/shared/store/state-store';
 import { StoreBase, StoreListBase } from 'src/shared/store/store-base';
-import { EnvironmentService } from './environment.service';
 import { LoggerService } from './logger.service';
 
 @Injectable({
@@ -40,15 +39,9 @@ export class StateService {
     private permissionStore: PermissionStore,
     private stateStore: StateStore,
     private contactStore: ContactStore,
-    private tokenStore: StandardTokenStore,
-    private env: EnvironmentService
+    private tokenStore: StandardTokenStore
   ) {
     this.changedSubject = new BehaviorSubject<StateService>(this);
-
-    // 
-    if (env.instance === 'coinvault') {
-      settingStore.serverGroup = 'group1';
-    }
 
     this.stores.push(stateStore);
     this.stores.push(addressStore);

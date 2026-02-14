@@ -135,123 +135,9 @@
                   "glob": "*"
                 }
               ]
-            },
-            "coinvault": {
-              "stylePreprocessorOptions": {
-                "includePaths": [
-                  "angular/src/styles/coinvault/"
-                ]
-              },
-              "buildOptimizer": false,
-              "optimization": {
-                "scripts": true,
-                "styles": {
-                  "minify": true,
-                  "inlineCritical": false
-                },
-                "fonts": true
-              },
-              "vendorChunk": false,
-              "extractLicenses": true,
-              "sourceMap": false,
-              "namedChunks": true,
-              "outputHashing": "none",
-              "outputPath": "dist/extension",
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "6mb",
-                  "maximumError": "16mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "angular/src/environments/environment.ts",
-                  "with": "angular/src/environments/environment.coinvault.ts"
-                }
-              ],
-              "assets": [
-                {
-                  "input": "angular/src/assets/coinvault/",
-                  "output": "/assets",
-                  "glob": "*"
-                },
-                {
-                  "input": "angular/src/assets/i18n/",
-                  "output": "/assets/i18n",
-                  "glob": "*"
-                },
-                {
-                  "input": "angular/src/manifest/coinvault/",
-                  "output": "/",
-                  "glob": "*"
-                }
-              ]
-            },
-            "freecity": {
-              "stylePreprocessorOptions": {
-                "includePaths": [
-                  "angular/src/styles/freecity/"
-                ]
-              },
-              "buildOptimizer": false,
-              "optimization": {
-                "scripts": true,
-                "styles": {
-                  "minify": true,
-                  "inlineCritical": false
-                },
-                "fonts": true
-              },
-              "vendorChunk": false,
-              "extractLicenses": true,
-              "sourceMap": false,
-              "namedChunks": true,
-              "outputHashing": "none",
-              "outputPath": "dist/extension",
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "6mb",
-                  "maximumError": "16mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "assets": [
-                {
-                  "input": "angular/src/assets/freecity/",
-                  "output": "/assets",
-                  "glob": "*"
-                },
-                {
-                  "input": "angular/src/assets/i18n/",
-                  "output": "/assets/i18n",
-                  "glob": "*"
-                },
-                {
-                  "input": "angular/src/manifest/freecity/",
-                  "output": "/",
-                  "glob": "*"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "angular/src/environments/environment.ts",
-                  "with": "angular/src/environments/environment.freecity.ts"
-                }
-              ]
             }
           },
-          "defaultConfiguration": "coinvault"
+          "defaultConfiguration": "production"
         },
         "serve": {
           "options": {
@@ -264,12 +150,6 @@
             },
             "development": {
               "browserTarget": "blockcore-wallet:build:development"
-            },
-            "coinvault": {
-              "browserTarget": "blockcore-wallet:build:coinvault"
-            },
-            "freecity": {
-              "browserTarget": "blockcore-wallet:build:freecity"
             }
           },
           "defaultConfiguration": "development"

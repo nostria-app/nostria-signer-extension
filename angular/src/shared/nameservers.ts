@@ -4,20 +4,12 @@ export const Nameservers: any = {
     {
       url: 'https://ns.blockcore.net',
       contact: 'post@blockcore.net',
-    },
-    {
-      url: 'https://ns.coinvault.io',
-      contact: 'post@coinvault.io',
     }
   ],
   group2: [
     {
       url: 'https://ns.blockcore.net',
       contact: 'post@blockcore.net',
-    },
-    {
-      url: 'https://ns.coinvault.io',
-      contact: 'post@coinvault.io',
     }
   ],
 };

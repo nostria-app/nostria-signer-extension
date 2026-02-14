@@ -1,16 +1,11 @@
 
 import { Injectable } from '@angular/core';
-import { EnvironmentService } from './environment.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class FeatureService {
-    features: string[];
-
-    constructor(private env: EnvironmentService) {
-        this.features = env.features;
-    }
+    private readonly features = ['wallet', 'identity', 'vault', 'handler:pay', 'handler:bitcoin', 'handler:vault', 'handler:sid', 'handler:did', 'handler:nostr'];
 
     enabled(feature: string) {
         return this.features.includes(feature);

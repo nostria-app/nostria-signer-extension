@@ -34,25 +34,13 @@ When adding additional accounts to your wallet, you have the option to choose th
 
 ## Instances
 
-This wallet is made available in multiple different instances that has different featuresets:
+This wallet is made available as the Blockcore instance:
 
 ### Blockcore
 
 - Chains: All Blockcore supported blockchains
 - All features currently under development
 - Download: ["blockcore-\*.zip](https://github.com/block-core/blockcore-wallet/releases)
-
-### CoinVault
-
-- Chains: Stratis and Cirrus.
-- Features: Wallet and more.
-- Download: ["coinvault-\*.zip](https://github.com/block-core/blockcore-wallet/releases)
-
-### Free City Wallet
-
-- Chains: City Chain
-- Features: Focused on decentralized citizenship
-- Download: ["freecity-\*.zip](https://github.com/block-core/blockcore-wallet/releases)
 
 ## Supported Browsers
 

@@ -23,10 +23,6 @@
 
       <p><span class="label">{{ "Account.Fee" | translate }}</span><br />{{ transaction.details.fee | amount }}</p>
 
-      <!-- <span *ngIf="transaction.hasContract"><a
-                    [href]="'https://explorer.coinvault.net/CRS/explorer/transaction/' + transaction.transactionHash">View
-                    Smart Contract invocation</a></span> -->
-
       <p *ngIf="transaction.details.data.length > 0">
         <span class="label">{{ transaction.details.fee | amount }} {{ "Account.DataOPRETURN" | translate }}</span><br />
         <span class="wrap selectable" *ngFor="let data of transaction.details.data">{{ parseOpreturn(data) }}</span>

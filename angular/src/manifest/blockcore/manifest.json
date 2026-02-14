@@ -43,7 +43,6 @@
   "externally_connectable": {
     "matches": [
       "https://www.blockcore.net/*",
-      "https://www.coinvault.io/*",
       "http://localhost/*"
     ]
   },

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { NetworkLoader } from '../../shared/network-loader';
 import { Network } from '../../shared/networks';
 import { Account, Wallet } from '../../shared/interfaces';
-import { Environments } from '../../environments/environments';
 import { EnvironmentService } from './environment.service';
 const { v4: uuidv4 } = require('uuid');
 

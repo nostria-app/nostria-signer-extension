@@ -174,8 +174,7 @@ export class FrontendService implements OnInit {
 
   async executeNetworkStatus() {
     // We don't have the Angular environment information available in the service worker,
-    // so we'll default to the default blockcore accounts, which should include those that
-    // are default on CoinVault.
+    // so we'll default to Blockcore default accounts.
     await this.networkManager.updateNetworkStatus('blockcore');
 
     const msg = {

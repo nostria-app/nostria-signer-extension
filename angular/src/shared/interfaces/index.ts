@@ -40,7 +40,6 @@ interface IEnvironment {
   // Enables use of ng.profiler.timeChangeDetection(); in browser console
   enableDebugTools: boolean;
   logLevel: LogLevel;
-  features: string[];
   releaseUrl: string;
   sourceUrl: string;
   instance: string;

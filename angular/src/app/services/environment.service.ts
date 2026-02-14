@@ -24,10 +24,6 @@ export class EnvironmentService implements IEnvironment {
         return VERSION;
     }
 
-    get features() {
-        return environment.features;
-    }
-
     get releaseUrl() {
         return environment.releaseUrl;
     }
