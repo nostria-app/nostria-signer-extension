@@ -395,14 +395,16 @@ export class IdentityComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    const didResolution = await this.resolver.resolve(this.identifier);
+    this.published = false;
 
-    console.log(didResolution);
+    if (!this.identifier || !this.identifier.startsWith('did:')) {
+      return;
+    }
 
-    if (didResolution.didDocument != null) {
-      this.published = true;
-      console.log('PUBLISHED SET TO TRUE!');
-    } else {
+    try {
+      const didResolution = await this.resolver.resolve(this.identifier);
+      this.published = didResolution?.didDocument != null;
+    } catch {
       this.published = false;
     }
 

@@ -196,8 +196,23 @@ export interface TableWallet {
 
 export class Storage {
     public db!: IDBPDatabase<WalletDB>;
+    private opening?: Promise<void>;
 
     constructor(private name: string, private legacyNames: string[] = []) { }
+
+    private async ensureOpen() {
+        if (this.db) {
+            return;
+        }
+
+        if (!this.opening) {
+            this.opening = this.open().finally(() => {
+                this.opening = undefined;
+            });
+        }
+
+        await this.opening;
+    }
 
     async open() {
         // If we already have a database connection, then return.
@@ -344,51 +359,53 @@ export class Storage {
     }
 
     close() {
-        this.db.close();
+        if (this.db) {
+            this.db.close();
+        }
     }
 
     async getState() {
-        return this.db.get('state', 1);
+        return this.get('state', 1);
     }
 
     async putState(value: any) {
         value.id = 1;
         value.modified = now();
-        return this.db.put('state', value);
+        return this.put('state', value);
     }
 
     async getAccount(key: string) {
-        return this.db.get('account', key);
+        return this.get('account', key);
     }
 
     async getAccounts() {
-        return this.db.getAll('account');
+        return this.getAll('account');
     }
 
     async putAccount(value: TableAccount) {
         //value.saved = now();
-        return this.db.put('account', value);
+        return this.put('account', value);
     }
 
     async deleteAccount(key: string) {
-        return this.db.delete('account', key);
+        return this.delete('account', key);
     }
 
     async getAccountState(key: string) {
-        return this.db.get('accountstate', key);
+        return this.get('accountstate', key);
     }
 
     async getAccountStates() {
-        return this.db.getAll('accountstate');
+        return this.getAll('accountstate');
     }
 
     async putAccountState(value: TableAccountState) {
         //value.saved = now();
-        return this.db.put('accountstate', value);
+        return this.put('accountstate', value);
     }
 
     async deleteAccountState(key: string) {
-        return this.db.delete('accountstate', key);
+        return this.delete('accountstate', key);
     }
 
     async deleteDatabase() {
@@ -400,88 +417,88 @@ export class Storage {
     }
 
     async getAccountHistory(key: string) {
-        return this.db.get('accounthistory', key);
+        return this.get('accounthistory', key);
     }
 
     async getAccountHistories() {
-        return this.db.getAll('accounthistory');
+        return this.getAll('accounthistory');
     }
 
     async putAccountHistory(value: TableAccountHistory) {
         //value.saved = now();
-        return this.db.put('accounthistory', value);
+        return this.put('accounthistory', value);
     }
 
     async deleteAccountHistory(key: string) {
-        return this.db.delete('accounthistory', key);
+        return this.delete('accounthistory', key);
     }
 
     async getSetting(key: string) {
-        return this.db.get('settings', key);
+        return this.get('settings', key);
     }
 
     async getSettings() {
-        return this.db.getAll('settings');
+        return this.getAll('settings');
     }
 
     async putSettings(value: TableSettings) {
         //value.saved = now();
-        return this.db.put('settings', value);
+        return this.put('settings', value);
     }
 
     async deleteSettings(key: string) {
-        return this.db.delete('settings', key);
+        return this.delete('settings', key);
     }
 
     async getNetworkState(key: string) {
-        return this.db.get('networkstate', key);
+        return this.get('networkstate', key);
     }
 
     async getNetworkStates() {
-        return this.db.getAll('networkstate');
+        return this.getAll('networkstate');
     }
 
     async putNetworkState(value: TableNetworkState) {
         //value.saved = now();
-        return this.db.put('networkstate', value);
+        return this.put('networkstate', value);
     }
 
     async deleteNetworkState(key: string) {
-        return this.db.delete('networkstate', key);
+        return this.delete('networkstate', key);
     }
 
     async getApp(key: string) {
-        return this.db.get('app', key);
+        return this.get('app', key);
     }
 
     async getApps() {
-        return this.db.getAll('app');
+        return this.getAll('app');
     }
 
     async putApp(value: TableApp) {
         //value.saved = now();
-        return this.db.put('app', value);
+        return this.put('app', value);
     }
 
     async deleteApp(key: string) {
-        return this.db.delete('app', key);
+        return this.delete('app', key);
     }
 
     async getWallet(key: string) {
-        return this.db.get('wallet', key);
+        return this.get('wallet', key);
     }
 
     async getWallets() {
-        return this.db.getAll('wallet');
+        return this.getAll('wallet');
     }
 
     async putWallet(value: TableWallet) {
         //value.saved = now();
-        return this.db.put('wallet', value);
+        return this.put('wallet', value);
     }
 
     async deleteWallet(key: string) {
-        return this.db.delete('wallet', key);
+        return this.delete('wallet', key);
     }
 
     async getBucket(key: string) {
@@ -497,20 +514,24 @@ export class Storage {
         return this.delete('bucket', key);
     }
 
-    async get(table: string | any, key: string) {
+    async get(table: string | any, key: any) {
+        await this.ensureOpen();
         return this.db.get(table, key);
     }
 
     async getAll(table: string | any) {
+        await this.ensureOpen();
         return this.db.getAll(table);
     }
 
     async put(table: string | any, value: any) {
+        await this.ensureOpen();
         //value.saved = now();
         return this.db.put(table, value);
     }
 
     async delete(table: string | any, key: string) {
+        await this.ensureOpen();
         return this.db.delete(table, key);
     }
 }

@@ -20,10 +20,10 @@
   </div>
 
   <div class="input-actions">
-    <button mat-icon-button (click)="scanQrCode()" matTooltip="Scan QR code">
+    <button type="button" mat-icon-button (click)="scanQrCode()" matTooltip="Scan QR code">
       <mat-icon>qr_code_scanner</mat-icon>
     </button>
-    <button mat-icon-button (click)="paste()" matTooltip="Paste address from clipboard">
+    <button type="button" mat-icon-button (click)="paste()" matTooltip="Paste address from clipboard">
       <mat-icon>content_paste</mat-icon>
     </button>
   </div>
@@ -68,7 +68,7 @@
     </mat-form-field>
   </div>
 
-  <button class="full-width" (click)="toggleOptions()" mat-raised-button>{{ "Account.Options" | translate }}...</button>
+  <button type="button" class="full-width" (click)="toggleOptions()" mat-raised-button>{{ "Account.Options" | translate }}...</button>
   <br /><br /><br />
   <!-- <h3>{{ "Account.Total" | translate }}: {{ sendService.total | amount }} {{ sendService.network.symbol }}</h3> -->
 </form>

@@ -38,7 +38,11 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
   purpose: number = 44;
   privateKeyImport: string;
   more = false;
-  color: string | undefined;
+  color: string = '#5f9ea0';
+
+  private normalizeColor(value?: string) {
+    return /^#[0-9a-fA-F]{6}$/.test(value || '') ? (value as string) : '#5f9ea0';
+  }
 
   get passwordValidated(): boolean {
     return this.password === this.password2 && this.secondFormGroup.valid;
@@ -57,6 +61,7 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
     public translate: TranslateService
   ) {
     this.icon = icons.default;
+    this.color = this.normalizeColor(this.color);
 
     for (let i = 0; i < 100; i++) {
       this.indexes.push(i);
@@ -172,7 +177,7 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
       purpose: 44,
       purposeAddress: 340,
       icon: this.icon,
-      color: this.color,
+      color: this.normalizeColor(this.color),
     };
 
     // Don't persist the selected value.
@@ -227,7 +232,7 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
       purpose: parsedPurpose,
       purposeAddress: selectedPurposeAddress,
       icon: this.icon,
-      color: this.color
+      color: this.normalizeColor(this.color)
     };
 
     // Don't persist the selected value.

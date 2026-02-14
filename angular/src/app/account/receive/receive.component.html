@@ -91,7 +91,7 @@
         <img [src]="qrPayment" class="qr-code" />
 
         <mat-card class="address" [class.mat-elevation-z8]="true" dir="ltr">{{ paymentRequest }}
-          <button class="copy-button" mat-icon-button (click)="copyPayment()">
+          <button type="button" class="copy-button" mat-icon-button (click)="copyPayment()">
             <mat-icon>content_copy</mat-icon>
           </button>
         </mat-card>

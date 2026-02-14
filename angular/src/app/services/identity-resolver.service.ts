@@ -22,6 +22,17 @@ export class IdentityResolverService {
   }
 
   async resolve(didUrl: string, options: DIDResolutionOptions = {}) {
-    return this.resolver.resolve(didUrl, options);
+    try {
+      return await this.resolver.resolve(didUrl, options);
+    } catch (error) {
+      return {
+        didResolutionMetadata: {
+          error: 'notFound',
+          message: (error as any)?.message || 'Unable to resolve DID.',
+        },
+        didDocumentMetadata: {},
+        didDocument: null,
+      } as any;
+    }
   }
 }

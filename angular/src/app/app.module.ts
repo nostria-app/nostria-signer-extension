@@ -239,7 +239,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ),
     AppRoutingModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     LayoutModule,
     MatCheckboxModule,
     MatInputModule,
