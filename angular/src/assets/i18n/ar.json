@@ -158,17 +158,17 @@
     "ConfirmPin": "تأكيد رمز PIN",
     "ConfirmPinHint": "أدخل رمز PIN مرة أخرى للتأكيد.",
     "Done": "تم",
-    "CreateYourWallet": "إنشاء المحفظة",
+    "CreateYourWallet": "Create Vault",
     "CreationInProgress": "جاري الإنشاء...",
-    "CreationSuccessful": "تم إنشاء المحفظة بنجاح!",
-    "WalletIsReady": "المحفظة جاهزة.",
-    "GoToWallet": "انتقل إلى المحفظة",
-    "BackupYourWallet": "قم بعمل نسخة احتياطية لمحفظتك",
-    "BackupYourWalletDescription": "يجب عليك عمل نسخة احتياطية لمحفظتك للحفاظ على أمان أصولك.",
+    "CreationSuccessful": "Vault created successfully!",
+    "WalletIsReady": "Vault is ready.",
+    "GoToWallet": "Go to Vault",
+    "BackupYourWallet": "Back up your vault",
+    "BackupYourWalletDescription": "You should back up your vault to keep your assets secure.",
     "BackupNow": "النسخ الاحتياطي الآن",
     "BackupLater": "النسخ الاحتياطي لاحقًا",
     "BackupCompleted": "تم النسخ الاحتياطي بنجاح!",
-    "BackupCompletedDescription": "تم عمل نسخة احتياطية لمحفظتك بنجاح.",
+    "BackupCompletedDescription": "Your vault has been backed up successfully.",
     "GoToDashboard": "انتقل إلى اللوحة"
   },
   "Wipe": {
@@ -182,7 +182,7 @@
     "NoContacts": "لا يوجد جهات اتصال بعد",
     "GetStarted": "ابدأ بإضافة جهات اتصال.",
     "CreateContact": "إنشاء جهة اتصال",
-    "AddressBookHint": "تتم تخزين جهات الاتصال محليًا على جهازك. لا يتم مزامنتها مع أي خوادم. إذا قمت بإعادة تعيين محفظتك على هذا الجهاز أو جهاز آخر، لن يتم استعادة جهات الاتصال الخاصة بك.",
+    "AddressBookHint": "Contacts are stored locally on your device. They are not synced with any servers. If you reset your vault on this device or another device, your contacts will not be restored.",
     "PasteAddress": "لصق العنوان من الحافظة",
     "AddressInvalid": "العنوان غير صالح.",
     "AddressRequired": "العنوان مطلوب.",
@@ -258,7 +258,7 @@
     "CopiedToClipboard": "تم النسخ إلى الحافظة",
     "CopiedToClipboardAction": "إخفاء",
     "ReceiveTab": "استلام",
-    "ReceiveNote": "ملاحظة: هذه محفظة ساخنة، نوصي باستخدامها لمبالغ صغيرة",
+    "ReceiveNote": "Note: this is a hot vault. We recommend using it for small amounts.",
     "Receive": "استلام",
     "ReceiveAddressCaption": "يمكن استخدام هذا العنوان فقط لاستلام {{ symbol }} على شبكة {{ name }}.",
     "BuyWithSimplex": "شراء بواسطة Simplex",
@@ -282,7 +282,7 @@
     "Send": "إرسال",
     "Transactions": "المعاملات",
     "Transaction": "المعاملة",
-    "YourWalletHasZeroTransactions": "محفظتك لا تحتوي على أي معاملات.",
+    "YourWalletHasZeroTransactions": "Your vault has zero transactions.",
     "Supply": "العرض",
     "InteractionWithContract": "التفاعل مع العقد",
     "StandardTokensNotice": "ملاحظة: API الرموز لا يدعم الكسور العشرية في الإصدار الحالي. تتم عرض القيم بدون أعداد عشرية في هذا الإصدار.",
@@ -297,7 +297,7 @@
     "Connections": "الاتصالات (على المؤشر)",
     "LoginLinkExpired": "انتهت صلاحية رابط تسجيل الدخول",
     "SelectAccounts": "حدد الحسابات",
-    "SelectAccountsMessage": "اختر الحسابات التي ترغب في إضافتها إلى محفظتك",
+    "SelectAccountsMessage": "Choose which accounts to add to your vault",
     "CoinsTokens": "العملات/الرموز",
     "TestNetworks": "شبكات الاختبار",
     "GetStarted": "ابدأ الآن",
@@ -360,7 +360,7 @@
     "SigningContent": "الموقع يطلب منك إنشاء وثيقة DID.",
     "Login": "تسجيل الدخول",
     "ConfirmLoginMessage": "تأكيد رسالة تسجيل الدخول",
-    "Wallet": "المحفظة",
+    "Wallet": "Vault",
     "Account": "الحساب",
     "Expiry": "انتهاء الصلاحية",
     "CallbackURL": "رابط الاستدعاء",
@@ -385,7 +385,7 @@
     "Cancel": "إلغاء"
   },
   "Manifest": {
-    "Description": "محفظة غير وصية للعملات والرموز والهويات وغيرها."
+    "Description": "Non-Custodial vault for Coins, Tokens, Identities, and more."
   },
   "Exchange": {
     "PurchaseCrypto": "شراء العملات المشفرة",
@@ -400,7 +400,7 @@
     "ExchangeBTCForSTRAXChangeNOW": "تبادل BTC مقابل STRAX بواسطة ChangeNOW",
     "ExchangeSTRAXForBTCChangeNOW": "تبادل STRAX مقابل BTC بواسطة ChangeNOW",
     "Partners": "الشركاء",
-    "PartnersDescription": "استخدام روابطنا وشركائنا المرتبطين، يساعد في دعم التطوير المستمر لهذه المحفظة."
+    "PartnersDescription": "Using our links and affiliated partners helps support the continued development of this vault."
   },
   "SignVerify": {
     "MessageToSign": "الرسالة للتوقيع",
