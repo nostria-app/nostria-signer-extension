@@ -224,7 +224,7 @@ describe('SharedTests', () => {
   //     // 'XWaKvgJ1HpCA8nKnqQcGESmDdMXFjmUVbH' // Random address with 7 transactions.
   //     // 'XEgeAGBEdKXcdKD2HYovtyp5brE5WyAKwv' // Random address with a good amount of transactions.
 
-  //     const indexerUrl = 'https://{id}.indexer.blockcore.net'.replace('{id}', network.id.toLowerCase());
+  //     const indexerUrl = this.settings.values.indexer;
   //     const transactions = new Map<string, Transaction>();
 
   //     await indexer.processAddress(indexerUrl, addressState);

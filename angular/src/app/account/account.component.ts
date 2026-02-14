@@ -1,11 +1,9 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, NgZone } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { UIState, CommunicationService, NetworksService, NetworkStatusService, SettingsService, WalletManager, StateService } from '../services';
+import { UIState, CommunicationService, SettingsService, WalletManager, StateService } from '../services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Account, AccountHistory, NetworkStatus, TransactionHistory, Token } from '../../shared/interfaces';
 import { Subscription } from 'rxjs';
-import { AccountHistoryStore, AddressStore, NetworkLoader } from 'src/shared';
+import { AccountHistoryStore, AddressStore } from 'src/shared';
 import { AccountStateStore } from 'src/shared/store/account-state-store';
 import axiosRetry from 'axios-retry';
 const axios = require('axios').default;
@@ -50,11 +48,8 @@ export class AccountComponent implements OnInit, OnDestroy {
   constructor(
     public uiState: UIState,
     public settings: SettingsService,
-    private http: HttpClient,
     private router: Router,
     private ngZone: NgZone,
-    private network: NetworksService,
-    private networkStatusService: NetworkStatusService,
     private message: MessageService,
     private activatedRoute: ActivatedRoute,
     private readonly cd: ChangeDetectorRef,
@@ -63,8 +58,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     private addressStore: AddressStore,
     public walletManager: WalletManager,
     private accountStateStore: AccountStateStore,
-    private networkLoader: NetworkLoader,
-    private snackBar: MatSnackBar,
     private standardTokenStore: StandardTokenStore,
     public translate: TranslateService
   ) {
@@ -137,37 +130,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     return this.accountStateStore.get(account.identifier);
   }
 
-  async toggleNetwork() {
-    if (!this.networkStatus) {
-      try {
-        const network = this.network.getNetwork(this.walletManager.activeAccount.networkType);
-        // const indexerUrl = this.settings.values.indexer.replace('{id}', network.id.toLowerCase());
-        const indexerUrl = this.networkLoader.getServer(network.id, this.settings.values.server, this.settings.values.indexer);
-
-        let result: any = await this.http.get(`${indexerUrl}/api/stats/info`).toPromise();
-        this.networkStatus = result;
-      } catch (error: any) {
-        console.error(error);
-
-        if (error.error?.title) {
-          this.snackBar.open('Error: ' + error.error.title, 'Hide', {
-            duration: 8000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-          });
-        } else {
-          this.snackBar.open('Error: ' + error.message, 'Hide', {
-            duration: 8000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-          });
-        }
-      }
-    } else {
-      this.networkStatus = null;
-    }
-  }
-
   async callLogin() {
     // sid:auth-api.opdex.com/v1/ssas/callback?uid=aDxrmQ8wDKUruKEzD17HJqPZSinveFEQaS1MbjMnXhG4_qtd92-Jjs_7sh3ajuo0peelx87-MvQV4MzvxafCpg&exp=1656544738
     console.info(this.loginurl);
@@ -215,10 +177,6 @@ export class AccountComponent implements OnInit, OnDestroy {
   // updateNetworkStatus() {
   //   this.currentNetworkStatus = this.networkStatusService.get(this.walletManager.activeAccount.networkType);
   // }
-
-  get networkType() {
-    return this.walletManager.activeAccount.networkType;
-  }
 
   public history: TransactionHistory[] = [];
 
@@ -270,7 +228,7 @@ export class AccountComponent implements OnInit, OnDestroy {
       })
     );
 
-    const network = this.network.getNetwork(this.walletManager.activeAccount.networkType);
+    const network = this.walletManager.getNetwork(this.walletManager.activeAccount.networkType);
 
     if (network.smartContractSupport) {
       this.loadTokens();

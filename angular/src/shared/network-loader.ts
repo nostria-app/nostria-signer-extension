@@ -1,7 +1,5 @@
-import { ServiceListEntry } from '@blockcore/dns';
 import { Defaults } from './defaults';
 import { IndexerApiStatus, NetworkStatus } from './interfaces';
-import { NameserverService } from './nameserver.service';
 import { Network } from './networks';
 // import { Servers } from './servers';
 import { NetworkStatusStore } from './store';
@@ -12,11 +10,9 @@ export class NetworkLoader {
   private networks: Network[] = [];
   // private store: NetworkStatusStore = new NetworkStatusStore();
   private loaded = false;
-  public nameserverService: NameserverService;
 
   constructor(public store?: NetworkStatusStore, public stateStore?: StateStore) {
     this.createNetworks();
-    this.nameserverService = new NameserverService();
   }
 
   /** Returns a list of networks that correspond to the filter supplied. */
@@ -66,15 +62,12 @@ export class NetworkLoader {
       this.stateStore.save();
     }
 
-    if (networkGroup == 'custom') {
-      const server = customServer.replace('{id}', networkType.toLowerCase());
+    if (customServer) {
+      const server = customServer;
       existingState.domain = server.substring(server.indexOf('//') + 2);
       existingState.url = server;
       return server;
     } else {
-      // const serversGroup = Servers[networkGroup];
-      // const servers = serversGroup[networkType];
-
       const serverStatuses = this.store.get(networkType);
       // console.log(serverStatuses);
 
@@ -116,23 +109,6 @@ export class NetworkLoader {
           return server;
         }
       }
-    }
-  }
-
-  getServers(networkType: string, networkGroup: string, customServer?: string): ServiceListEntry[] {
-    // console.debug(`getServers: ${networkType} | ${networkGroup} | ${customServer}`);
-
-    if (networkGroup == 'custom') {
-      const server = customServer.replace('{id}', networkType.toLowerCase());
-
-      return [{ domain: server, symbol: networkType, service: 'Indexer', ttl: 20, online: true }];
-    } else {
-      // loadServices has just been called so the nameserver service should have data.
-      const serversGroup = this.nameserverService.getGroups();
-      const servers = serversGroup.get(networkType) as ServiceListEntry[];
-      // const serversGroup = Servers[networkGroup];
-      // const servers = serversGroup[networkType];
-      return servers;
     }
   }
 

@@ -207,36 +207,6 @@
             </p> -->
     </mat-tab>
 
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon">build_circle</mat-icon>
-      </ng-template>
-
-      <br />
-
-      <mat-nav-list>
-        <a mat-list-item (click)="toggleNetwork()">
-          <mat-icon mat-list-icon>public</mat-icon>
-          <div mat-line>{{ "Account.NetworkStatus" | translate }}</div>
-        </a>
-      </mat-nav-list>
-
-      <mat-card *ngIf="networkStatus">
-        <img class="mat-card-avatar network-status-image" [src]="networkStatus.icon" />
-        <mat-card-title>{{ networkStatus.name }} ({{ networkStatus.symbol }})</mat-card-title>
-        <mat-card-subtitle>{{ networkStatus.description }}</mat-card-subtitle>
-        <mat-card-content>
-          <p>{{ "Account.Network" | translate }}: {{ networkStatus.node.blockchain.chain }}</p>
-          <p>{{ "Account.Height" | translate }}: {{ networkStatus.blockHeight }}</p>
-          <p>{{ "Account.RelayFee" | translate }}: {{ networkStatus.node.network.relayFee * 100000 }} {{ "Account.SatByte" | translate }}</p>
-          <p>{{ "Account.MemoryPool" | translate }}: {{ networkStatus.node.transactionsInPool }} {{ "Account.Transaction" | translate }}</p>
-          <p>{{ "Account.Connections" | translate }}: {{ networkStatus.node.network.connections }}</p>
-          <p>
-            <a dir="ltr" [href]="networkStatus.url" target="_blank">{{ networkStatus.url }}</a>
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </mat-tab>
   </mat-tab-group>
 
   <!-- {{this.uiState.activeAccount.state.receive | json}} -->

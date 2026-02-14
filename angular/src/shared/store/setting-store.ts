@@ -7,14 +7,12 @@ export class SettingStore extends StoreBase<Settings> {
     super('setting');
   }
 
-  serverGroup: string = 'group1';
-
   override defaultItem() {
     return {
       autoTimeout: AUTO_TIMEOUT,
       indexer: INDEXER_URL,
       dataVault: VAULT_URL,
-      server: this.serverGroup,
+      server: '',
       theme: 'dark',
       themeColor: 'primary',
       language: 'en',

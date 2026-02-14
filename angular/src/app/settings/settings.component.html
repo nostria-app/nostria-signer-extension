@@ -56,25 +56,6 @@
 
   <br><br>
 
-  <mat-form-field class="input-full-width" appearance="outline">
-    <mat-label>{{ 'Settings.Servers' | translate }}</mat-label>
-    <mat-select [(value)]="settings.server">
-      <mat-option [value]="'group1'">{{ 'Settings.Official' | translate }}</mat-option>
-      <!-- <mat-option [value]="'group3'">Community</mat-option> -->
-      <mat-option [value]="'custom'">{{ 'Settings.Custom' | translate }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <div *ngIf="settings.server == 'custom'">
-    <br>
-
-    <mat-form-field class="input-full-width" appearance="outline">
-      <mat-label>{{ 'Settings.CustomServer' | translate }}</mat-label>
-      <input matInput [(ngModel)]="settings.indexer">
-      <mat-hint>{{ 'Settings.CustomServerHint' | translate }}</mat-hint>
-    </mat-form-field>
-  </div>
-
   <!-- <br><br>
 
   <mat-form-field class="input-full-width" appearance="outline">
@@ -117,11 +98,6 @@
     <a *ngIf="feature.enabledGroup('handler')" mat-list-item routerLinkActive="active-link" [routerLink]="['handler']">
       <mat-icon mat-list-icon>search</mat-icon>
       <div mat-line>{{ 'Settings.RegisterProtocolHandler' | translate }}</div>
-    </a>
-
-    <a mat-list-item routerLinkActive="active-link" [routerLink]="['network']">
-      <mat-icon mat-list-icon>travel_explore</mat-icon>
-      <div mat-line>{{ 'Settings.NetworkStatus' | translate }}</div>
     </a>
 
     <a mat-list-item [routerLink]="['permissions']">

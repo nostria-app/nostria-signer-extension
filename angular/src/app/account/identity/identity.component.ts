@@ -13,7 +13,6 @@ import { ES256KSigner } from 'did-jwt';
 import { base64url } from 'jose';
 import { IdentityResolverService } from 'src/app/services/identity-resolver.service';
 import { DIDDocument } from 'did-resolver';
-import { BlockcoreDns as NostriaDns } from '@blockcore/dns';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordDialog } from 'src/app/shared/password-dialog/password-dialog';
 import * as secp from '@noble/secp256k1';
@@ -284,22 +283,16 @@ export class IdentityComponent implements OnInit, OnDestroy {
     // this.manager.updateIdentity(this.identity);
   }
 
-  private getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
-  }
-
   async publish() {
     const jws = await this.generateOperation(0);
 
-    const dns = new NostriaDns();
-    await dns.load(undefined, 'Identity');
+    let serviceUrl = this.settings.values.dataVault || '';
+    if (serviceUrl && !serviceUrl.startsWith('http://') && !serviceUrl.startsWith('https://')) {
+      serviceUrl = `https://${serviceUrl}`;
+    }
 
-    let serviceUrl = 'https://id.blockcore.net'; // Fallback
-    const services = dns.getServices().filter((s) => s.online);
-
-    if (services.length > 0) {
-      const randomIndex = this.getRandomInt(services.length);
-      serviceUrl = 'https://' + services[randomIndex].domain;
+    if (!serviceUrl) {
+      throw new Error('No data vault endpoint configured.');
     }
 
     console.log(serviceUrl);

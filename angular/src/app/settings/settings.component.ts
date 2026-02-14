@@ -2,7 +2,6 @@ import { Component, Renderer2 } from '@angular/core';
 import { UIState, FeatureService, EnvironmentService, SettingsService, WalletManager, CommunicationService, LoggerService } from '../services';
 import { Location } from '@angular/common';
 import { Settings } from '../../shared/interfaces';
-import { INDEXER_URL } from '../shared/constants';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingStore } from '../../shared';
 import { RuntimeService } from '../../shared/runtime.service';
@@ -39,11 +38,6 @@ export class SettingsComponent {
     } else {
       // Clone the settings on load:
       this.settings = JSON.parse(JSON.stringify(settingsService.values));
-    }
-
-    // Reset to default if missing.
-    if (!this.settings.indexer) {
-      this.settings.indexer = INDEXER_URL;
     }
 
     this.uiState.showBackButton = true;

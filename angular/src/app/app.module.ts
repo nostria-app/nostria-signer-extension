@@ -112,7 +112,6 @@ import { AccountSendAddressComponent } from './account/send/address/send-address
 import { PaymentComponent } from './account/payment/payment.component';
 import { PaymentRequest } from 'src/shared/payment';
 import { MessageService } from 'src/shared';
-import { NameserverService } from 'src/shared/nameserver.service';
 import { LanguageSelectorComponent } from './shared/language-selector/language-selector.component';
 import { BidiModule } from '@angular/cdk/bidi';
 import { DebuggerComponent } from './settings/debugger/debugger.component';
@@ -308,7 +307,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CryptoService,
     CryptoUtility,
     PaymentRequest,
-    NameserverService,
     EventBus,
     {
       provide: MessageService,

@@ -6,7 +6,6 @@ export * from './interfaces';
 export * from './indexer';
 export * from './persistence';
 export * from './store';
-export * from './nameservers';
 export * from './defaults';
 export * from './events';
 export * from './handlers';

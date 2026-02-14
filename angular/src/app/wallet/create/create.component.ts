@@ -150,8 +150,8 @@ export class WalletCreateComponent implements OnInit {
       alert('Fatal error, unable to encrypt secret recovery phrase!');
       return;
     } else {
-      // Make the name 'Wallet' for first wallet, append count on other wallets.
-      let walletName = this.walletManager.count() == 0 ? 'My Wallet' : 'Wallet ' + (this.walletManager.count() + 1);
+      // Make the name 'Vault' for first vault, append count on other vaults.
+      let walletName = this.walletManager.count() == 0 ? 'My Vault' : 'Vault ' + (this.walletManager.count() + 1);
       let biometrics = this.secondFormGroup.controls['biometricsCtrl'].value;
 
       var wallet: Wallet = {
