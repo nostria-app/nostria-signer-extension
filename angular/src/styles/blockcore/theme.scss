@@ -1,21 +1,20 @@
 // @import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500&display=swap");
 
 $brand: (
-    50: #ffffff,
-    100: #dde6f3,
-    200: #b4c9e4,
-    300: #7fa3d1,
-    400: #6992c9,
-    //500: #5282c1, // primary button
-    500: #22a893, // primary button
-    600: #4072b4, // from website
-    700: #38649d,
-    800: #305687,
-    900: #284770,
-    A100: #ffffff,
-    A200: #dde6f3,
-    A400: #6992c9,
-    A700: #38649d,
+    50: #fffbff,
+    100: #ffeede,
+    200: #ffddb8,
+    300: #ffb961,
+    400: #ef9800,
+    500: #cb8000,
+    600: #a86900,
+    700: #865300,
+    800: #663e00,
+    900: #472a00,
+    A100: #fff8f4,
+    A200: #ffddb8,
+    A400: #ffb961,
+    A700: #865300,
     contrast: (
         50: $black-87-opacity,
         100: $black-87-opacity,
@@ -35,20 +34,20 @@ $brand: (
 );
 
 $orange: (
-    50: #ffffff,
-    100: #fff7f4,
-    200: #fecdbd,
-    300: #fc9977,
-    400: #fc8259,
-    500: #fb6c3b,
-    600: #fa551d,
-    700: #f44205,
-    800: #d63a04,
-    900: #b83204,
-    A100: #ffffff,
-    A200: #fff7f4,
-    A400: #fc8259,
-    A700: #f44205,
+    50: #fffbff,
+    100: #ffede4,
+    200: #ffdcc8,
+    300: #ffb68a,
+    400: #ff8e42,
+    500: #e87117,
+    600: #c05a00,
+    700: #9a4500,
+    800: #763200,
+    900: #542100,
+    A100: #fff8f5,
+    A200: #ffdcc8,
+    A400: #ff8e42,
+    A700: #9a4500,
     contrast: (
         50: $black-87-opacity,
         100: $black-87-opacity,
@@ -69,7 +68,7 @@ $orange: (
 
 //$theming-material-components-primary: mat-palette($mat-indigo);
 $theming-material-components-primary: mat-palette($brand);
-$theming-material-components-accent: mat-palette($mat-pink, A200, A100, A400);
+$theming-material-components-accent: mat-palette($orange);
 $theming-material-components-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
@@ -94,7 +93,7 @@ $theming-material-components-theme: mat-light-theme(
 // Define an alternate dark theme.
 // $dark-primary: mat-palette($mat-blue-grey);
 $dark-primary: mat-palette($brand);
-$dark-accent: mat-palette($mat-amber, A200, A100, A400);
+$dark-accent: mat-palette($orange);
 $dark-warn: mat-palette($mat-deep-orange);
 $dark-theme: mat-dark-theme(
     (
