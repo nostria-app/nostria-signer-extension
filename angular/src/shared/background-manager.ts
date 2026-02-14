@@ -508,7 +508,7 @@ export class BackgroundManager {
 
     let processResult: ProcessResult = { completed: false };
 
-    // TODO: https://github.com/block-core/blockcore-wallet/issues/148
+    // TODO: https://github.com/block-core/nostria-signer/issues/148
     while (!processResult.completed) {
       try {
         // Make sure we reload the state store before processing.

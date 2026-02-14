@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'net.blockcore.wallet',
-  appName: 'blockcore-wallet',
+  appName: 'nostria-signer',
   webDir: 'dist/extension',
   bundledWebRuntime: false,
 };

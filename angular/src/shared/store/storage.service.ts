@@ -13,7 +13,7 @@ export class StorageService {
 
   async initialize(databaseName: string) {
     // Open the new storage database.
-    this.storage = Database.Instance; // new Storage('blockcore-wallet');
+    this.storage = Database.Instance; // new Storage('nostria-signer');
     await this.storage.open();
 
     let state = await this.storage.getState();

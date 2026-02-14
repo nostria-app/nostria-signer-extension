@@ -40,7 +40,7 @@ This wallet is made available as the Nostria instance:
 
 - Chains: All supported blockchains
 - All features currently under development
-- Download: ["blockcore-\*.zip](https://github.com/block-core/blockcore-wallet/releases)
+- Download: ["nostria-signer-\*.zip](https://github.com/block-core/nostria-signer/releases)
 
 ## Supported Browsers
 
@@ -57,7 +57,7 @@ All the standard practices for cryptocurrency wallets apply: Make sure you take 
 First you need to get the source code and you should include the submodules:
 
 ```
-git clone --recurse-submodules https://github.com/block-core/blockcore-wallet.git
+git clone --recurse-submodules https://github.com/block-core/nostria-signer.git
 ```
 
 If you have already cloned and don't have the submodules, you might get an error with importing the lists.
@@ -94,7 +94,7 @@ This will run Angular in watch-mode and ensure it auto-reloads.
 
 To install the extension, follow the instructions here: https://docs.microsoft.com/en-us/microsoft-edge/extensions-chromium/getting-started/extension-sideloading
 
-Choose the `blockcore-wallet\dist\extension` folder when picking folder for extension to load from.
+Choose the `nostria-signer\dist\extension` folder when picking folder for extension to load from.
 
 ## Update Allow/Deny lists
 

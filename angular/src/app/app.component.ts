@@ -20,7 +20,7 @@ import * as browser from 'webextension-polyfill';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'blockcore-wallet';
+  title = 'nostria-signer';
   wallet: any;
   @ViewChild('drawer') drawer!: MatSidenav;
   @ViewChild('draweraccount') draweraccount!: MatSidenav;

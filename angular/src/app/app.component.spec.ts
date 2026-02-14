@@ -216,10 +216,10 @@ describe('AppComponent', () => {
   //   expect(app).toBeTruthy();
   // });
 
-  // it(`should have as title 'blockcore-wallet'`, () => {
+  // it(`should have as title 'nostria-signer'`, () => {
   //   const fixture = TestBed.createComponent(AppComponent);
   //   const app = fixture.componentInstance;
-  //   expect(app.title).toEqual('blockcore-wallet');
+  //   expect(app.title).toEqual('nostria-signer');
   // });
 
   // it('should render title', () => {

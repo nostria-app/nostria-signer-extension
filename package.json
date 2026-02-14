@@ -1,5 +1,5 @@
 {
-  "name": "blockcore-wallet",
+  "name": "nostria-signer",
   "version": "3.0.0",
   "description": "Non-Custodial HD wallet in your browser for Coins, Tokens, Identities and more",
   "scripts": {

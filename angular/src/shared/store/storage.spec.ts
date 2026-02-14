@@ -7,7 +7,7 @@
 //     let storage: Storage;
 
 //     beforeEach( async () => {
-//         storage = new Storage('blockcore-wallet-test');
+//         storage = new Storage('nostria-signer-test');
 //         await storage.open(); 
 //      });
 
