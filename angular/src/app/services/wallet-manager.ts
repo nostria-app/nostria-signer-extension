@@ -422,15 +422,25 @@ export class WalletManager {
     let unlockedMnemonic = null;
 
     if (!wallet) {
-      return unlockedMnemonic;
+      return false;
     }
 
-    unlockedMnemonic = await this.cryptoService.decryptData(wallet.mnemonic, password);
+    try {
+      unlockedMnemonic = await this.cryptoService.decryptData(wallet.mnemonic, password);
+    } catch (error) {
+      this.logger.warn('Failed to decrypt vault mnemonic during unlock.', error);
+      return false;
+    }
 
     let unlockedExtensionWords = undefined;
 
     if (wallet.extensionWords != null && wallet.extensionWords != '') {
-      unlockedExtensionWords = await this.cryptoService.decryptData(wallet.extensionWords, password);
+      try {
+        unlockedExtensionWords = await this.cryptoService.decryptData(wallet.extensionWords, password);
+      } catch (error) {
+        this.logger.warn('Failed to decrypt vault extension words during unlock.', error);
+        return false;
+      }
     }
 
     if (unlockedMnemonic) {

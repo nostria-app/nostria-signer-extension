@@ -72,23 +72,27 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.error = null;
 
     if (this.walletManager.activeWallet) {
-      const unlocked = await this.walletManager.unlockWallet(this.walletManager.activeWallet.id, this.unlockPassword);
-      // this.manager.unlock(this.uiState.activeWallet.id, this.unlockPassword);
+      try {
+        const unlocked = await this.walletManager.unlockWallet(this.walletManager.activeWallet.id, this.unlockPassword);
+        // this.manager.unlock(this.uiState.activeWallet.id, this.unlockPassword);
 
-      if (unlocked) {
-        if (this.uiState.action?.action) {
-          this.router.navigate(['action', this.uiState.action.action]);
-        } else {
-          if (this.walletManager.hasAccounts) {
-            this.router.navigateByUrl(`/dashboard/${this.walletManager.activeWalletId}`);
-            //this.router.navigateByUrl('/account/view/' + this.uiState.activeWallet.activeAccountIndex);
+        if (unlocked) {
+          if (this.uiState.action?.action) {
+            this.router.navigate(['action', this.uiState.action.action]);
           } else {
-            await this.walletManager.ensureNostrIdentityAccount(this.walletManager.activeWallet);
-            this.router.navigateByUrl(`/dashboard/${this.walletManager.activeWalletId}`);
+            if (this.walletManager.hasAccounts) {
+              this.router.navigateByUrl(`/dashboard/${this.walletManager.activeWalletId}`);
+              //this.router.navigateByUrl('/account/view/' + this.uiState.activeWallet.activeAccountIndex);
+            } else {
+              await this.walletManager.ensureNostrIdentityAccount(this.walletManager.activeWallet);
+              this.router.navigateByUrl(`/dashboard/${this.walletManager.activeWalletId}`);
+            }
           }
+        } else {
+          this.error = await this.translate.get('Wallet.InvalidPassword').toPromise();
         }
-      } else {
-        // TODO: Add text resource to i18n.
+      } catch (error) {
+        this.logger.error('Unlock failed unexpectedly.', error);
         this.error = await this.translate.get('Wallet.InvalidPassword').toPromise();
       }
     }

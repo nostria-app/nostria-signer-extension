@@ -46,7 +46,16 @@ export class NetworkLoader {
 
   getServer(networkType: string, networkGroup: string, customServer?: string) {
     // console.debug(`getServer: ${networkType} | ${networkGroup} | ${customServer}`);
-    const stateEntry = this.stateStore.get();
+    if (!this.stateStore) {
+      // If state store is unavailable, only custom server can be used.
+      if (customServer) {
+        return customServer;
+      }
+
+      return null;
+    }
+
+    const stateEntry = this.stateStore.get() || ({ activeNetworks: [] } as any);
 
     if (!stateEntry.activeNetworks) {
       stateEntry.activeNetworks = [];
@@ -68,6 +77,12 @@ export class NetworkLoader {
       existingState.url = server;
       return server;
     } else {
+      if (!this.store) {
+        existingState.domain = '';
+        existingState.url = '';
+        return null;
+      }
+
       const serverStatuses = this.store.get(networkType);
       // console.log(serverStatuses);
 
@@ -119,13 +134,19 @@ export class NetworkLoader {
     //     networkStatus.blockSyncHeight = this.store.get(networkStatus.networkType).blockSyncHeight;
     // }
 
+    if (!this.store) {
+      return;
+    }
+
     this.store.set(networkType, networkStatuses);
 
     await this.store.save();
 
     // This method is called by the "updateAll", and when that happens, we'll also make sure we reload the StateStore,
     // because the user might have changed their server group in settings.
-    await this.stateStore.load();
+    if (this.stateStore) {
+      await this.stateStore.load();
+    }
 
     // First load the latest:
     // await this.stateStore.load();
