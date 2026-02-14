@@ -7,7 +7,6 @@ import { DOCUMENT, Location } from '@angular/common';
 import { combineLatest } from 'rxjs';
 import { RuntimeService } from '../../shared/runtime.service';
 import { OrchestratorService } from '../services/orchestrator.service';
-import { PaymentRequest } from 'src/shared/payment';
 
 @Component({
   selector: 'app-loading',
@@ -22,7 +21,6 @@ export class LoadingComponent implements OnInit, OnDestroy {
     public uiState: UIState,
     // private appManager: ApplicationManagerService,
     private appManager: AppManager,
-    private paymentRequest: PaymentRequest,
     public secure: SecureStateService,
     private router: Router,
     public walletManager: WalletManager,
@@ -161,19 +159,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
         };
       }
 
-      // Parse the payment request and keep it in the state until wallet is ready:
-      if (parameters.pay) {
-        this.uiState.payment = this.paymentRequest.decode(this.paymentRequest.removeHandler(parameters.pay));
-        this.uiState.isPaymentAction = false;
-        console.log('Payment request:', this.uiState.payment);
-      } else if (this.uiState.action?.action == 'payment') {
-        const param = this.uiState.action.params[0];
-        this.uiState.payment = this.paymentRequest.transform(param);
-        this.uiState.isPaymentAction = true;
-
-        // Reset the action as payment is not a normal action.
-        this.uiState.action = null;
-      }
+      // Payment request handling is intentionally disabled in Nostr-only signer mode.
     }
 
     // If the loading was triggered by wallet.unlock action, make sure we first change the active wallet before we show
@@ -202,11 +188,11 @@ export class LoadingComponent implements OnInit, OnDestroy {
       } else {
         // If the active wallet is unlocked, we'll redirect accordingly.
         if (this.walletManager.activeWallet && this.secure.unlocked(this.walletManager.activeWallet.id)) {
-          // If user has zero accounts, we'll show the account select screen that will auto-create accounts the user chooses.
           if (this.walletManager.hasAccounts) {
             this.router.navigateByUrl('/dashboard');
           } else {
-            this.router.navigateByUrl('/account/select');
+            await this.walletManager.ensureNostrIdentityAccount(this.walletManager.activeWallet);
+            this.router.navigateByUrl('/dashboard');
           }
         } else {
           // When the initial state is loaded and user has not unlocked any wallets, we'll show the unlock screen on home.

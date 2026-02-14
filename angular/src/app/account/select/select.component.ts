@@ -12,8 +12,6 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./select.component.css'],
 })
 export class AccountSelectComponent implements OnInit, OnDestroy {
-  coins: Account[];
-  coinsTest: Account[];
   identity: Account[];
   sub: any;
   creating = false;
@@ -37,9 +35,11 @@ export class AccountSelectComponent implements OnInit, OnDestroy {
     // Get the default accounts for the current wallet:
     const accounts = Defaults.getDefaultAccounts(this.env.instance);
 
-    this.coins = accounts.filter((item) => (item.type === 'coin' || item.type === 'token') && !this.networkService.getNetwork(item.networkType).testnet);
-    this.coinsTest = accounts.filter((item) => (item.type === 'coin' || item.type === 'token') && this.networkService.getNetwork(item.networkType).testnet);
-    this.identity = accounts.filter((item) => item.type === 'identity');
+    this.identity = accounts.filter((item) => item.type === 'identity' && item.networkType === 'NOSTR');
+
+    if (this.identity.length === 0) {
+      this.identity = accounts.filter((item) => item.type === 'identity');
+    }
 
     // this.sub = this.communication.listen('account-created', () => {
     //     this.router.navigateByUrl('/dashboard');
@@ -55,9 +55,7 @@ export class AccountSelectComponent implements OnInit, OnDestroy {
   async create() {
     this.creating = true;
 
-    const accounts = this.coins.filter((item) => item.selected);
-    accounts.push(...this.coinsTest.filter((item) => item.selected));
-    accounts.push(...this.identity.filter((item) => item.selected));
+    const accounts = this.identity.filter((item) => item.selected);
 
     const wallet = this.walletManager.activeWallet;
 

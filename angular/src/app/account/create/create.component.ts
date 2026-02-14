@@ -25,7 +25,7 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
   mnemonicInputDisabled = true;
   password = '';
   password2 = '';
-  network = '';
+  network = 'NOSTR';
   importNetwork = 'NOSTR';
   indexes: number[] = [];
   index: number = 0;
@@ -66,9 +66,6 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
     }
 
     this.uiState.showBackButton = true;
-
-    // Default to the first available network.
-    this.network = this.networkService.networks[0].id;
 
     this.onNetworkChanged();
   }
@@ -142,15 +139,12 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
   displayKeyImport = false;
 
   onNetworkChanged() {
-    this.selectedNetwork = this.networkService.getNetwork(this.network);
+    this.network = 'NOSTR';
+    this.selectedNetwork = this.networkService.getNetwork('NOSTR');
     this.purpose = this.selectedNetwork.purpose ?? 44;
     this.derivationPath = this.getDerivationPath();
 
-    if (this.selectedNetwork.id === 'NOSTR') {
-      this.displayKeyImport = true;
-    } else {
-      this.displayKeyImport = false;
-    }
+    this.displayKeyImport = true;
   }
 
   onPurposeChanged() {

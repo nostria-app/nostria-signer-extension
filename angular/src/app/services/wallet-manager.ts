@@ -24,6 +24,7 @@ import { CryptoService } from './';
 import { StandardTokenStore } from '../../shared/store/standard-token-store';
 import { ECPair, bip32 } from '../../shared/noble-ecc-wrapper';
 const { getPublicKey } = require('nostr-tools');
+const { v4: uuidv4 } = require('uuid');
 
 
 let coinselect = require('coinselect');
@@ -911,5 +912,32 @@ export class WalletManager {
 
     // This will save it.
     await this.setActiveWallet(wallet.id);
+  }
+
+  async ensureNostrIdentityAccount(wallet: Wallet) {
+    if (!wallet) {
+      throw new Error('Wallet is required.');
+    }
+
+    if (wallet.accounts?.some((account) => account.networkType === 'NOSTR')) {
+      return;
+    }
+
+    const account: Account = {
+      identifier: uuidv4(),
+      type: 'identity',
+      mode: 'normal',
+      singleAddress: true,
+      networkType: 'NOSTR',
+      name: 'Nostr Key',
+      index: 0,
+      network: 1237,
+      purpose: 44,
+      purposeAddress: 340,
+      icon: 'account_circle',
+      color: undefined,
+    };
+
+    await this.addAccount(account, wallet, false);
   }
 }

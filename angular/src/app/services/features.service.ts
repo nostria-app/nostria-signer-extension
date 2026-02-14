@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class FeatureService {
-    private readonly features = ['wallet', 'identity', 'vault', 'handler:pay', 'handler:bitcoin', 'handler:vault', 'handler:sid', 'handler:did', 'handler:nostr'];
+    private readonly features = ['wallet', 'identity', 'handler:nostr'];
 
     enabled(feature: string) {
         return this.features.includes(feature);

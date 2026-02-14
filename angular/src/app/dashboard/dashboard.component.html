@@ -7,22 +7,14 @@
 
     <div>
       <mat-nav-list>
-        <div class="centered" *ngIf="walletManager.activeWallet.accounts.length == 0">{{ "Dashboard.ZeroAccounts" | translate }}<br /><br /></div>
+        <div class="centered" *ngIf="nostrAccounts().length == 0">{{ "Dashboard.ZeroAccounts" | translate }}<br /><br /></div>
 
-        <a mat-list-item *ngFor="let account of walletManager.activeWallet.accounts; let i = index" routerLinkActive="active-link" [routerLink]="getLink(account)">
+        <a mat-list-item *ngFor="let account of nostrAccounts(); let i = index" routerLinkActive="active-link" [routerLink]="getLink(account)">
           <app-account-icon mat-list-icon [value]="account"></app-account-icon>
           <div mat-line>
             {{ account.name }}
-            <span *ngIf="hasAccountHistory(account.identifier) && account.type != 'identity'" class="account-balance">{{ balance(account.identifier) | amount }}</span>
-            <span *ngIf="!hasAccountHistory(account.identifier) && account.type != 'identity'" class="account-balance"><mat-spinner [diameter]="16"></mat-spinner> </span>
-            <span *ngIf="hasAccountHistory(account.identifier) && !accountState(account).completedScan && account.type != 'identity'" class="account-balance account-scanning">
-              <mat-spinner [color]="'accent'" [diameter]="16"></mat-spinner>
-            </span>
           </div>
           <div mat-line>{{ account | network }}</div>
-          <div class="network-status-widget" *ngIf="account.type != 'identity'">
-            <app-network-status [status]="networkStatus.get(account.networkType)"></app-network-status>
-          </div>
         </a>
 
         <!-- TODO: Hidden until fully implemented -->
@@ -39,19 +31,9 @@
 
         <mat-divider></mat-divider>
 
-        <a mat-list-item *ngIf="walletManager.activeWallet && walletManager.unlocked" (click)="scanPayment()" routerLinkActive="active-link">
-          <mat-icon mat-list-icon>qr_code_scanner</mat-icon>
-          <div mat-line>{{ "Dashboard.ScanPayment" | translate }}</div>
-        </a>
-
         <a mat-list-item [routerLink]="['/contacts']">
           <mat-icon mat-list-icon>import_contacts</mat-icon>
           <div mat-line>{{ "Dashboard.AddressBook" | translate }}</div>
-        </a>
-
-        <a mat-list-item [routerLink]="['/exchange']">
-          <mat-icon mat-list-icon>currency_exchange</mat-icon>
-          <div mat-line>{{ "Dashboard.Exchange" | translate }}</div>
         </a>
 
         <a mat-list-item [routerLink]="['/sign']">

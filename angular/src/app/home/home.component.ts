@@ -79,12 +79,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (this.uiState.action?.action) {
           this.router.navigate(['action', this.uiState.action.action]);
         } else {
-          // If user has zero accounts, we'll show the account select screen that will auto-create accounts the user chooses.
           if (this.walletManager.hasAccounts) {
             this.router.navigateByUrl(`/dashboard/${this.walletManager.activeWalletId}`);
             //this.router.navigateByUrl('/account/view/' + this.uiState.activeWallet.activeAccountIndex);
           } else {
-            this.router.navigateByUrl('/account/select');
+            await this.walletManager.ensureNostrIdentityAccount(this.walletManager.activeWallet);
+            this.router.navigateByUrl(`/dashboard/${this.walletManager.activeWalletId}`);
           }
         }
       } else {

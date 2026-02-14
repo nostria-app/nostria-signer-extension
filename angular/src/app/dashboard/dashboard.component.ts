@@ -8,10 +8,6 @@ import { BackgroundManager } from 'src/shared/background-manager';
 import { AccountHistoryStore } from 'src/shared';
 import { AddressWatchStore } from 'src/shared/store/address-watch-store';
 import { AccountStateStore } from 'src/shared/store/account-state-store';
-import { MatDialog } from '@angular/material/dialog';
-import { QrScanDialog } from '../account/send/address/qr-scanning.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { PaymentRequest } from 'src/shared/payment';
 
 export interface Section {
   name: string;
@@ -37,7 +33,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     public feature: FeatureService,
     public uiState: UIState,
-    private paymentRequest: PaymentRequest,
     public networkStatus: NetworkStatusService,
     private crypto: CryptoService,
     private router: Router,
@@ -53,9 +48,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private accountStateStore: AccountStateStore,
     private ngZone: NgZone,
     private debugLog: DebugLogService,
-    public dialog: MatDialog,
-    private cd: ChangeDetectorRef,
-    private snackBar: MatSnackBar
+    private cd: ChangeDetectorRef
   ) {
     this.uiState.showBackButton = false;
 
@@ -65,12 +58,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // If there is a payment request waiting, we'll do this first:
-    if (this.uiState.payment) {
-      this.router.navigateByUrl('/payment');
-      return;
-    }
-
     this.state.changed$.subscribe((state) => {
       this.ngZone.run(() => {
         this.cd.detectChanges();
@@ -113,45 +100,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  scanPayment() {
-    const dialogRef = this.dialog.open(QrScanDialog, {
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '100%',
-      width: '100%',
-      panelClass: 'full-screen-modal',
-      data: {},
-    });
+  nostrAccounts(): Account[] {
+    if (!this.walletManager.activeWallet?.accounts) {
+      return [];
+    }
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('QR SCAN RESULT', result);
-
-      if (!result) {
-        return;
-      }
-
-      // Perform basic check if this result is an address QR or payment request.
-      if (result.indexOf(':') == -1) {
-        this.snackBar.open(`Scanned QR code is not a payment request. Value: ${result}`, 'Hide', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-        });
-      } else {
-        const payment = this.paymentRequest.decode(result);
-
-        if (payment.network && payment.network != 'http' && payment.network != 'https') {
-          this.uiState.payment = payment;
-          this.router.navigateByUrl('/payment');
-        } else {
-          this.snackBar.open(`Scanned QR code is not a valid payment request. Value: ${result}`, 'Hide', {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-          });
-        }
-      }
-    });
+    return this.walletManager.activeWallet.accounts.filter((account) => account.type === 'identity' && account.networkType === 'NOSTR');
   }
 
   hasAccountHistory(accountId: string) {

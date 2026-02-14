@@ -152,11 +152,13 @@
         </mat-select>
       </mat-form-field> -->
 
-      <a mat-list-item *ngFor="let account of walletManager.activeWallet.accounts; let i = index" (click)="onAccountChanged(account.identifier)" routerLinkActive="active-link">
-        <app-account-icon mat-list-icon [value]="account"></app-account-icon>
-        <div mat-line class="name-field">{{ account.name | truncate }}</div>
-        <div mat-line>{{ account | network }}</div>
-      </a>
+      <ng-container *ngFor="let account of walletManager.activeWallet.accounts; let i = index">
+        <a mat-list-item *ngIf="account.type === 'identity' && account.networkType === 'NOSTR'" (click)="onAccountChanged(account.identifier)" routerLinkActive="active-link">
+          <app-account-icon mat-list-icon [value]="account"></app-account-icon>
+          <div mat-line class="name-field">{{ account.name | truncate }}</div>
+          <div mat-line>{{ account | network }}</div>
+        </a>
+      </ng-container>
 
       <!-- <a mat-list-item *ngIf="appState.activeWallet && appState.unlocked" [routerLink]="['/wallet/edit']"
         (click)="drawer.toggle()" routerLinkActive="active-link">
