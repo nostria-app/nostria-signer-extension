@@ -61,7 +61,7 @@ export class NetworkLoader {
       stateEntry.activeNetworks = [];
     }
 
-    let existingState = stateEntry.activeNetworks.find((a) => a.networkType == networkType);
+    let existingState = stateEntry.activeNetworks.find((a: { networkType: string }) => a.networkType == networkType);
 
     if (!existingState) {
       existingState = { networkType, domain: '', url: '' };
