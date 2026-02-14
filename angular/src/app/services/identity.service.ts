@@ -100,7 +100,7 @@ export class IdentityService {
       {
         aud: did,
         exp: 1957463421,
-        name: 'Blockcore Developer',
+        name: 'Nostria Developer',
       },
       { issuer: did, signer },
       { alg: 'ES256K' }

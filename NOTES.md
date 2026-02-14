@@ -28,13 +28,13 @@ that are being applied in the watcher:
 
 ## Action Process
 
-Web Apps auto-load the `provider.ts` when user have the extension installed. This makes "blockcore" available globally through `globalThis.blockcore`.
+Web Apps auto-load the `provider.ts` when user have the extension installed. This makes `nostria` available globally through `globalThis.nostria` (and `globalThis.blockcore` as a legacy alias).
 
 `content.ts` is responsible for injecting the `provider.ts` into the web app.
 
 Calls are sent through the `provider.ts` using the generic "request" function:
 
-`const result = await blockcore.request({ method: "signMessage", params: [{ message: msg }] });`
+`const result = await nostria.request({ method: "signMessage", params: [{ message: msg }] });`
 
 The "method" is "action". params can either be a single object, or array. The `provider.ts` will always encapsulate a single object into an array, so
 handlers and logic within the extension will only work with empty params or array.
