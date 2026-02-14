@@ -2,11 +2,10 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import Big from 'big.js';
 import { InputValidators } from 'src/app/services/inputvalidators';
-import { WalletManager, UIState, SendSidechainService, SendService, NetworksService, SettingsService } from '../../../services';
+import { WalletManager, UIState, SendSidechainService, SendService, NetworksService } from '../../../services';
 import { MatDialog } from '@angular/material/dialog';
 import { AddressValidationService } from 'src/app/services/address-validation.service';
 import { QrScanDialog } from '../../send/address/qr-scanning.component';
-import { Settings } from 'src/shared';
 
 @Component({
   selector: 'app-account-send-address',
@@ -17,7 +16,6 @@ export class AccountSendSidechainAddressComponent implements OnInit, OnDestroy {
   form: UntypedFormGroup;
   optionsOpen = false;
   amountTooLarge = false;
-  settings : Settings;
 
   get optionAmountInput() {
     return this.form.get('amountInput') as UntypedFormControl;
@@ -39,9 +37,7 @@ export class AccountSendSidechainAddressComponent implements OnInit, OnDestroy {
     private ngZone: NgZone,
     public dialog: MatDialog,
     private fb: UntypedFormBuilder,
-    private settingsService : SettingsService,
   ) {
-    this.settings = settingsService.values;
   }
 
   ngOnDestroy() {}
@@ -58,18 +54,6 @@ export class AccountSendSidechainAddressComponent implements OnInit, OnDestroy {
       // TODO: validate the sidechain target address using the sidechain network
       sidechainAddressInput: new UntypedFormControl('', [InputValidators.addressSidechain(this.sendSidechainService, this.addressValidation)]),
     });
-
-    if (this.settings.requirePassword) {
-      this.form.addControl(
-        'walletPasswordInput', new UntypedFormControl('', {
-          validators: [Validators.required],
-          asyncValidators: [InputValidators.walletPassword(this.walletManager)],
-          updateOn: 'blur',
-        }),
-      );
-    }
-
-
 
     if (this.sendService.amount == '0') {
       this.sendService.amount = '1';

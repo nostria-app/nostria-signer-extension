@@ -20,6 +20,7 @@ const extensionManifestPath = path.resolve(extensionDistPath, 'manifest.json');
 const frameDelayMs = Number(process.env.DEMO_FRAME_DELAY_MS || 400);
 const outputWidth = Number(process.env.DEMO_WIDTH || 600);
 const outputHeight = Number(process.env.DEMO_HEIGHT || 820);
+const screenshotScale = Number(process.env.DEMO_SCREENSHOT_SCALE || 2);
 
 const ensureCleanDir = (dirPath) => {
   rmSync(dirPath, { recursive: true, force: true });
@@ -106,9 +107,9 @@ const resizeNearest = (sourceData, sourceWidth, sourceHeight, targetWidthValue, 
   return result;
 };
 
-const writeNormalizedPng = (png, outputPath) => {
-  const normalizedData = resizeNearest(png.data, png.width, png.height, outputWidth, outputHeight);
-  const normalized = new PNG({ width: outputWidth, height: outputHeight });
+const writeNormalizedPng = (png, outputPath, targetWidth = outputWidth, targetHeight = outputHeight) => {
+  const normalizedData = resizeNearest(png.data, png.width, png.height, targetWidth, targetHeight);
+  const normalized = new PNG({ width: targetWidth, height: targetHeight });
   normalized.data = Buffer.from(normalizedData);
   writeFileSync(outputPath, PNG.sync.write(normalized));
 };
@@ -153,7 +154,7 @@ const saveMarketingScreenshot = async (page, fileName) => {
   ensureDir(screenshotsDir);
   const target = path.resolve(screenshotsDir, fileName);
   const surface = await captureAppSurfacePng(page);
-  writeNormalizedPng(surface, target);
+  writeNormalizedPng(surface, target, outputWidth * screenshotScale, outputHeight * screenshotScale);
 };
 
 const gotoRoute = async (page, routePath) => {
@@ -312,6 +313,7 @@ const run = async () => {
     channel: 'chromium',
     headless: false,
     viewport: { width: outputWidth, height: outputHeight },
+    deviceScaleFactor: screenshotScale,
     args: [
       `--disable-extensions-except=${extensionDistPath}`,
       `--load-extension=${extensionDistPath}`

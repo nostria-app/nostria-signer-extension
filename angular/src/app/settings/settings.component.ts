@@ -90,7 +90,8 @@ export class SettingsComponent {
   }
 
   onLanguageChanged(event: any) {
-    this.settingsService.setLanguage(this.settings.language);
+    this.settings.language = event.value;
+    this.settingsService.setLanguage(event.value);
   }
 
   onAccentChanged(event: any) {

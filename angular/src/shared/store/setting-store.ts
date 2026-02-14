@@ -16,7 +16,6 @@ export class SettingStore extends StoreBase<Settings> {
       theme: 'dark',
       themeColor: 'primary',
       language: 'en',
-      amountFormat: 'bitcoin',
       developer: false,
     };
   }
