@@ -174,10 +174,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
   }
 
-  // updateNetworkStatus() {
-  //   this.currentNetworkStatus = this.networkStatusService.get(this.walletManager.activeAccount.networkType);
-  // }
-
   public history: TransactionHistory[] = [];
 
   updateAccountHistory() {

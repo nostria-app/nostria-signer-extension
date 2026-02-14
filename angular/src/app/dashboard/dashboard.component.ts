@@ -1,9 +1,8 @@
 import { Component, ChangeDetectorRef, OnInit, OnDestroy, NgZone } from '@angular/core';
-import { CryptoService, UIState, FeatureService, LoggerService, NetworksService, NetworkStatusService, DebugLogService, WalletManager, SecureStateService, CommunicationService, StateService } from '../services';
+import { CryptoService, UIState, FeatureService, LoggerService, NetworksService, DebugLogService, WalletManager, SecureStateService, CommunicationService, StateService } from '../services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { copyToClipboard } from '../shared/utilities';
-import { Observable } from 'rxjs';
-import { Account, NetworkStatus } from '../../shared/interfaces';
+import { Account } from '../../shared/interfaces';
 import { BackgroundManager } from 'src/shared/background-manager';
 import { AccountHistoryStore } from 'src/shared';
 import { AddressWatchStore } from 'src/shared/store/address-watch-store';
@@ -28,12 +27,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   wallet: any;
   sub: any;
   history: Section[] = [];
-  networkStatus$: Observable<NetworkStatus[]>;
 
   constructor(
     public feature: FeatureService,
     public uiState: UIState,
-    public networkStatus: NetworkStatusService,
     private crypto: CryptoService,
     private router: Router,
     private logger: LoggerService,

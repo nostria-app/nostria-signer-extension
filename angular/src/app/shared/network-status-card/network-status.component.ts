@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NetworkStatusService } from 'src/app/services';
 import { IndexerApiStatus, NetworkStatus } from '../../../shared/interfaces';
 
 @Component({
@@ -11,14 +10,10 @@ export class NetworkStatusCardComponent implements OnInit {
     @Input() status: NetworkStatus[];
     @Input() type: string;
 
-    constructor(private networkStatusService: NetworkStatusService) {
-
-    }
+    constructor() {}
 
     ngOnInit(): void {
-        if (this.type) {
-            this.status = this.networkStatusService.get(this.type);
-        }
+        this.status = this.status || [];
     }
 
     get class(): string {

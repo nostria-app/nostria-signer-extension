@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef, OnInit, OnDestroy, Renderer2, Inject } from '@angular/core';
-import { UIState, CommunicationService, AppManager, SecureStateService, WalletManager, EnvironmentService, NetworksService, SettingsService, NetworkStatusService, LoggerService } from '../services';
+import { UIState, CommunicationService, AppManager, SecureStateService, WalletManager, EnvironmentService, NetworksService, SettingsService, LoggerService } from '../services';
 import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { ActionUrlParameters } from '../../shared/interfaces';
 import { TranslateService } from '@ngx-translate/core';
@@ -32,7 +32,6 @@ export class LoadingComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private env: EnvironmentService,
     private logger: LoggerService,
-    private status: NetworkStatusService,
     private settings: SettingsService,
     public networkService: NetworksService,
     private orchestrator: OrchestratorService,
@@ -103,15 +102,9 @@ export class LoadingComponent implements OnInit, OnDestroy {
       }
 
       await this.appManager.initialize();
-      await this.status.initialize();
 
       this.translate.addLangs(['ar', 'el', 'en', 'fa', 'fr', 'he', 'no', 'ru']);
       this.translate.setDefaultLang('en');
-
-      // TODO: Backwards compatible fix. Remove on release.
-      if (!this.settings.values.server) {
-        this.settings.values.server = 'group1';
-      }
 
       if (this.settings.values.language) {
         this.settings.setLanguage(this.settings.values.language);

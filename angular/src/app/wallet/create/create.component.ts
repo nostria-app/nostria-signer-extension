@@ -166,6 +166,12 @@ export class WalletCreateComponent implements OnInit {
 
       await this.walletManager.addWallet(wallet);
 
+      const unlocked = await this.walletManager.unlockWallet(wallet.id, this.password);
+
+      if (!unlocked) {
+        throw new Error('Unable to unlock newly created vault.');
+      }
+
       await this.walletManager.ensureNostrIdentityAccount(wallet);
 
       // Save the newly added wallet.

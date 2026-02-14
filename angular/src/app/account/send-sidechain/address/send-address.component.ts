@@ -2,7 +2,7 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import Big from 'big.js';
 import { InputValidators } from 'src/app/services/inputvalidators';
-import { WalletManager, UIState, SendSidechainService, SendService, NetworkStatusService, SettingsService } from '../../../services';
+import { WalletManager, UIState, SendSidechainService, SendService, NetworksService, SettingsService } from '../../../services';
 import { MatDialog } from '@angular/material/dialog';
 import { AddressValidationService } from 'src/app/services/address-validation.service';
 import { QrScanDialog } from '../../send/address/qr-scanning.component';
@@ -34,7 +34,7 @@ export class AccountSendSidechainAddressComponent implements OnInit, OnDestroy {
     public sendService: SendService,
     public sendSidechainService: SendSidechainService,
     public walletManager: WalletManager,
-    public networkStatusService: NetworkStatusService,
+    public networkService: NetworksService,
     private addressValidation: AddressValidationService,
     private ngZone: NgZone,
     public dialog: MatDialog,
@@ -47,15 +47,6 @@ export class AccountSendSidechainAddressComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   async ngOnInit() {
-    // Constructor of send.component.ts should have called resetFee() by now, which sets
-    // the fee to network definition. Here we will attempt to get it from blockchain API.
-    const networkStatus = this.networkStatusService.get(this.sendService.network.id);
-
-    // Grab the fee rate either from network definition or from blockchain API status:
-    if (networkStatus.length > 0) {
-      this.sendService.targetFeeRate = networkStatus[0].relayFee;
-    }
-
     this.form = this.fb.group({
       // addressInput: new UntypedFormControl('', [Validators.required, Validators.minLength(6), InputValidators.address(this.sendService, this.addressValidation)]),
       changeAddressInput: new UntypedFormControl('', [InputValidators.address(this.sendService, this.addressValidation)]),
@@ -134,7 +125,7 @@ export class AccountSendSidechainAddressComponent implements OnInit, OnDestroy {
     this.sendService.network.sidechains.forEach((sidechain) => {
       if (sidechain.symbol == event.value) {
         this.sendService.address = sidechain.peg.address;
-        this.sendSidechainService.network = this.networkStatusService.getNetwork(sidechain.symbol);
+        this.sendSidechainService.network = this.networkService.getNetwork(sidechain.symbol);
       }
     });
   }

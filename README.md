@@ -40,7 +40,7 @@ This wallet is made available as the Nostria instance:
 
 - Chains: All supported blockchains
 - All features currently under development
-- Download: ["nostria-signer-\*.zip](https://github.com/block-core/nostria-signer/releases)
+- Download: ["nostria-signer-\*.zip](https://github.com/nostria-app/nostria-signer/releases)
 
 ## Supported Browsers
 

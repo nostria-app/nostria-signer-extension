@@ -1,10 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { UIState, CryptoService, IconService, NetworksService, WalletManager, NetworkStatusService } from '../../services';
+import { UIState, CryptoService, IconService, NetworksService, WalletManager } from '../../services';
 import { Account } from '../../../shared/interfaces';
 import { Router } from '@angular/router';
 import { Network } from '../../../shared/networks';
-import { MessageService } from 'src/shared';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { nip19 } from 'nostr-tools';
@@ -52,9 +51,7 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
     private router: Router,
     public icons: IconService,
     public networkService: NetworksService,
-    private message: MessageService,
     public walletManager: WalletManager,
-    private networkStatusService: NetworkStatusService,
     private cd: ChangeDetectorRef,
     private snackBar: MatSnackBar,
     public translate: TranslateService
@@ -191,11 +188,6 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
       });
     }
 
-    // Make sure we get a recent state of the network user added account on. If this is the first time the user have added
-    // account from this network, this will ensure that we have a status as early as possible.
-    this.message.send(this.message.createMessage('network', { accounts: [account] }));
-    // await this.networkStatusService.updateAll([account]); // TODO: This should perhaps not send single account, but all accounts.
-
     if (account.type == 'identity') {
       // When adding an account, the active account ID will be updated so we can read it here.
       this.router.navigateByUrl('/account/identity/' + this.walletManager.activeAccountId);
@@ -250,11 +242,6 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
         verticalPosition: 'bottom',
       });
     }
-
-    // Make sure we get a recent state of the network user added account on. If this is the first time the user have added
-    // account from this network, this will ensure that we have a status as early as possible.
-    this.message.send(this.message.createMessage('network', { accounts: [account] }));
-    // await this.networkStatusService.updateAll([account]); // TODO: This should perhaps not send single account, but all accounts.
 
     if (account.type == 'identity') {
       // When adding an account, the active account ID will be updated so we can read it here.

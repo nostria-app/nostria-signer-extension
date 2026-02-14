@@ -21,7 +21,6 @@ export const environment: IEnvironment = {
   instance: 'nostria',
   instanceName: 'Nostria Signer',
   instanceUrl: 'https://www.blockcore.net/',
-  instanceExplorerUrl: 'https://explorer.blockcore.net',
   networks: [] as string[] // Returns all
 };
 

@@ -45,7 +45,6 @@ interface IEnvironment {
   instance: string;
   instanceName: string;
   instanceUrl: string;
-  instanceExplorerUrl: string;
   networks: string[];
 }
 

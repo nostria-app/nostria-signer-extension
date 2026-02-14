@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Permission, PermissionDomain } from 'src/shared';
 import { PermissionExecutionStore } from 'src/shared/store/permission-execution-store';
 import { PermissionStore } from 'src/shared/store/permission-store';
-import { UIState, FeatureService, NetworkStatusService, WalletManager } from '../../services';
+import { UIState, FeatureService, WalletManager } from '../../services';
 
 @Component({
   selector: 'app-permissions',
@@ -20,7 +20,6 @@ export class PermissionsComponent implements OnDestroy, OnInit {
     private walletManager: WalletManager,
     public uiState: UIState,
     public location: Location,
-    public networkStatus: NetworkStatusService,
     public feature: FeatureService,
     private permissionStore: PermissionStore,
     private permissionExecutionStore: PermissionExecutionStore,

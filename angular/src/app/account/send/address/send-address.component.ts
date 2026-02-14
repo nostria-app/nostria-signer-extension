@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import Big from 'big.js';
 import { InputValidators } from 'src/app/services/inputvalidators';
-import { WalletManager, UIState, SendService, NetworkStatusService, SettingsService } from '../../../services';
+import { WalletManager, UIState, SendService, SettingsService } from '../../../services';
 import { MatDialog } from '@angular/material/dialog';
 import { QrScanDialog } from './qr-scanning.component';
 import { AddressValidationService } from 'src/app/services/address-validation.service';
@@ -36,7 +36,6 @@ export class AccountSendAddressComponent implements OnInit, OnDestroy {
     public sendService: SendService,
     private paymentRequest: PaymentRequest,
     public walletManager: WalletManager,
-    public networkStatusService: NetworkStatusService,
     private addressValidation: AddressValidationService,
     public dialog: MatDialog,
     private fb: UntypedFormBuilder,
@@ -50,15 +49,6 @@ export class AccountSendAddressComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   async ngOnInit() {
-    // Constructor of send.component.ts should have called resetFee() by now, which sets
-    // the fee to network definition. Here we will attempt to get it from blockchain API.
-    const networkStatus = this.networkStatusService.get(this.sendService.network.id);
-
-    // Grab the fee rate either from network definition or from blockchain API status:
-    if (networkStatus.length > 0) {
-      this.sendService.targetFeeRate = networkStatus[0].relayFee;
-    }
-
     this.form = this.fb.group({
       addressInput: new UntypedFormControl('', [Validators.required, Validators.minLength(6), InputValidators.address(this.sendService, this.addressValidation)]),
       changeAddressInput: new UntypedFormControl('', [InputValidators.address(this.sendService, this.addressValidation)]),

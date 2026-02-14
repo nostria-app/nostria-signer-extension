@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UIState, NetworksService, NetworkStatusService, EnvironmentService, WalletManager, LoggerService } from '../../services';
+import { UIState, NetworksService, EnvironmentService, WalletManager, LoggerService } from '../../services';
 import { copyToClipboard } from '../../shared/utilities';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Address, NetworkStatus, TransactionMetadata, TransactionMetadataEntry, TransactionView } from '../../../shared/interfaces';
+import { Address, TransactionMetadata, TransactionMetadataEntry, TransactionView } from '../../../shared/interfaces';
 import { Network } from '../../../shared/networks';
 import { TransactionMetadataStore, TransactionStore } from 'src/shared';
 import { RuntimeService } from 'src/shared/runtime.service';
@@ -23,7 +23,6 @@ export class AccountTransactionComponent implements OnInit, OnDestroy {
   network: Network;
   public transaction: TransactionView;
   txid: string;
-  currentNetworkStatus: NetworkStatus;
   metadata: TransactionMetadata;
   metadataEntry: TransactionMetadataEntry;
   form: UntypedFormGroup;
@@ -34,7 +33,6 @@ export class AccountTransactionComponent implements OnInit, OnDestroy {
     private networks: NetworksService,
     private activatedRoute: ActivatedRoute,
     private env: EnvironmentService,
-    private networkStatusService: NetworkStatusService,
     public walletManager: WalletManager,
     private transactionStore: TransactionStore,
     private transactionMetadataStore: TransactionMetadataStore,
@@ -55,7 +53,6 @@ export class AccountTransactionComponent implements OnInit, OnDestroy {
 
     this.activatedRoute.paramMap.subscribe(async (params) => {
       this.txid = params.get('txid');
-      // this.currentNetworkStatus = this.networkStatusService.get(this.walletManager.activeAccount.networkType);
       this.transaction = this.transactionStore.get(this.txid) as TransactionView;
 
       // Calculate values on the transaction object.
@@ -123,25 +120,31 @@ export class AccountTransactionComponent implements OnInit, OnDestroy {
   }
 
   openExplorer(txid: string) {
+    const baseUrl = this.env.instanceUrl.replace(/\/$/, '');
+    const url = `${baseUrl}/${this.network.id}/explorer/transaction/${txid}`;
+
     if (!this.runtime.isExtension) {
-      window.open(`${this.env.instanceExplorerUrl}/${this.network.id}/explorer/transaction/${txid}`, '_blank').focus();
+      window.open(url, '_blank').focus();
     } else {
-      browser.tabs.create({ url: `${this.env.instanceExplorerUrl}/${this.network.id}/explorer/transaction/${txid}`, active: false });
+      browser.tabs.create({ url, active: false });
     }
   }
 
   openExplorerBlock(blockhash: string) {
+    const baseUrl = this.env.instanceUrl.replace(/\/$/, '');
+    const url = `${baseUrl}/${this.network.id}/explorer/block/${blockhash}`;
+
     if (blockhash) {
       if (!this.runtime.isExtension) {
-        window.open(`${this.env.instanceExplorerUrl}/${this.network.id}/explorer/block/${blockhash}`, '_blank').focus();
+        window.open(url, '_blank').focus();
       } else {
-        browser.tabs.create({ url: `${this.env.instanceExplorerUrl}/${this.network.id}/explorer/block/${blockhash}`, active: false });
+        browser.tabs.create({ url, active: false });
       }
     } else {
       if (!this.runtime.isExtension) {
-        window.open(`${this.env.instanceExplorerUrl}/${this.network.id}/explorer/block/${blockhash}`, '_blank').focus();
+        window.open(url, '_blank').focus();
       } else {
-        browser.tabs.create({ url: `${this.env.instanceExplorerUrl}/${this.network.id}/explorer/block/${blockhash}`, active: false });
+        browser.tabs.create({ url, active: false });
       }
     }
   }

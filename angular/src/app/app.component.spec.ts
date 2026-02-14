@@ -86,7 +86,6 @@ describe('AppComponent', () => {
   const mockEnvironment: IEnvironment = {
     instanceName: 'UnitTest',
     instance: '',
-    instanceExplorerUrl: '',
     instanceUrl: '',
     networks: [],
     releaseUrl: '',

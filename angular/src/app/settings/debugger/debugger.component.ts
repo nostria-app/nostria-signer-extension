@@ -1,9 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { EventBus, NetworkStatus, NetworkStatusEntry, NetworkStatusStore } from 'src/shared';
-import { StateStore } from 'src/shared/store/state-store';
-import { UIState, FeatureService, NetworkStatusService, StateService, LoggingMonitor, LoggerService } from '../../services';
+import { UIState, FeatureService, LoggingMonitor, LoggerService } from '../../services';
 
 @Component({
   selector: 'app-debugger',
@@ -12,19 +10,13 @@ import { UIState, FeatureService, NetworkStatusService, StateService, LoggingMon
   encapsulation: ViewEncapsulation.None,
 })
 export class DebuggerComponent implements OnDestroy, OnInit {
-  networks: NetworkStatusEntry[];
-  sub: any;
   updating = false;
   level: any;
 
   constructor(
     public logMonitor: LoggingMonitor,
-    private events: EventBus,
     public uiState: UIState,
     public location: Location,
-    private stateService: StateService,
-    private stateStore: StateStore,
-    public networkStatus: NetworkStatusService,
     public feature: FeatureService,
     public translate: TranslateService,
     private logger: LoggerService

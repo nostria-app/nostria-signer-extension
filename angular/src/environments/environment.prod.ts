@@ -12,11 +12,10 @@ export const environment: IEnvironment = {
   production: true,
   enableDebugTools: false,
   logLevel: 'info',
-  releaseUrl: 'https://github.com/block-core/nostria-signer/releases',
-  sourceUrl: 'https://github.com/block-core/nostria-signer',
+  releaseUrl: 'https://github.com/nostria-app/nostria-signer/releases',
+  sourceUrl: 'https://github.com/nostria-app/nostria-signer',
   instance: 'nostria',
   instanceName: 'Nostria Signer',
-  instanceUrl: 'https://www.blockcore.net/',
-  instanceExplorerUrl: 'https://explorer.blockcore.net',
+  instanceUrl: 'https://nostria.app/',
   networks: [] as string[] // Returns all
 };

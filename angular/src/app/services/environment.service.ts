@@ -44,10 +44,6 @@ export class EnvironmentService implements IEnvironment {
         return environment.instanceUrl;
     }
 
-    get instanceExplorerUrl() {
-        return environment.instanceExplorerUrl;
-    }
-
     get networks() {
         return environment.networks;
     }

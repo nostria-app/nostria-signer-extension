@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { WalletManager, NetworksService, UIState, NetworkStatusService, EnvironmentService } from '../../services';
+import { WalletManager, NetworksService, UIState, EnvironmentService } from '../../services';
 import { Account, Defaults } from '../../../shared';
 import { MessageService } from 'src/shared';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,7 +21,6 @@ export class AccountSelectComponent implements OnInit, OnDestroy {
     private networkService: NetworksService,
     public walletManager: WalletManager,
     private message: MessageService,
-    private networkStatus: NetworkStatusService,
     private env: EnvironmentService,
     private router: Router,
     private snackBar: MatSnackBar,

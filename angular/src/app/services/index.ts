@@ -9,7 +9,6 @@ export * from './features.service';
 export * from './icon.service';
 export * from './log-writer.service';
 export * from './logger.service';
-export * from './network-status.service';
 export * from './networks.service';
 export * from './secure-state.service';
 export * from './send.service';
