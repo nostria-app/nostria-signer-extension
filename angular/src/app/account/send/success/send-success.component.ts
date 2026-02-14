@@ -9,6 +9,8 @@ import { SendService, UIState } from '../../../services';
   styleUrls: ['./send-success.component.css'],
 })
 export class AccountSendSuccessComponent implements OnInit, OnDestroy {
+  private readonly extensionId = 'nostria';
+
   constructor(public sendService: SendService, private message: MessageService, public uiState: UIState, private actionService: ActionService) {
     // When the transaction is done, we'll make sure the back button sends back to home.
     this.uiState.showBackButton = true;
@@ -25,7 +27,7 @@ export class AccountSendSuccessComponent implements OnInit, OnDestroy {
         prompt: false, // This indicates that message comes from the popup promt.
         target: 'provider',
         source: 'tabs',
-        ext: 'blockcore',
+        ext: this.extensionId,
         // permission: 'once',
         request: { method: 'payment', params: undefined }, // Re-create the request object.
         type: 'broadcast',

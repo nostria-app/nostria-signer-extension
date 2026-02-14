@@ -32,6 +32,7 @@ let messageService = new MessageService(runtimeService, new EventBus());
 let shared = new SharedManager(new StorageService(runtimeService), new WalletStore(), networkLoader, messageService);
 const networkUpdateInterval = 45000;
 let walletStore: WalletStore;
+const EXTENSION_ID = 'nostria';
 
 // Request queue system - handles multiple signing requests with a single popup
 interface QueuedRequest {
@@ -553,15 +554,15 @@ let networkWatcherRef;
 
 const updateNetworkStatus = async () => {
   // We don't have Angular environment information in the service worker,
-  // so we'll default to Blockcore default accounts.
-  await networkManager.updateNetworkStatus('blockcore');
+  // so we'll default to Nostria default accounts.
+  await networkManager.updateNetworkStatus('nostria');
 
   // Note: Service workers don't have access to location.host, use runtime.id instead
   try {
     await browser.runtime.sendMessage({
       type: 'network-updated',
       data: { source: 'network-status-watcher' },
-      ext: 'blockcore',
+      ext: EXTENSION_ID,
       source: 'background',
       target: 'tabs',
       host: browser.runtime.id,
@@ -632,7 +633,7 @@ const runIndexer = async () => {
         await browser.runtime.sendMessage({
           type: 'indexed',
           data: { source: 'indexer-on-schedule' },
-          ext: 'blockcore',
+          ext: EXTENSION_ID,
           source: 'background',
           target: 'tabs',
           host: browser.runtime.id,
@@ -641,7 +642,7 @@ const runIndexer = async () => {
         await browser.runtime.sendMessage({
           type: 'updated',
           data: { source: 'indexer-on-schedule' },
-          ext: 'blockcore',
+          ext: EXTENSION_ID,
           source: 'background',
           target: 'tabs',
           host: browser.runtime.id,
@@ -687,7 +688,7 @@ const runWatcher = async () => {
           await browser.runtime.sendMessage({
             type: 'indexed',
             data: { source: 'watcher' },
-            ext: 'blockcore',
+            ext: EXTENSION_ID,
             source: 'background',
             target: 'tabs',
             host: browser.runtime.id,
@@ -696,7 +697,7 @@ const runWatcher = async () => {
           await browser.runtime.sendMessage({
             type: 'updated',
             data: { source: 'watcher' },
-            ext: 'blockcore',
+            ext: EXTENSION_ID,
             source: 'background',
             target: 'tabs',
             host: browser.runtime.id,

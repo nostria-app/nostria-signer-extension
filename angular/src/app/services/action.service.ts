@@ -21,6 +21,7 @@ export class ActionService {
   /** Indicates if the action is a single user or if user is allowed to give authorization temporarily or permanently. */
   consentType: 'ephemeral' | 'connect' | 'regular' = 'regular';
   permissionLevel: 'wallet' | 'account' | 'key' = 'key';
+  private readonly extensionId = 'nostria';
 
   status = {
     icon: 'verified_user',
@@ -91,7 +92,7 @@ export class ActionService {
         prompt: true, // This indicates that message comes from the popup promt.
         target: 'provider',
         source: 'tabs',
-        ext: 'blockcore',
+        ext: this.extensionId,
         permission: permission,
         request: { method: action.action, params: action.params }, // Re-create the request object.
         // response: { content: action.content },
@@ -115,7 +116,7 @@ export class ActionService {
         prompt: true, // This indicates that message comes from the popup promt.
         target: 'provider',
         source: 'tabs',
-        ext: 'blockcore',
+        ext: this.extensionId,
         permission: permission,
         request: { method: action.action, params: action.params }, // Re-create the request object.
         // response: { content: action.content },

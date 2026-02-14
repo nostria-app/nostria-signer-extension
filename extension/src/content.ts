@@ -2,9 +2,12 @@ import * as browser from 'webextension-polyfill';
 import { ActionMessage } from '../../angular/src/shared';
 import { DomainVerification } from '../../angular/src/shared';
 
+const EXTENSION_ID = 'nostria';
+const LEGACY_EXTENSION_ID = 'blockcore';
+
 // Guard to prevent multiple injections in the same context
 // Content scripts run in isolated world, so we use a unique property
-const INJECTION_GUARD = '__blockcore_content_injected__';
+const INJECTION_GUARD = '__nostria_content_injected__';
 if ((globalThis as any)[INJECTION_GUARD]) {
   // Already injected, skip
 } else {
@@ -63,7 +66,7 @@ if ((globalThis as any)[INJECTION_GUARD]) {
 
       const data = message.data as ActionMessage;
 
-      if (data.ext !== 'blockcore') return; // We'll only handle messages marked with extension 'blockcore'.
+      if (data.ext !== EXTENSION_ID && data.ext !== LEGACY_EXTENSION_ID) return; // We'll only handle messages marked with extension IDs we support.
       if (data.target !== 'tabs') return; // We'll only forward messages that has target tabs.
 
       const msg = { ...data, app: location.host };

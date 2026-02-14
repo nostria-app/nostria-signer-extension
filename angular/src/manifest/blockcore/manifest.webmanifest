@@ -4,7 +4,7 @@
     "start_url": "./",
     "name": "Nostria Signer",
     "short_name": "Nostria",
-    "version": "1.0.45",
+    "version": "3.0.0",
     "author": "Nostria",
     "display": "standalone",
     "theme_color": "#22a893",

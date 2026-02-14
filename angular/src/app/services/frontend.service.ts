@@ -19,6 +19,7 @@ import { SecureStateService } from './secure-state.service';
 export class FrontendService implements OnInit {
   private watchManager: BackgroundManager | null;
   private networkUpdateInterval = 45000;
+  private readonly extensionId = 'nostria';
   private networkManager: BackgroundManager;
   private networkWatcherRef: any;
   private indexing: boolean;
@@ -174,13 +175,13 @@ export class FrontendService implements OnInit {
 
   async executeNetworkStatus() {
     // We don't have the Angular environment information available in the service worker,
-    // so we'll default to Blockcore default accounts.
-    await this.networkManager.updateNetworkStatus('blockcore');
+    // so we'll default to Nostria default accounts.
+    await this.networkManager.updateNetworkStatus('nostria');
 
     const msg = {
       type: 'network-updated',
       data: { source: 'network-status-watcher' },
-      ext: 'blockcore',
+      ext: this.extensionId,
       source: 'background',
       target: 'tabs',
       host: location.host,
@@ -220,7 +221,7 @@ export class FrontendService implements OnInit {
         const msg = {
           type: 'indexed',
           data: { source: 'indexer-on-schedule' },
-          ext: 'blockcore',
+          ext: this.extensionId,
           source: 'background',
           target: 'tabs',
           host: location.host,
@@ -231,7 +232,7 @@ export class FrontendService implements OnInit {
         const msg = {
           type: 'updated',
           data: { source: 'indexer-on-schedule' },
-          ext: 'blockcore',
+          ext: this.extensionId,
           source: 'background',
           target: 'tabs',
           host: location.host,
@@ -275,7 +276,7 @@ export class FrontendService implements OnInit {
           const msg = {
             type: 'indexed',
             data: { source: 'watcher' },
-            ext: 'blockcore',
+            ext: this.extensionId,
             source: 'background',
             target: 'tabs',
             host: location.host,
@@ -286,7 +287,7 @@ export class FrontendService implements OnInit {
           const msg = {
             type: 'updated',
             data: { source: 'watcher' },
-            ext: 'blockcore',
+            ext: this.extensionId,
             source: 'background',
             target: 'tabs',
             host: location.host,

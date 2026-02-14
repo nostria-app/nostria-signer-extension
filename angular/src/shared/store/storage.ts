@@ -200,7 +200,7 @@ export interface TableWallet {
 export class Storage {
     public db!: IDBPDatabase<WalletDB>;
 
-    constructor(private name: string) { }
+    constructor(private name: string, private legacyNames: string[] = []) { }
 
     async open() {
         // If we already have a database connection, then return.
@@ -268,6 +268,82 @@ export class Storage {
                 debugger;
             },
         });
+
+        await this.migrateLegacyDatabasesIfNeeded();
+    }
+
+    private async migrateLegacyDatabasesIfNeeded() {
+        if (await this.hasData('bucket')) {
+            return;
+        }
+
+        const legacyDatabases = await this.getExistingLegacyDatabases();
+
+        for (let i = 0; i < legacyDatabases.length; i++) {
+            const legacyName = legacyDatabases[i];
+
+            let legacyDb: IDBPDatabase<WalletDB> | null = null;
+
+            try {
+                legacyDb = await openDB<WalletDB>(legacyName, 1);
+
+                if (!legacyDb.objectStoreNames.contains('bucket') || !this.db.objectStoreNames.contains('bucket')) {
+                    continue;
+                }
+
+                const items = await legacyDb.getAll('bucket');
+
+                if (items?.length > 0) {
+                    for (let j = 0; j < items.length; j++) {
+                        await this.db.put('bucket', items[j]);
+                    }
+
+                    console.log(`Migrated ${items.length} entries from legacy database \"${legacyName}\" to \"${this.name}\".`);
+                }
+            } catch (error) {
+                console.warn(`Failed migration from legacy database \"${legacyName}\".`, error);
+            } finally {
+                if (legacyDb) {
+                    legacyDb.close();
+                }
+            }
+
+            if (await this.hasData('bucket')) {
+                break;
+            }
+        }
+    }
+
+    private async hasData(storeName: 'bucket'): Promise<boolean> {
+        try {
+            if (!this.db.objectStoreNames.contains(storeName)) {
+                return false;
+            }
+
+            const count = await this.db.count(storeName);
+            return count > 0;
+        } catch {
+            return false;
+        }
+    }
+
+    private async getExistingLegacyDatabases(): Promise<string[]> {
+        const names = [...new Set(this.legacyNames.filter((n) => !!n && n !== this.name))];
+
+        const indexedDbAny = (globalThis as any).indexedDB;
+        const databasesFn = indexedDbAny?.databases;
+
+        if (typeof databasesFn !== 'function') {
+            return names;
+        }
+
+        try {
+            const existingDbs = await databasesFn.call(indexedDbAny);
+            const existingNames = new Set((existingDbs || []).map((db: any) => db?.name).filter(Boolean));
+            return names.filter((name) => existingNames.has(name));
+        } catch {
+            return names;
+        }
     }
 
     close() {
@@ -443,5 +519,5 @@ export class Storage {
 }
 
 export class Database {
-    public static Instance = new Storage('blockcore-wallet');
+    public static Instance = new Storage('nostria-signer', ['blockcore-wallet']);
 }

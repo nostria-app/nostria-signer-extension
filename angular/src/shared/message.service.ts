@@ -3,6 +3,7 @@ import { EventBus } from './event-bus';
 import { RuntimeService } from './runtime.service';
 import * as browser from 'webextension-polyfill';
 const { v4: uuidv4 } = require('uuid');
+const EXTENSION_ID = 'nostria';
 
 export class MessageService {
   constructor(private runtime: RuntimeService, private events: EventBus) {}
@@ -14,7 +15,7 @@ export class MessageService {
       id: key,
       type: type,
       data: data,
-      ext: 'blockcore', //
+      ext: EXTENSION_ID, //
       // ext: this.env.instance,
       source: 'tabs',
       target: target,

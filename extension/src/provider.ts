@@ -2,13 +2,16 @@
 // provider.ts runs in the MAIN world (page context), not extension context
 import { ActionMessage, ActionRequest, ActionResponse, EventEmitter, Listener } from '../../angular/src/shared/provider-types';
 
+const EXTENSION_ID = 'nostria';
+const LEGACY_EXTENSION_ID = 'blockcore';
+
 export interface RequestArguments {
   method: string;
   params?: any[];
 }
 
 export class BlockcoreRequestProvider {
-  name = 'Blockcore';
+  name = 'Nostria';
   #requests = {};
   #events = new EventEmitter();
 
@@ -17,7 +20,7 @@ export class BlockcoreRequestProvider {
     // is not related to the extension.
     globalThis.addEventListener('message', (message) => {
       // Make sure there is response in the data, extension is setup and it belongs to the existing promises in this web app.
-      if (!message.data || !message.data.response || message.data.ext !== 'blockcore' || !this.#requests[message.data.id]) {
+      if (!message.data || !message.data.response || (message.data.ext !== EXTENSION_ID && message.data.ext !== LEGACY_EXTENSION_ID) || !this.#requests[message.data.id]) {
         return;
       }
 
@@ -103,7 +106,7 @@ export class BlockcoreRequestProvider {
         // request.params = [request.params];
       }
 
-      const msg: ActionMessage = { type, id, request: <ActionRequest>request, source: 'provider', target: 'tabs', ext: 'blockcore' };
+      const msg: ActionMessage = { type, id, request: <ActionRequest>request, source: 'provider', target: 'tabs', ext: EXTENSION_ID };
       // console.log('Provider:postMessage:', msg);
 
       globalThis.postMessage(msg, '*');
@@ -210,8 +213,13 @@ export class NostrNip44 {
 
 const provider = new BlockcoreRequestProvider();
 
-// Make our provider available on "blockcore".
-globalThis.blockcore = provider;
+// Make our provider available on "nostria".
+globalThis.nostria = provider;
+
+// Keep legacy global for backward compatibility with existing integrations.
+if (!globalThis.blockcore) {
+  globalThis.blockcore = provider;
+}
 
 // TODO: Consider playing nice with other extensions that implement the same global objects.
 // Also we should consider not injecting if user has zero Nostr accounts in their wallets.
