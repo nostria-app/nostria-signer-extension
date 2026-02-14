@@ -1,8 +1,8 @@
-# Blockcore Wallet
+# Nostria Signer
 
 ### Non-Custodial Wallet for your Browser
 
-The Blockcore Wallet does wallet management, account management, identity management and signing. Built on web-technology, Blockcore Wallet is cross-platform and works in
+The Nostria Signer does wallet management, account management, identity management and signing. Built on web-technology, Nostria Signer is cross-platform and works in
 different modes, such as browser extension, Progressive Web App, native mobile and desktop app and more.
 
 Open the [Wallet Guide](https://www.blockcore.net/wallet/guide) to install the wallet.
@@ -20,7 +20,7 @@ The wallet supports having multiple active wallets at the same time, and each wa
 - [x] Nostr support
 
 ## Browser Support
-Blockcore Wallet supports all Chromium based browsers - Chrome, Edge Opera, Brave etc.
+Nostria Signer supports all Chromium based browsers - Chrome, Edge Opera, Brave etc.
 
 Firefox is not supported. Support for Firefox is not planned.
 
@@ -34,11 +34,11 @@ When adding additional accounts to your wallet, you have the option to choose th
 
 ## Instances
 
-This wallet is made available as the Blockcore instance:
+This wallet is made available as the Nostria instance:
 
-### Blockcore
+### Nostria
 
-- Chains: All Blockcore supported blockchains
+- Chains: All supported blockchains
 - All features currently under development
 - Download: ["blockcore-\*.zip](https://github.com/block-core/blockcore-wallet/releases)
 

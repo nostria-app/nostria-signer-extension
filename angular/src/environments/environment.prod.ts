@@ -14,8 +14,8 @@ export const environment: IEnvironment = {
   logLevel: 'info',
   releaseUrl: 'https://github.com/block-core/blockcore-wallet/releases',
   sourceUrl: 'https://github.com/block-core/blockcore-wallet',
-  instance: 'blockcore',
-  instanceName: 'Blockcore Wallet',
+  instance: 'nostria',
+  instanceName: 'Nostria Signer',
   instanceUrl: 'https://www.blockcore.net/',
   instanceExplorerUrl: 'https://explorer.blockcore.net',
   networks: [] as string[] // Returns all

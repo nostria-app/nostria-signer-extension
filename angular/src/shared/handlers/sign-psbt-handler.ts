@@ -63,7 +63,7 @@ export class SignPsbtHandler implements ActionHandler {
     async execute(state: ActionState, permission: Permission): Promise<ActionResponse> {
         // Get the private key
         const { node, network } = await this.backgroundManager.getKey(permission.walletId, permission.accountId, permission.keyId);
-        // console.log("HD Key pair in Blockcore wallet: ", node);
+        // console.log("HD Key pair in Nostria signer: ", node);
         const masterSeedBase64 = await this.backgroundManager.getMasterSeedBase64(permission.walletId)
         const masterSeed = Buffer.from(masterSeedBase64, 'base64');
         const hdNode = bip32.fromSeed(masterSeed, network);

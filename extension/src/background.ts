@@ -279,7 +279,7 @@ async function handleContentScriptMessage(message: ActionMessage) {
 
     // If this execution required consent then display a notification.
     if (prepare.consent) {
-      result.notification = `Blockcore Wallet: ${(<Permission>permission).action} (${executions})`;
+      result.notification = `Nostria Signer: ${(<Permission>permission).action} (${executions})`;
     }
 
     return result;

@@ -1,8 +1,8 @@
-# Blockcore Wallet: Notes
+# Nostria Signer: Notes
 
-## Developer, architecture and technical notes for the implementation of Blockcore Wallet
+## Developer, architecture and technical notes for the implementation of Nostria Signer
 
-This document is used to document and capture some of the decisions that are being made during development of Blockcore Wallet.
+This document is used to document and capture some of the decisions that are being made during development of Nostria Signer.
 
 It's separate from user documentation, as the instructions here can be technical.
 
@@ -145,7 +145,7 @@ interface ActionResponse {
 ## Payment Request
 
 
-Blockcore Wallet implements BIP21 in a manner that relies on custom HTTP handler in the extension. This means the prefix is different,
+Nostria Signer implements BIP21 in a manner that relies on custom HTTP handler in the extension. This means the prefix is different,
 and the "bitcoin" prefix (from BIP21) is used to differentiate between networks.
 
 Examples:
