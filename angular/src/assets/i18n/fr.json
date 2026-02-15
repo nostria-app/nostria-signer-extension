@@ -418,7 +418,7 @@
     "Cancel": "Annuler"
   },
   "Manifest": {
-    "Description": "Non-Custodial vault for Coins, Tokens, Identities, and more."
+    "Description": "Nostr signer for your Browser"
   },
   "Exchange": {
     "PurchaseCrypto": "Acheter de la crypto",

@@ -398,7 +398,7 @@
     "Cancel": "لغو"
   },
   "Manifest": {
-    "Description": "Non-Custodial vault for Coins, Tokens, Identities, and more."
+    "Description": "Nostr signer for your Browser"
   },
   "Exchange": {
     "PurchaseCrypto": "خرید ارز دیجیتال",
