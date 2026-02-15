@@ -13,8 +13,7 @@ type Signer = (data: string | Uint8Array) => Promise<string>;
  *  const signature: string = await sign(data)
  *  ```
  *
- *  This signer is suppose to be used with the "did-jwt" library and implementats interface similar to existing signers:
- *  https://github.com/decentralized-identity/did-jwt/tree/master/src/signers
+ *  This signer returns a hex-encoded Schnorr signature for the given payload.
  *
  *  @param    {String}    privateKey   a private key as `Uint8Array`
  *  @param    {Boolean}   recoverable  an optional flag to add the recovery param to the generated signatures

@@ -2,26 +2,6 @@ import { ClientData } from './client-data';
 import { DecodedAttestion } from './decoded-attestion';
 import { User, Credential } from './user';
 
-interface ServiceEndpoint {
-  id?: string;
-  type?: string;
-  serviceEndpoint?: any;
-  [key: string]: any;
-}
-
-interface DIDDocument {
-  id?: string;
-  [key: string]: any;
-}
-
-interface DIDDocumentMetadata {
-  [key: string]: any;
-}
-
-interface DIDResolutionMetadata {
-  [key: string]: any;
-}
-
 // interfaces.ts
 interface IWords {
   [key: string]: string;
@@ -515,10 +495,7 @@ interface Identity {
   id: string;
   published: boolean;
   sequence: number;
-  services: ServiceEndpoint[];
-  didDocument?: DIDDocument;
-  didResolution?: DIDResolutionResult;
-  didPayload?: DIDPayload;
+  services: any[];
 }
 
 interface Vault {
@@ -545,35 +522,6 @@ interface VaultEntry {
   id: string;
   meta: { created: Date };
   content: any;
-}
-
-interface DIDPayload {
-  /** Base64 encoded and signed JWS of the DID Document. */
-  data: string;
-
-  /** Decoded JWS header. */
-  header: {
-    alg: string;
-    issuer: string;
-  };
-
-  payload: DIDDocument;
-
-  /** The isolated signature from the JWS. */
-  signature: string;
-}
-
-interface DIDResolutionMetadataEx extends DIDResolutionMetadata {
-  header: any;
-  signature: string;
-  data: string;
-  sequence: number; // This is important to have latest of or updates to DID Documents will fail, ordered sequence is required.
-}
-
-interface DIDResolutionResult {
-  didDocument: any | DIDDocument;
-  didDocumentMetadata: DIDDocumentMetadata;
-  didResolutionMetadata: DIDResolutionMetadataEx;
 }
 
 interface ActionUrlParameters {
@@ -665,33 +613,6 @@ interface AccountFilter {
   /** The symbol of accounts to display. */
   symbol?: string[];
 }
-
-interface DIDRequestOptions {
-  /** a challenge to prove DID control */
-  challenge: String;
-
-  /** a list of accepted DID methods */
-  methods?: String[];
-
-  /** client's reason for requesting a DID. Will be displayed to wallet controller */
-  reason?: String;
-};
-
-interface DIDRequestResponse {
-  /** the wallet owner's selected DID */
-  did: String;
-
-  /** proof of control for selected DID */
-  proof: String;
-};
-
-interface VCRequestResponse {
-  /** the wallet owner's selected DID */
-  did: String;
-
-  /** The verifiable credential */
-  vc: String;
-};
 
 interface ActionMessage {
   /** The type of action, this is currently limited to `request` */
@@ -814,8 +735,6 @@ export {
   Action,
   Store,
   Identity,
-  DIDResolutionResult,
-  DIDPayload,
   Settings,
   Vault,
   Logger,
@@ -857,9 +776,6 @@ export {
   CoinSelectionResult,
   CoinSelectionInput,
   CoinSelectionOutput,
-  DIDRequestOptions,
-  DIDRequestResponse,
   AccountFilter,
-  VCRequestResponse,
   PermissionExecution
 };

@@ -96,9 +96,6 @@ export interface TableAccount {
     /** Imported private key for this account. */
     prv?: string;
 
-    /** When the account is created, the DID is generated and never changes. */
-    // did?: string;
-
     // state?: AccountState;
 
     /** The type of Account, used to show the account in different sections of the UI. Should be 'coin', 'token' or 'other'. */
