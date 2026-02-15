@@ -1,7 +1,5 @@
 import { BackgroundManager } from '../background-manager';
 import { ActionHandler } from './action-handler';
-import { DidRequestHandler } from './did-request-handler';
-import { DidSupportedMethodsHandler } from './did-supported-methods-handler';
 import { PaymentHandler } from './payment-handler';
 import { PaymentSignHandler } from './payment-sign-handler';
 // import { PublicKeyHandler } from './publicKey-handler';
@@ -9,7 +7,6 @@ import { PaymentSignHandler } from './payment-sign-handler';
 // import { SignHandler } from './sign-handler';
 import { SignMessageHandler } from './sign-message-handler';
 import { SignPsbtHandler } from './sign-psbt-handler';
-import { VcRequestHandler } from './vc-request-handler';
 import { AccountBalanceHandler } from './account-balance-handler';
 import { WalletsHandler } from './wallets-handler';
 import { NostrPublicKeyHandler } from './nostr-public-key-handler';
@@ -36,12 +33,6 @@ export class Handlers {
         return new PaymentHandler(backgroundManager);
       case 'payment.sign':
         return new PaymentSignHandler(backgroundManager);
-      case 'did.supportedMethods':
-        return new DidSupportedMethodsHandler(backgroundManager);
-      case 'did.request':
-        return new DidRequestHandler(backgroundManager);
-      case 'vc.request':
-        return new VcRequestHandler(backgroundManager);
       case 'accountbalance':
         return new AccountBalanceHandler(backgroundManager);
       case 'wallets':

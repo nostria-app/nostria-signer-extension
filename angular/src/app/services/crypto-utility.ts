@@ -2,7 +2,6 @@
 import { Base64 } from 'js-base64';
 import { payments } from '@blockcore/blockcore-js';
 import * as secp from '@noble/secp256k1';
-import { ES256KSigner } from 'did-jwt';
 import { HDKey } from '@scure/bip32';
 import { Network } from '../../shared/networks';
 import { bech32 } from '@scure/base';
@@ -190,13 +189,17 @@ export class CryptoUtility {
   }
 
   getSigner(node: HDKey) {
-    //const signer = SS256KSigner(node.privateKey);
-    const signer = ES256KSigner(node.privateKey);
+    const signer = async (data: string | Uint8Array): Promise<string> => {
+      const dataBytes: Uint8Array = typeof data === 'string' ? new Uint8Array(Buffer.from(data)) : data;
+      const messageHash = await secp.utils.sha256(dataBytes);
+      const signature = await secp.schnorr.sign(messageHash, node.privateKey);
+      return secp.utils.bytesToHex(signature);
+    };
     return signer;
   }
 
   async getKeyPairFromNode(node: HDKey) {
-    const signer = ES256KSigner(node.privateKey);
+    const signer = this.getSigner(node);
     return signer;
     // let jwt = await createJWT(
     //   { aud: 'did:ethr:0xf3beac30c498d9e26865f34fcaa57dbb935b0d74', exp: 1957463421, name: 'uPort Developer' },

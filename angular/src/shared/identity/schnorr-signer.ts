@@ -1,5 +1,6 @@
 import * as secp from '@noble/secp256k1';
-import { Signer } from 'did-jwt';
+
+type Signer = (data: string | Uint8Array) => Promise<string>;
 
 /**
  *  Creates a configured signer function for signing data using the SS256K (ES256K) algorithm and Schnorr signatures.

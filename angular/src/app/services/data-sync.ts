@@ -1,9 +1,6 @@
 import { CryptoUtility } from './crypto-utility';
 import * as bip32 from 'bip32';
-import { decodeJWT, verifyJWT } from 'did-jwt';
-import { ServiceEndpoint } from 'did-resolver';
 import { BlockcoreIdentity as NostriaIdentity } from '@blockcore/identity';
-import { Issuer } from 'did-jwt-vc';
 import { AppManager } from './application-manager';
 import { Injectable } from '@angular/core';
 const axios = require('axios');

@@ -1,7 +1,26 @@
-import { DIDDocument, DIDDocumentMetadata, DIDResolutionMetadata, ServiceEndpoint } from 'did-resolver';
 import { ClientData } from './client-data';
 import { DecodedAttestion } from './decoded-attestion';
 import { User, Credential } from './user';
+
+interface ServiceEndpoint {
+  id?: string;
+  type?: string;
+  serviceEndpoint?: any;
+  [key: string]: any;
+}
+
+interface DIDDocument {
+  id?: string;
+  [key: string]: any;
+}
+
+interface DIDDocumentMetadata {
+  [key: string]: any;
+}
+
+interface DIDResolutionMetadata {
+  [key: string]: any;
+}
 
 // interfaces.ts
 interface IWords {

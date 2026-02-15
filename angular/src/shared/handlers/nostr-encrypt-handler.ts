@@ -2,7 +2,7 @@ import { BackgroundManager } from '../background-manager';
 import { ActionPrepareResult, ActionResponse, Permission } from '../interfaces';
 import { ActionHandler, ActionState } from './action-handler';
 import { SigningUtilities } from '../identity/signing-utilities';
-import { hexToBytes } from 'did-jwt';
+import * as secp from '@noble/secp256k1';
 const { getPublicKey, nip04 } = require('nostr-tools');
 const { v2 } = require('nostr-tools/nip44');
 
@@ -23,7 +23,7 @@ export class NostrEncryptHandler implements ActionHandler {
     const { network, node } = await this.backgroundManager.getKey(permission.walletId, permission.accountId, permission.keyId);
 
     // Convert private key to bytes if it's a hex string, otherwise use as-is
-    const privateKey = typeof node.privateKey === 'string' ? hexToBytes(node.privateKey) : node.privateKey;
+    const privateKey = typeof node.privateKey === 'string' ? secp.utils.hexToBytes(node.privateKey) : node.privateKey;
     const publicKeyHex = getPublicKey(privateKey);
 
     // TODO: Add support for using peer to find existing key, if available! Then read from state.content.peer.

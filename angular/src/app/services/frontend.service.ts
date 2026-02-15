@@ -10,7 +10,6 @@ import { SettingsService } from './settings.service';
 import { StateService } from './state.service';
 import { WalletManager } from './wallet-manager';
 import { DOCUMENT } from '@angular/common';
-import { DidRequestHandler } from 'src/shared/handlers/did-request-handler';
 import { SecureStateService } from './secure-state.service';
 
 @Injectable({
@@ -81,26 +80,6 @@ export class FrontendService implements OnInit {
         case 'indexed': {
           // console.log('SERVICE WORKER HAS FINISHED INDEXING!!! WE MUST RELOAD STORES!', message.data);
           await this.state.refresh();
-          return 'ok';
-        }
-        case 'did.request': {
-          const msg = message as any;
-          const handler = new DidRequestHandler(this.networkManager);
-
-          const state: any = {
-            content: msg.request.params[0].challenge,
-            message: {
-              app: msg.app
-            }
-          }
-
-          const result = await handler.execute(state, msg, this.secure);
-          let payload = JSON.stringify(result.response);
-
-          let url = msg.request.params[0].callback;
-          url = url.replace('%s', payload);
-
-          this.document.location.href = url;
           return 'ok';
         }
         case 'reload': {

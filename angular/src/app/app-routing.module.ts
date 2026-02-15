@@ -53,8 +53,6 @@ import { ActionVaultSetupComponent } from './action/vault-setup/vault-setup.comp
 import { PaymentComponent } from './account/payment/payment.component';
 import { DebuggerComponent } from './settings/debugger/debugger.component';
 import { SignComponent } from './sign/sign.component';
-import { ActionDidRequestComponent } from './action/did-request/did-request.component';
-import { ActionVcRequestComponent } from './action/vc-request/vc-request.component';
 import { ActionWalletsComponent } from './action/wallets/wallets.component';
 import { ActionNostrPublicKeyComponent } from './action/nostr.publickey/nostr.publickey.component';
 import { ActionNostrSignEventComponent } from './action/nostr.signevent/nostr.signevent.component';
@@ -415,20 +413,6 @@ const routes: Routes = [
       {
         path: 'wallets',
         component: ActionWalletsComponent,
-        resolve: {
-          data: LoadingResolverService,
-        },
-      },
-      {
-        path: 'did.request',
-        component: ActionDidRequestComponent,
-        resolve: {
-          data: LoadingResolverService,
-        },
-      },
-      {
-        path: 'vc.request',
-        component: ActionVcRequestComponent,
         resolve: {
           data: LoadingResolverService,
         },

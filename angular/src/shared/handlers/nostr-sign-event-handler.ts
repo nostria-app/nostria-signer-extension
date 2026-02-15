@@ -2,7 +2,7 @@ import { BackgroundManager } from '../background-manager';
 import { ActionPrepareResult, ActionResponse, Permission } from '../interfaces';
 import { ActionHandler, ActionState } from './action-handler';
 import { SigningUtilities } from '../identity/signing-utilities';
-import { hexToBytes } from 'did-jwt';
+import * as secp from '@noble/secp256k1';
 const { validateEvent, getEventHash, getPublicKey, finalizeEvent } = require('nostr-tools');
 
 export class NostrSignEventHandler implements ActionHandler {
@@ -26,7 +26,7 @@ export class NostrSignEventHandler implements ActionHandler {
     const event = state.content as any;
 
     // Convert private key to bytes if it's a hex string, otherwise use as-is
-    const privateKeyBytes = typeof node.privateKey === 'string' ? hexToBytes(node.privateKey) : node.privateKey;
+    const privateKeyBytes = typeof node.privateKey === 'string' ? secp.utils.hexToBytes(node.privateKey) : node.privateKey;
 
     // For nostr we'll derive the public key from private key, since we allow users to BYOK (bring your own key).
     event.pubkey = getPublicKey(privateKeyBytes);
