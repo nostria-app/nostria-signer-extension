@@ -145,6 +145,16 @@ export class ActionComponent implements OnInit {
   update() {
     if (this.actionService.permissionLevel === 'wallet') {
       const account = this.walletManager.activeAccount;
+
+      if (!account || !this.walletManager.activeWallet) {
+        this.accountState = undefined as any;
+        this.addresses = [];
+        this.keySelectionDisabled = true;
+        this.actionService.keyId = undefined;
+        this.actionService.key = undefined;
+        return;
+      }
+
       this.accountState = this.accountStateStore.get(account.identifier);
 
       const walletNode = this.walletManager.getWalletNode(this.walletManager.activeWallet);
@@ -159,6 +169,16 @@ export class ActionComponent implements OnInit {
       this.actionService.key = this.addresses[keyIndex].key;
     } else {
       const account = this.walletManager.activeAccount;
+
+      if (!account) {
+        this.accountState = undefined as any;
+        this.addresses = [];
+        this.keySelectionDisabled = true;
+        this.actionService.keyId = undefined;
+        this.actionService.key = undefined;
+        return;
+      }
+
       this.accountState = this.accountStateStore.get(account.identifier);
 
       if (account.singleAddress || account.type === 'identity') {

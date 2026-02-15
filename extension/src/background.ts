@@ -39,9 +39,40 @@ interface QueuedRequest {
   state: ActionState;
   resolve: (permission: Permission | null) => void;
   reject: (error: any) => void;
+  duplicates?: {
+    resolve: (permission: Permission | null) => void;
+    reject: (error: any) => void;
+  }[];
 }
 let requestQueue: QueuedRequest[] = [];
 let isProcessingQueue = false;
+
+function getRequestSignature(state: ActionState): string {
+  const method = state.message.request.method;
+  const app = state.message.app ?? '';
+  const params = state.message.request.params ?? [];
+  return `${app}|${method}|${JSON.stringify(params)}`;
+}
+
+function resolveQueuedRequest(request: QueuedRequest, permission: Permission | null) {
+  request.resolve(permission);
+
+  if (request.duplicates?.length) {
+    for (const duplicate of request.duplicates) {
+      duplicate.resolve(permission);
+    }
+  }
+}
+
+function rejectQueuedRequest(request: QueuedRequest, error: any) {
+  request.reject(error);
+
+  if (request.duplicates?.length) {
+    for (const duplicate of request.duplicates) {
+      duplicate.reject(error);
+    }
+  }
+}
 
 // Message handler for extension messaging
 // Use native chrome API with sendResponse for reliable async responses in MV3
@@ -72,7 +103,7 @@ chrome.runtime.onMessage.addListener((msg: ActionMessage, sender, sendResponse) 
           customActionResponse = msg.promptResponse;
         }
 
-        handlePromptMessage(msg, sender);
+        await handlePromptMessage(msg, sender);
         sendResponse({ success: true });
         return;
       } else if (msg.source == 'provider') {
@@ -300,7 +331,7 @@ async function promptUnlock(state: ActionState) {
   }
 }
 
-function handlePromptMessage(message: ActionMessage, sender: any) {
+async function handlePromptMessage(message: ActionMessage, sender: any) {
   // Create an permission instance from the message received from prompt dialog:
   const permission = permissionService.createPermission(message);
 
@@ -308,7 +339,7 @@ function handlePromptMessage(message: ActionMessage, sender: any) {
     case 'forever':
     case 'connect':
     case 'expirable':
-      permissionService.persistPermission(permission);
+      await permissionService.persistPermission(permission);
       prompt?.resolve?.(permission);
       // After granting a reusable permission, process remaining queued requests that might benefit
       processQueuedRequestsWithPermission(permission);
@@ -368,13 +399,43 @@ async function processQueuedRequestsWithPermission(grantedPermission: Permission
 
   // Resolve all matching requests with the granted permission
   for (const match of matchingRequests) {
-    match.resolve(grantedPermission);
+    resolveQueuedRequest(match, grantedPermission);
   }
+}
+
+function findExistingPermissionForState(state: ActionState): Permission | null {
+  const method = state.message.request.method;
+  const app = state.message.app;
+  const params = state.message.request.params ? state.message.request.params[0] : undefined;
+
+  if (!app) {
+    return null;
+  }
+
+  if (params?.key) {
+    return permissionService.findPermissionByKey(app, method, params.key);
+  }
+
+  const permissions = permissionService.findPermissions(app, method) as any[];
+  if (permissions?.length > 0) {
+    return permissions[0];
+  }
+
+  return null;
 }
 
 // Add a request to the queue and start processing if not already doing so
 function queuePermissionRequest(state: ActionState): Promise<Permission | null> {
   return new Promise((resolve, reject) => {
+    const signature = getRequestSignature(state);
+    const existingRequest = requestQueue.find((request) => getRequestSignature(request.state) === signature);
+
+    if (existingRequest) {
+      existingRequest.duplicates ??= [];
+      existingRequest.duplicates.push({ resolve, reject });
+      return;
+    }
+
     requestQueue.push({ state, resolve, reject });
     
     // Start processing if not already
@@ -402,25 +463,13 @@ async function processNextInQueue() {
     return;
   }
 
-  const method = nextRequest.state.message.request.method;
-  const app = nextRequest.state.message.app;
-  const params = nextRequest.state.message.request.params ? nextRequest.state.message.request.params[0] : undefined;
-
   // Re-check for existing permission
-  let existingPermission: Permission | null = null;
-  if (params?.key) {
-    existingPermission = permissionService.findPermissionByKey(app!, method, params.key);
-  } else {
-    const permissions = permissionService.findPermissions(app!, method) as any[];
-    if (permissions?.length > 0) {
-      existingPermission = permissions[0];
-    }
-  }
+  const existingPermission = findExistingPermissionForState(nextRequest.state);
 
   if (existingPermission) {
     // Permission already exists, resolve without popup
     requestQueue.shift(); // Remove from queue
-    nextRequest.resolve(existingPermission);
+    resolveQueuedRequest(nextRequest, existingPermission);
     isProcessingQueue = false;
     // Process next item in queue
     processNextInQueue();
@@ -431,10 +480,10 @@ async function processNextInQueue() {
   try {
     const permission = await showPermissionPopup(nextRequest.state);
     requestQueue.shift(); // Remove from queue after popup closes
-    nextRequest.resolve(permission);
+    resolveQueuedRequest(nextRequest, permission);
   } catch (err) {
     requestQueue.shift(); // Remove from queue
-    nextRequest.reject(err);
+    rejectQueuedRequest(nextRequest, err);
   }
 
   isProcessingQueue = false;
@@ -443,11 +492,25 @@ async function processNextInQueue() {
 
 // Queue-based prompt: adds request to queue instead of directly showing popup
 async function promptPermission(state: ActionState): Promise<Permission | null> {
+  await permissionService.refresh();
+  const existingPermission = findExistingPermissionForState(state);
+
+  if (existingPermission) {
+    return existingPermission;
+  }
+
   return queuePermissionRequest(state);
 }
 
 // Actually show the popup window for a permission request
 async function showPermissionPopup(state: ActionState): Promise<Permission> {
+  await permissionService.refresh();
+  const existingPermission = findExistingPermissionForState(state);
+
+  if (existingPermission) {
+    return existingPermission;
+  }
+
   releaseMutex = await promptMutex.acquire();
 
   var parameters: ActionUrlParameters | any = {
