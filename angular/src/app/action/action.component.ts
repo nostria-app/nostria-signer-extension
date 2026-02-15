@@ -218,6 +218,11 @@ export class ActionComponent implements OnInit {
     if (this.actionService.walletId) {
       await this.walletManager.setActiveWallet(this.actionService.walletId);
 
+      if (!this.walletManager.isUnlocked(this.actionService.walletId)) {
+        this.router.navigateByUrl('/home');
+        return;
+      }
+
       const wallet = this.walletManager.activeWallet;
 
       if (wallet?.accounts?.length > 0) {

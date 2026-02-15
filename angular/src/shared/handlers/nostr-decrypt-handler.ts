@@ -22,6 +22,10 @@ export class NostrDecryptHandler implements ActionHandler {
   async execute(state: ActionState, permission: Permission): Promise<ActionResponse> {
     const { network, node } = await this.backgroundManager.getKey(permission.walletId, permission.accountId, permission.keyId);
 
+    if (!node?.privateKey) {
+      throw new Error('Unable to access private key for Nostr decryption. Ensure the selected vault is unlocked.');
+    }
+
     // Convert private key to bytes if it's a hex string, otherwise use as-is
     const privateKey = typeof node.privateKey === 'string' ? secp.utils.hexToBytes(node.privateKey) : node.privateKey;
     const publicKeyHex = getPublicKey(privateKey);

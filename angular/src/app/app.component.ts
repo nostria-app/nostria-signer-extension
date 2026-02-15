@@ -142,6 +142,7 @@ export class AppComponent implements OnInit {
 
   async onWalletSelected(walletId: string) {
     const walletChanged = await this.walletManager.setActiveWallet(walletId);
+    const selectedWalletUnlocked = this.walletManager.isUnlocked(walletId);
 
     if (walletChanged) {
       const selectedWallet = this.walletManager.activeWallet;
@@ -154,6 +155,11 @@ export class AppComponent implements OnInit {
           await this.walletManager.setActiveAccount(fallbackAccount.identifier);
         }
       }
+    }
+
+    if (!selectedWalletUnlocked) {
+      this.router.navigateByUrl('/home');
+      return;
     }
 
     if (this.uiState.action?.action) {

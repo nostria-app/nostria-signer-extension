@@ -153,6 +153,19 @@ export class BackgroundManager {
   async getKey(walletId: string, accountId: string, keyId: string, secure: any = null) {
     await this.sharedManager.loadPrivateKeys(secure);
 
+    const wallet = await this.sharedManager.getWallet(walletId);
+    const account = this.sharedManager.getAccount(wallet, accountId);
+
+    if (!account) {
+      return { network: null, node: null };
+    }
+
+    const network = this.sharedManager.getNetwork(account.networkType);
+
+    if (account.prv) {
+      return { node: { privateKey: account.prv }, network } as any;
+    }
+
     // Get the secret seed.
     const masterSeedBase64 = this.sharedManager.getPrivateKey(walletId);
 
@@ -162,16 +175,8 @@ export class BackgroundManager {
 
     const masterSeed = Buffer.from(masterSeedBase64, 'base64');
 
-    const wallet = await this.sharedManager.getWallet(walletId);
-    const account = this.sharedManager.getAccount(wallet, accountId);
-    const network = this.sharedManager.getNetwork(account.networkType);
-
     // Create the master node.
     const masterNode = HDKey.fromMasterSeed(masterSeed, network.bip32);
-
-    if (account.prv) {
-      return { node: { privateKey: account.prv }, network } as any;
-    }
 
     var node = masterNode.derive(`m/${account.purpose}'/${account.network}'/${account.index}'/${keyId}`);
 

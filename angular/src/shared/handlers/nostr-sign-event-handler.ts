@@ -22,6 +22,10 @@ export class NostrSignEventHandler implements ActionHandler {
     // Get the private key
     const { network, node } = await this.backgroundManager.getKey(permission.walletId, permission.accountId, permission.keyId);
 
+    if (!node?.privateKey) {
+      throw new Error('Unable to access private key for Nostr signing. Ensure the selected vault is unlocked.');
+    }
+
     // There are no proper
     const event = state.content as any;
 
