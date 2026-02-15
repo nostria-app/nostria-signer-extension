@@ -16,9 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      BLOCKCORE: "blockcore"
-      COINVAULT: "coinvault"
-      FREECITY: "freecity"
+      NOSTRIA: "nostria"
 
     steps:
       - name: Checkout
@@ -38,9 +36,7 @@ jobs:
 
       - name: Package Name
         run: |
-          echo RELEASE_NAME_BLOCKCORE=${{ env.BLOCKCORE }}-${{ env.VERSION }}.zip >> $GITHUB_ENV
-          echo RELEASE_NAME_COINVAULT=${{ env.COINVAULT }}-${{ env.VERSION }}.zip >> $GITHUB_ENV
-          echo RELEASE_NAME_FREECITY=${{ env.FREECITY }}-${{ env.VERSION }}.zip >> $GITHUB_ENV
+          echo RELEASE_NAME_NOSTRIA=${{ env.NOSTRIA }}-${{ env.VERSION }}.zip >> $GITHUB_ENV
         shell: bash
 
       - name: Setup
@@ -53,54 +49,26 @@ jobs:
       # - name: Build
       #   run: npm run all
 
-      - name: Package Blockcore
+      - name: Package Nostria
         run: |
           npm run build:production
           cd dist/extension
-          zip -r ../../${{env.RELEASE_NAME_BLOCKCORE}} "./"
+          zip -r ../../${{env.RELEASE_NAME_NOSTRIA}} "./"
           cd ../../
           rm -rf  dist/extension
 
-      - name: Package CoinVault
-        run: |
-          npm run build:coinvault
-          cd dist/extension
-          zip -r ../../${{env.RELEASE_NAME_COINVAULT}} "./"
-          cd ../../
-          rm -rf dist/extension
-
-      - name: Package FreeCityWallet
-        run: |
-          npm run build:freecity
-          cd dist/extension
-          zip -r ../../${{env.RELEASE_NAME_FREECITY}} "./"
-          cd ../../
-          rm -rf  dist/extension
-
-      - name: Upload Blockcore
+      - name: Upload Nostria
         uses: actions/upload-artifact@v4
         with:
-          name: ${{env.BLOCKCORE}}-preview-${{env.VERSION}}
-          path: "${{env.RELEASE_NAME_BLOCKCORE}}"
-
-      - name: Upload CoinVault
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{env.COINVAULT}}-preview-${{env.VERSION}}
-          path: "${{env.RELEASE_NAME_COINVAULT}}"
-
-      - name: Upload FreeCityWallet
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{env.FREECITY}}-preview-${{env.VERSION}}
-          path: "${{env.RELEASE_NAME_FREECITY}}"
+          name: ${{env.NOSTRIA}}-preview-${{env.VERSION}}
+          path: "${{env.RELEASE_NAME_NOSTRIA}}"
 
       - name: Create/Update Draft Release
         uses: sondreb/action-release@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: "${{env.RELEASE_NAME_BLOCKCORE}};${{env.RELEASE_NAME_COINVAULT}};${{env.RELEASE_NAME_FREECITY}}"
+          files: "${{env.RELEASE_NAME_NOSTRIA}}"
           draft: true
           prerelease: false
-          name: "Blockcore Wallet (${{env.VERSION}})"
+          name: "Nostria (${{env.VERSION}})"
           tag: ${{env.VERSION}}
