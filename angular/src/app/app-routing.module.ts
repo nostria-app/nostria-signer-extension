@@ -41,9 +41,6 @@ import { IdentityComponent } from './account/identity/identity.component';
 import { PermissionsComponent } from './settings/permissions/permissions.component';
 import { ActionPublicKeyComponent } from './action/publickey/publickey.component';
 import { ActionComponent } from './action/action.component';
-import { ContactsComponent } from './contacts/contacts.component';
-import { ContactsCreateComponent } from './contacts/create/create.component';
-import { ContactsViewComponent } from './contacts/view/view.component';
 import { ExchangeComponent } from './exchange/exchange.component';
 import { BiometricComponent } from './settings/biometric/biometric.component';
 import { ActionSignVerifiableCredentialComponent } from './action/sign-credential/sign.component';
@@ -160,27 +157,6 @@ const routes: Routes = [
   {
     path: 'settings/permissions',
     component: PermissionsComponent,
-    resolve: {
-      data: LoadingResolverService,
-    },
-  },
-  {
-    path: 'contacts',
-    component: ContactsComponent,
-    resolve: {
-      data: LoadingResolverService,
-    },
-  },
-  {
-    path: 'contacts/create',
-    component: ContactsCreateComponent,
-    resolve: {
-      data: LoadingResolverService,
-    },
-  },
-  {
-    path: 'contacts/view/:id',
-    component: ContactsViewComponent,
     resolve: {
       data: LoadingResolverService,
     },
