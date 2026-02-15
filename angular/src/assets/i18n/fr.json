@@ -125,6 +125,11 @@
   "Wallet": {
     "CreateNewWallet": "Create New Vault",
     "RecoverWallet": "Recover Vault",
+    "ImportPrivateKey": "Importer la clé privée",
+    "ImportPrivateKeyDescription": "Importez une clé privée Nostr existante (nsec ou hex) et utilisez le signer sans créer de coffre HD.",
+    "PrivateKey": "Clé privée",
+    "Continue": "Continuer",
+    "DefaultImportedAccountName": "Clé Nostr",
     "Recover": "Utiliser une phrase de récupération secrète existante",
     "SecretRecoveryPhrase": "Phrase de récupération secrète",
     "Confirm": "OK, je l'ai enregistré",
@@ -196,6 +201,9 @@
   },
   "Account": {
     "Account": "Compte",
+    "ImportKey": "Importer une clé",
+    "ImportPrivateKey": "Importer la clé privée",
+    "KeyOnlyWalletImportOnly": "Ce coffre ne prend en charge que les clés privées importées. Utilisez l'onglet Importer une clé.",
     "Name": "Nom",
     "Icon": "Icône",
     "Network": "Réseau",

@@ -122,6 +122,11 @@
   "Wallet": {
     "CreateNewWallet": "Create New Vault",
     "RecoverWallet": "Recover Vault",
+    "ImportPrivateKey": "Εισαγωγή Ιδιωτικού Κλειδιού",
+    "ImportPrivateKeyDescription": "Εισαγάγετε ένα υπάρχον ιδιωτικό κλειδί Nostr (nsec ή hex) και χρησιμοποιήστε το signer χωρίς να δημιουργήσετε HD vault.",
+    "PrivateKey": "Ιδιωτικό Κλειδί",
+    "Continue": "Συνέχεια",
+    "DefaultImportedAccountName": "Κλειδί Nostr",
     "Recover": "Εισαγωγή Μυστικής Φράσης Ανάκτησης",
     "SecretRecoveryPhrase": "Μυστική Φράση Ανάκτησης",
     "Confirm": "Επιβεβαίωση",
@@ -193,6 +198,9 @@
   },
   "Account": {
     "Account": "Λογαριασμός",
+    "ImportKey": "Εισαγωγή Κλειδιού",
+    "ImportPrivateKey": "Εισαγωγή Ιδιωτικού Κλειδιού",
+    "KeyOnlyWalletImportOnly": "Αυτό το vault υποστηρίζει μόνο εισαγόμενα ιδιωτικά κλειδιά. Χρησιμοποιήστε την καρτέλα Εισαγωγή Κλειδιού.",
     "Name": "Όνομα",
     "Icon": "Εικονίδιο",
     "Network": "Δίκτυο",

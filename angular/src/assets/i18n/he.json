@@ -122,6 +122,11 @@
   "Wallet": {
     "CreateNew": "Create New Vault",
     "RecoverWallet": "Recover Vault",
+    "ImportPrivateKey": "ייבוא מפתח פרטי",
+    "ImportPrivateKeyDescription": "ייבא מפתח פרטי קיים של Nostr (nsec או hex) והשתמש ב-signer בלי ליצור כספת HD.",
+    "PrivateKey": "מפתח פרטי",
+    "Continue": "המשך",
+    "DefaultImportedAccountName": "מפתח Nostr",
     "Recover": "Use Existing Secret Recovery Phrase",
     "SecretRecoveryPhrase": "Secret Recovery Phrase",
     "Confirm": "אשר",
@@ -193,6 +198,9 @@
   },
   "Account": {
     "Account": "חשבון",
+    "ImportKey": "ייבוא מפתח",
+    "ImportPrivateKey": "ייבוא מפתח פרטי",
+    "KeyOnlyWalletImportOnly": "כספת זו תומכת רק במפתחות פרטיים מיובאים. השתמש בלשונית ייבוא מפתח.",
     "Name": "שם",
     "Icon": "צלמית",
     "Network": "רשת",

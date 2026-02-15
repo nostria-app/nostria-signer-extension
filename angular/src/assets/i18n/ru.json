@@ -122,6 +122,11 @@
   "Wallet": {
     "CreateNewWallet": "Create New Vault",
     "RecoverWallet": "Recover Vault",
+    "ImportPrivateKey": "Импорт приватного ключа",
+    "ImportPrivateKeyDescription": "Импортируйте существующий приватный ключ Nostr (nsec или hex) и используйте signer без создания HD-хранилища.",
+    "PrivateKey": "Приватный ключ",
+    "Continue": "Продолжить",
+    "DefaultImportedAccountName": "Ключ Nostr",
     "Recover": "Использовать существующую секретную фразу восстановления",
     "SecretRecoveryPhrase": "Секретная фраза восстановления",
     "Confirm": "OK, я сохранил это",
@@ -193,6 +198,9 @@
   },
   "Account": {
     "Account": "Аккаунт",
+    "ImportKey": "Импорт ключа",
+    "ImportPrivateKey": "Импорт приватного ключа",
+    "KeyOnlyWalletImportOnly": "Это хранилище поддерживает только импортированные приватные ключи. Используйте вкладку Импорт ключа.",
     "Name": "Имя",
     "Icon": "Иконка",
     "Network": "Сеть",

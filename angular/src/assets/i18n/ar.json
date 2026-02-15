@@ -125,6 +125,11 @@
   "Wallet": {
     "CreateNewWallet": "Create New Vault",
     "RecoverWallet": "Recover Vault",
+    "ImportPrivateKey": "استيراد المفتاح الخاص",
+    "ImportPrivateKeyDescription": "استورد مفتاح Nostr الخاص الموجود (nsec أو hex) واستخدم الموقّع دون إنشاء خزنة HD.",
+    "PrivateKey": "المفتاح الخاص",
+    "Continue": "متابعة",
+    "DefaultImportedAccountName": "مفتاح Nostr",
     "Recover": "استخدم عبارة الاسترداد الحالية",
     "SecretRecoveryPhrase": "عبارة الاسترداد السرية",
     "Confirm": "تأكيد",
@@ -197,6 +202,9 @@
   },
   "Account": {
     "Account": "الحساب",
+    "ImportKey": "استيراد مفتاح",
+    "ImportPrivateKey": "استيراد المفتاح الخاص",
+    "KeyOnlyWalletImportOnly": "هذه الخزنة تدعم فقط المفاتيح الخاصة المستوردة. استخدم تبويب استيراد المفتاح.",
     "Name": "الاسم",
     "Icon": "الأيقونة",
     "Network": "الشبكة",

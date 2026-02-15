@@ -122,6 +122,11 @@
   "Wallet": {
     "CreateNewWallet": "Create New Vault",
     "RecoverWallet": "Recover Vault",
+    "ImportPrivateKey": "Importer privat nøkkel",
+    "ImportPrivateKeyDescription": "Importer en eksisterende Nostr privat nøkkel (nsec eller hex) og bruk signeren uten å opprette et HD-hvelv.",
+    "PrivateKey": "Privat nøkkel",
+    "Continue": "Fortsett",
+    "DefaultImportedAccountName": "Nostr-nøkkel",
     "Recover": "Bruk eksisterende hemmelig gjenopprettingsfrase",
     "SecretRecoveryPhrase": "Hemmelig gjenopprettingsfrase",
     "Confirm": "OK, jeg har lagret den",
@@ -193,6 +198,9 @@
   },
   "Account": {
     "Account": "Konto",
+    "ImportKey": "Importer nøkkel",
+    "ImportPrivateKey": "Importer privat nøkkel",
+    "KeyOnlyWalletImportOnly": "Dette hvelvet støtter bare importerte private nøkler. Bruk fanen Importer nøkkel.",
     "Name": "Navn",
     "Icon": "Ikon",
     "Network": "Nettverk",

@@ -122,6 +122,11 @@
   "Wallet": {
     "RecoverWallet": "Recover Vault",
     "CreateNewWallet": "Create New Vault",
+    "ImportPrivateKey": "وارد کردن کلید خصوصی",
+    "ImportPrivateKeyDescription": "یک کلید خصوصی Nostr موجود (nsec یا hex) را وارد کنید و بدون ایجاد خزانه HD از signer استفاده کنید.",
+    "PrivateKey": "کلید خصوصی",
+    "Continue": "ادامه",
+    "DefaultImportedAccountName": "کلید Nostr",
     "Recover": "استفاده از عبارت بازیابی موجود",
     "SecretRecoveryPhrase": "عبارت بازیابی محرمانه",
     "Confirm": "تائید و ادامه",
@@ -193,6 +198,9 @@
   },
   "Account": {
     "Account": "حساب",
+    "ImportKey": "وارد کردن کلید",
+    "ImportPrivateKey": "وارد کردن کلید خصوصی",
+    "KeyOnlyWalletImportOnly": "این خزانه فقط از کلیدهای خصوصی واردشده پشتیبانی می‌کند. از تب «وارد کردن کلید» استفاده کنید.",
     "Name": "نام",
     "Icon": "نماد",
     "Network": "شبکه",
