@@ -37,7 +37,6 @@
     "Accounts": "חשבונות",
     "Vaults": "כספות",
     "Inbox": "תיבת הודעות",
-    "AddressBook": "ספר כתובות",
     "AddAccount": "הוסף חשבון",
     "AddWallet": "Add Vault",
     "Exchange": "החלפת מטבעות",
@@ -176,25 +175,6 @@
     "WipeAllDataAndCacheDescription": "זה יסיר את כל הנתונים, המצב והמטמון מההרחבה. כל השינויים המקומיים שלא נשמרו לאחסון ענן או לבלוקצ'יין, יאבדו.",
     "YesWipeData": "כן, מחק נתונים",
     "Cancel": "בטל"
-  },
-  "AddressBook": {
-    "AddressBook": "ספר כתובות",
-    "NoContacts": "לא הוזנו מכרים עדיין",
-    "GetStarted": "התחל בהזנת מכרים.",
-    "CreateContact": "הוסף מכר",
-    "AddressBookHint": "Contacts are stored locally on your device. They are not synced with any servers. If you reset your vault on this device or another device, your contacts will not be restored.",
-    "PasteAddress": "הדבק כתובת מהלוח",
-    "AddressInvalid": "כתובת אינה בפורמט חוקי.",
-    "AddressRequired": "נדרשת כתובת.",
-    "NameRequired": "נדרש שם.",
-    "Address": "כתובת",
-    "Network": "רשת",
-    "Name": "שם",
-    "Email": "דואר אלקטרוני",
-    "Create": "צור",
-    "Cancel": "בטל",
-    "SendUsingAccount": "שלח באמצעות חשבון זה",
-    "Remove": "הסר"
   },
   "Account": {
     "Account": "חשבון",

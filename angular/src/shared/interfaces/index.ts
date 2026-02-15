@@ -344,20 +344,6 @@ interface TransactionOutput {
   scriptPubKey: string;
 }
 
-interface Contact {
-  id: string;
-  name: string;
-  email: string;
-  address: string;
-  network: string;
-  // addresses: ContactAddress[];
-}
-
-interface ContactAddress {
-  address: string;
-  network: any;
-}
-
 interface Wallet {
   /** Indicates if this wallet was restored or created as new. If the wallet is restored, we will automatically scan the blockchains to data when new accounts are added. */
   restored: boolean;
@@ -761,8 +747,6 @@ export {
   ActionRequest,
   ActionResponse,
   ActionMessage,
-  Contact,
-  ContactAddress,
   ClientData,
   DecodedAttestion,
   Credential,

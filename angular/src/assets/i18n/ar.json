@@ -39,7 +39,6 @@
     "Accounts": "الحسابات",
     "Vaults": "الخزائن",
     "Inbox": "البريد الوارد",
-    "AddressBook": "دفتر العناوين",
     "AddAccount": "إضافة حساب",
     "AddWallet": "Add Vault",
     "Exchange": "التبادل (شراء/بيع)",
@@ -180,25 +179,6 @@
     "WipeAllDataAndCacheDescription": "سيتم إزالة جميع البيانات والحالة والذاكرة المؤقتة من الإضافة. ستفقد جميع التغييرات المحلية التي لم يتم حفظها في التخزين السحابي أو blockchain.",
     "YesWipeData": "نعم، امسح البيانات",
     "Cancel": "إلغاء"
-  },
-  "AddressBook": {
-    "AddressBook": "دفتر العناوين",
-    "NoContacts": "لا يوجد جهات اتصال بعد",
-    "GetStarted": "ابدأ بإضافة جهات اتصال.",
-    "CreateContact": "إنشاء جهة اتصال",
-    "AddressBookHint": "Contacts are stored locally on your device. They are not synced with any servers. If you reset your vault on this device or another device, your contacts will not be restored.",
-    "PasteAddress": "لصق العنوان من الحافظة",
-    "AddressInvalid": "العنوان غير صالح.",
-    "AddressRequired": "العنوان مطلوب.",
-    "NameRequired": "الاسم مطلوب.",
-    "Address": "العنوان",
-    "Network": "الشبكة",
-    "Name": "الاسم",
-    "Email": "البريد الإلكتروني",
-    "Create": "إنشاء",
-    "Cancel": "إلغاء",
-    "SendUsingAccount": "إرسال باستخدام هذا الحساب",
-    "Remove": "إزالة"
   },
   "Account": {
     "Account": "الحساب",

@@ -37,7 +37,6 @@
     "Accounts": "Аккаунты",
     "Vaults": "Хранилища",
     "Inbox": "Входящие",
-    "AddressBook": "Контакты",
     "AddAccount": "Добавить аккаунт",
     "AddWallet": "Add Vault",
     "Exchange": "Обмен (покупка/продажа)",
@@ -176,25 +175,6 @@
     "WipeAllDataAndCacheDescription": "Это приведет к удалению всех данных, состояния и кэша из расширения. Все локальные изменения, которые не были сохранены в облачном хранилище или блокчейне, будут потеряны.",
     "YesWipeData": "Да, стереть данные",
     "Cancel": "Отмена"
-  },
-  "AddressBook": {
-    "AddressBook": "Контакты",
-    "NoContacts": "Ещё нет контактов",
-    "GetStarted": "Начните добавлять контакты.",
-    "CreateContact": "Создать контакт",
-    "AddressBookHint": "Contacts are stored locally on your device. They are not synced with any servers. If you reset your vault on this device or another device, your contacts will not be restored.",
-    "PasteAddress": "Вставить адрес из буфера обмена",
-    "AddressInvalid": "Недопустимый формат адреса.",
-    "AddressRequired": "Необходимо указать адрес.",
-    "NameRequired": "Имя обязательно.",
-    "Address": "Адрес",
-    "Network": "Сеть",
-    "Name": "Имя",
-    "Email": "E-mail",
-    "Create": "Создать",
-    "Cancel": "Отмена",
-    "SendUsingAccount": "Отправить с этой учётной записи",
-    "Remove": "Удалить"
   },
   "Account": {
     "Account": "Аккаунт",

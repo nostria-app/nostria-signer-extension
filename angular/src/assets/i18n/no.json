@@ -37,7 +37,6 @@
     "Accounts": "Kontoer",
     "Vaults": "Hvelv",
     "Inbox": "Innboks",
-    "AddressBook": "Adressebok",
     "AddAccount": "Legg til konto",
     "AddWallet": "Add Vault",
     "Exchange": "Bytte (kjøp/selg)",
@@ -176,25 +175,6 @@
     "WipeAllDataAndCacheDescription": "Dette vil fjerne alle data, tilstander og buffer fra utvidelsen. Alle lokale endringer som ikke har blitt lagret til skyen eller blockchain, vil gå tapt.",
     "YesWipeData": "Ja, slett data",
     "Cancel": "Avbryt"
-  },
-  "AddressBook": {
-    "AddressBook": "Adressebok",
-    "NoContacts": "Ingen kontakter ennå",
-    "GetStarted": "Kom i gang ved å legge til kontakter.",
-    "CreateContact": "Opprett kontakt",
-    "AddressBookHint": "Contacts are stored locally on your device. They are not synced with any servers. If you reset your vault on this device or another device, your contacts will not be restored.",
-    "PasteAddress": "Lim inn adresse fra utklippstavlen",
-    "AddressInvalid": "Adressen har ugyldig format.",
-    "AddressRequired": "Adresse er påkrevd.",
-    "NameRequired": "Navn er påkrevd.",
-    "Address": "Adresse",
-    "Network": "Nettverk",
-    "Name": "Navn",
-    "Email": "E-post",
-    "Create": "Opprett",
-    "Cancel": "Avbryt",
-    "SendUsingAccount": "Send med denne kontoen",
-    "Remove": "Fjern"
   },
   "Account": {
     "Account": "Konto",

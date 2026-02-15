@@ -39,7 +39,6 @@
     "Accounts": "Comptes",
     "Vaults": "Coffres-forts",
     "Inbox": "Boîte de réception",
-    "AddressBook": "Carnet d'adresses",
     "AddAccount": "Ajouter un compte",
     "AddWallet": "Add Vault",
     "Exchange": "Échange (achat/vente)",
@@ -179,25 +178,6 @@
     "WipeAllDataAndCacheDescription": "Cela supprimera toutes les données, l'état et le cache de l'extension. Toutes les modifications locales qui n'ont pas été enregistrées dans le stockage cloud ou la blockchain seront perdues.",
     "YesWipeData": "Oui, supprimer les données",
     "Cancel": "Annuler"
-  },
-  "AddressBook": {
-    "AddressBook": "Carnet d'adresses",
-    "NoContacts": "Aucun contact pour le moment",
-    "GetStarted": "Commencez par ajouter des contacts.",
-    "CreateContact": "Créer un contact",
-    "AddressBookHint": "Contacts are stored locally on your device. They are not synced with any servers. If you reset your vault on this device or another device, your contacts will not be restored.",
-    "PasteAddress": "Coller l'adresse depuis le presse-papiers",
-    "AddressInvalid": "L'adresse est dans un format invalide.",
-    "AddressRequired": "L'adresse est requise.",
-    "NameRequired": "Le nom est requis.",
-    "Address": "Adresse",
-    "Network": "Réseau",
-    "Name": "Nom",
-    "Email": "E-mail",
-    "Create": "Créer",
-    "Cancel": "Annuler",
-    "SendUsingAccount": "Envoyer en utilisant ce compte",
-    "Remove": "Supprimer"
   },
   "Account": {
     "Account": "Compte",

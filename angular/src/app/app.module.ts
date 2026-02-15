@@ -92,7 +92,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ActionComponent } from './action/action.component';
 import { AppUpdateService } from './services/app-update.service';
-import { ContactStore } from 'src/shared/store/contacts-store';
 import { ExchangeComponent } from './exchange/exchange.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { StandardTokenStore } from '../shared/store/standard-token-store';
@@ -290,7 +289,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     PermissionStore,
     PermissionExecutionStore,
     AppUpdateService,
-    ContactStore,
     StandardTokenStore,
     StateStore,
     RuntimeService,

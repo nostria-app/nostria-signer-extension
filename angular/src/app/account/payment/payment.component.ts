@@ -1,15 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import Big from 'big.js';
 import { Subscription } from 'rxjs';
-import { copyToClipboard } from 'src/app/shared/utilities';
-import { Account, Contact } from 'src/shared';
+import { Account } from 'src/shared';
 import { Network } from 'src/shared/networks';
 import { PaymentRequest } from 'src/shared/payment';
-import { ContactStore } from 'src/shared/store/contacts-store';
 import { NetworksService, SendService, UIState, WalletManager } from '../../services';
 
 @Component({
@@ -19,7 +15,6 @@ import { NetworksService, SendService, UIState, WalletManager } from '../../serv
 })
 export class PaymentComponent implements OnInit, OnDestroy {
   network: Network;
-  contact: Contact;
   subscriptions: Subscription[] = [];
   filteredAccounts: Account[];
   amount: Big;
@@ -28,13 +23,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
     private paymentRequest: PaymentRequest,
     private walletManager: WalletManager,
     public sendService: SendService,
-    private snackBar: MatSnackBar,
-    private activatedRoute: ActivatedRoute,
     private router: Router,
     public uiState: UIState,
     public networkService: NetworksService,
-    private fb: FormBuilder,
-    private contactStore: ContactStore,
     public translate: TranslateService
   ) {}
 
@@ -59,16 +50,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
     var accounts = this.walletManager.activeWallet.accounts;
     this.filteredAccounts = accounts.filter((a) => a.networkType == this.network.id);
-  }
-
-  async copy(content: string) {
-    copyToClipboard(content);
-
-    this.snackBar.open(await this.translate.get('Account.CopiedToClipboard').toPromise(), await this.translate.get('Account.CopiedToClipboardAction').toPromise(), {
-      duration: 1500,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-    });
   }
 
   cancel(close: boolean) {

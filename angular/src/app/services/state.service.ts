@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ActionStore, AddressStore, NetworkStatusStore, SettingStore, TransactionStore, UIStore, WalletStore, AccountHistoryStore, AddressIndexedStore, TransactionMetadataStore } from 'src/shared';
 import { AccountStateStore } from 'src/shared/store/account-state-store';
 import { AddressWatchStore } from 'src/shared/store/address-watch-store';
-import { ContactStore } from 'src/shared/store/contacts-store';
 import { PermissionStore } from 'src/shared/store/permission-store';
 import { StandardTokenStore } from 'src/shared/store/standard-token-store';
 import { StateStore } from 'src/shared/store/state-store';
@@ -38,7 +37,6 @@ export class StateService {
     private accountStateStore: AccountStateStore,
     private permissionStore: PermissionStore,
     private stateStore: StateStore,
-    private contactStore: ContactStore,
     private tokenStore: StandardTokenStore
   ) {
     this.changedSubject = new BehaviorSubject<StateService>(this);
@@ -56,7 +54,6 @@ export class StateService {
     this.stores.push(addressIndexedStore);
     this.stores.push(accountStateStore);
     this.stores.push(permissionStore);
-    this.stores.push(contactStore);
     this.stores.push(tokenStore);
     this.stores.push(transactionMetadataStore);
   }

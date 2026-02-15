@@ -37,7 +37,6 @@
     "Accounts": "Λογαριασμοί",
     "Vaults": "Θησαυροφυλάκια",
     "Inbox": "Εισερχόμενα",
-    "AddressBook": "Βιβλίο Διευθύνσεων",
     "AddAccount": "Προσθήκη Λογαριασμού",
     "AddWallet": "Add Vault",
     "Exchange": "Ανταλλαγή (αγορά/πώληση)",
@@ -176,25 +175,6 @@
     "WipeAllDataAndCacheDescription": "Αυτό θα αφαιρέσει όλα τα δεδομένα, την κατάσταση και την προσωρινή μνήμη από την επέκταση. Όλες οι τοπικές αλλαγές που δεν έχουν αποθηκευτεί στο cloud ή στο blockchain, θα χαθούν.",
     "YesWipeData": "Ναι, διαγραφή δεδομένων",
     "Cancel": "Ακύρωση"
-  },
-  "AddressBook": {
-    "AddressBook": "Βιβλίο Διευθύνσεων",
-    "NoContacts": "Δεν υπάρχουν επαφές",
-    "GetStarted": "Ξεκινήστε προσθέτοντας επαφές.",
-    "CreateContact": "Δημιουργία Επαφής",
-    "AddressBookHint": "Contacts are stored locally on your device. They are not synced with any servers. If you reset your vault on this device or another device, your contacts will not be restored.",
-    "PasteAddress": "Επικόλληση Διεύθυνσης από το Πρόχειρο",
-    "AddressInvalid": "Η διεύθυνση δεν είναι σε έγκυρη μορφή.",
-    "AddressRequired": "Απαιτείται Διεύθυνση.",
-    "NameRequired": "Απαιτείται Όνομα.",
-    "Address": "Διεύθυνση",
-    "Network": "Δίκτυο",
-    "Name": "Όνομα",
-    "Email": "Ηλεκτρονικό Ταχυδρομείο",
-    "Create": "Δημιουργία",
-    "Cancel": "Ακύρωση",
-    "SendUsingAccount": "Αποστολή χρησιμοποιώντας αυτόν τον λογαριασμό",
-    "Remove": "Κατάργηση"
   },
   "Account": {
     "Account": "Λογαριασμός",

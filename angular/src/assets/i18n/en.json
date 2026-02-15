@@ -39,7 +39,6 @@
     "Accounts": "Accounts",
     "Vaults": "Vaults",
     "Inbox": "Inbox",
-    "AddressBook": "Address Book",
     "AddAccount": "Add Account",
     "AddWallet": "Add Vault",
     "Exchange": "Exchange (buy/sell)",
@@ -179,25 +178,6 @@
     "WipeAllDataAndCacheDescription": "This will remove all data, state, and cache from the extension. All local changes that have not been persisted to cloud storage or blockchain will be lost.",
     "YesWipeData": "Yes, wipe data",
     "Cancel": "Cancel"
-  },
-  "AddressBook": {
-    "AddressBook": "Address Book",
-    "NoContacts": "No contacts yet",
-    "GetStarted": "Get started by adding contacts.",
-    "CreateContact": "Create Contact",
-    "AddressBookHint": "Contacts are stored locally on your device. They are not synced with any servers. If you reset your wallet on this device or another device, your contacts will not be restored.",
-    "PasteAddress": "Paste address from clipboard",
-    "AddressInvalid": "Address is in invalid format.",
-    "AddressRequired": "Address is required.",
-    "NameRequired": "Name is required.",
-    "Address": "Address",
-    "Network": "Network",
-    "Name": "Name",
-    "Email": "E-mail",
-    "Create": "Create",
-    "Cancel": "Cancel",
-    "SendUsingAccount": "Send using this account",
-    "Remove": "Remove"
   },
   "Account": {
     "Account": "Account",

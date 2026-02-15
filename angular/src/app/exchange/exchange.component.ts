@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountStateStore, Contact, NetworkLoader } from 'src/shared';
-import { ContactStore } from 'src/shared/store/contacts-store';
+import { AccountStateStore, NetworkLoader } from 'src/shared';
 import { UIState, WalletManager } from '../services';
 import { ExchangeService } from '../services/exchange.service';
 
@@ -9,17 +8,13 @@ import { ExchangeService } from '../services/exchange.service';
   templateUrl: './exchange.component.html',
 })
 export class ExchangeComponent implements OnInit {
-  public contacts: Contact[];
-
-  constructor(private walletManager: WalletManager, private accountStateStore: AccountStateStore, private networkLoader: NetworkLoader, private exchange: ExchangeService, private uiState: UIState, private contactStore: ContactStore) {
+  constructor(private walletManager: WalletManager, private accountStateStore: AccountStateStore, private networkLoader: NetworkLoader, private exchange: ExchangeService, private uiState: UIState) {
     this.uiState.title = 'Exchange';
     this.uiState.showBackButton = true;
     this.uiState.goBackHome = true;
   }
 
-  async ngOnInit(): Promise<void> {
-    this.contacts = this.contactStore.all().sort((a, b) => (a.name > b.name ? 1 : -1));
-  }
+  async ngOnInit(): Promise<void> {}
 
   purchase(address: string, networkType: string) {
     const network = this.networkLoader.getNetwork(networkType);

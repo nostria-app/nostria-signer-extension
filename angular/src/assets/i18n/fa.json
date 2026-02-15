@@ -37,7 +37,6 @@
     "Accounts": "حساب‌ها",
     "Vaults": "خزانه‌ها",
     "Inbox": "صندوق ورودی",
-    "AddressBook": "دفترچه آدرس",
     "AddAccount": "افزودن حساب",
     "AddWallet": "Add Vault",
     "Exchange": "صرافی (خرید/فروش)",
@@ -176,25 +175,6 @@
     "WipeAllDataAndCacheDescription": "با این کار تمام داده‌ها و وضعیت‌ها از افزونه حذف می‌شوند. تمام تغییراتی که با سرورهای ابری یا بلاک‌چین همگام‌سازی نشده‌اند، از بین خواهند رفت.",
     "YesWipeData": "بله، داده‌ها را حذف کن",
     "Cancel": "لغو"
-  },
-  "AddressBook": {
-    "AddressBook": "دفترچه آدرس",
-    "NoContacts": "هیچ مخاطبی وجود ندارد",
-    "GetStarted": "با افزودن مخاطبین شروع کنید.",
-    "CreateContact": "ایجاد مخاطب",
-    "AddressBookHint": "Contacts are stored locally on your device. They are not synced with any servers. If you reset your vault on this device or another device, your contacts will not be restored.",
-    "PasteAddress": "آدرس را از حافظه موقت جای‌گذاری کنید",
-    "AddressInvalid": "فرمت آدرس اشتباه است",
-    "AddressRequired": "آدرس ضروری است",
-    "NameRequired": "نام ضروری است",
-    "Address": "آدرس",
-    "Network": "شبکه",
-    "Name": "نام",
-    "Email": "ایمیل",
-    "Create": "ایجاد",
-    "Cancel": "لغو",
-    "SendUsingAccount": "ارسال با استفاده از این حساب",
-    "Remove": "حذف"
   },
   "Account": {
     "Account": "حساب",
