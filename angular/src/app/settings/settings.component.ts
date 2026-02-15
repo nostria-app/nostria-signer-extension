@@ -17,6 +17,10 @@ export class SettingsComponent {
   themeColor: 'primary' | 'accent' | 'warn' = 'accent';
   isDark = false;
 
+  get showSecretRecoveryPhrase(): boolean {
+    return this.walletManager.activeWallet?.keyOnly !== true;
+  }
+
   constructor(
     public uiState: UIState,
     public translate: TranslateService,

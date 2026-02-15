@@ -13,6 +13,7 @@ import { DisableRightClickService } from './services/disable-right-click.service
 import { MessageService } from 'src/shared';
 import { Database } from 'src/shared/store/storage';
 import * as browser from 'webextension-polyfill';
+import { Account } from '../shared/interfaces';
 
 @Component({
   selector: 'app-root',
@@ -137,5 +138,13 @@ export class AppComponent implements OnInit {
 
   async onAccountChanged(accountId: string) {
     await this.walletManager.setActiveAccount(accountId);
+  }
+
+  getAccountLink(account: Account) {
+    if (account.type === 'identity' && account.networkType === 'NOSTR') {
+      return ['/', 'account', 'identity', account.identifier];
+    }
+
+    return ['/', 'account', 'view', account.identifier];
   }
 }

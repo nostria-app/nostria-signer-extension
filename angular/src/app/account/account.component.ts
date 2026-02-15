@@ -78,6 +78,12 @@ export class AccountComponent implements OnInit, OnDestroy {
         }
 
         await this.walletManager.setActiveAccount(accountIdentifier);
+
+        const activeAccount = this.walletManager.activeAccount;
+        if (activeAccount && (activeAccount.type === 'identity' || activeAccount.networkType === 'NOSTR')) {
+          this.router.navigateByUrl('/account/identity/' + activeAccount.identifier);
+          return;
+        }
       })
     );
   }

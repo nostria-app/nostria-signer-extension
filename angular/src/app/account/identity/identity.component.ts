@@ -94,28 +94,42 @@ export class IdentityComponent implements OnInit, OnDestroy {
 
       await this.walletManager.setActiveAccount(accountIdentifier);
 
-      const accountTranslate = await this.translate.get('Account.Account').toPromise();
-      this.uiState.title = accountTranslate + ': ' + this.walletManager.activeAccount?.name;
+      const activeAccount = this.walletManager.activeAccount;
 
-      this.network = this.walletManager.getNetwork(this.walletManager.activeAccount.networkType);
-      const accountState = this.accountStateStore.get(this.walletManager.activeAccount.identifier);
+      if (!activeAccount) {
+        return;
+      }
+
+      const accountTranslate = await this.translate.get('Account.Account').toPromise();
+      this.uiState.title = accountTranslate + ': ' + activeAccount.name;
+
+      this.network = this.walletManager.getNetwork(activeAccount.networkType);
+
+      // Decide view mode up-front. Nostr identities must always render the Nostr (npub/QR/private key export) view.
+      this.isDid = !(activeAccount.networkType === 'NOSTR' || this.network?.bech32 === 'npub');
+
+      const accountState = this.accountStateStore.get(activeAccount.identifier);
 
       // The very first receive address is the actual identity of the account.
-      let address = accountState.receive[0];
+      const address = accountState?.receive?.[0];
 
       const tools = new NostriaIdentityTools();
-      const identityNode = this.identityService.getIdentityNode(this.walletManager.activeWallet, this.walletManager.activeAccount);
+      const identityNode = this.identityService.getIdentityNode(this.walletManager.activeWallet, activeAccount);
 
-      if (!this.walletManager.activeAccount.prv) {
+      if (!activeAccount.prv) {
         const verificationMethod = tools.getVerificationMethod(identityNode.publicKey, 0, this.network.symbol);
         const identity = new NostriaIdentity(verificationMethod);
         this.identifier = identity.did;
         this.readableId = identity.short;
       }
 
-      if (this.network.bech32 === 'npub') {
-        this.isDid = false;
-        this.identifier = this.utility.getNostrIdentifier(address.address);
+      if (!this.isDid) {
+        // Prefer account state address, but fall back to current identity node key if state is missing.
+        if (address?.address) {
+          this.identifier = this.utility.getNostrIdentifier(address.address);
+        } else {
+          this.identifier = this.cryptoUtility.convertToBech32(identityNode.publicKey, 'npub');
+        }
 
         // For backwards compatibility, we might need to derive the address again and update the store.
         // TODO: Delete this in the future!

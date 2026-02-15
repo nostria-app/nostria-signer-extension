@@ -102,7 +102,7 @@
       <div mat-line>Export Private Key</div>
     </a> -->
 
-    <a mat-list-item [routerLink]="['export-recovery-phrase']">
+    <a *ngIf="showSecretRecoveryPhrase" mat-list-item [routerLink]="['export-recovery-phrase']">
       <mat-icon mat-list-icon>key</mat-icon>
       <div mat-line>{{ 'Settings.ShowSecretRecoveryPhrase' | translate }}</div>
     </a>

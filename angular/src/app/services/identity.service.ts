@@ -49,25 +49,33 @@ export class IdentityService {
   public getIdentityNode(wallet: Wallet, account: Account) {
     const network = this.getNetwork(account.networkType);
 
-    // Get the secret seed.
-    const masterSeedBase64 = this.secure.get(wallet.id);
-    const masterSeed = Buffer.from(masterSeedBase64, 'base64');
-
-    // Create the master node.
-    const masterNode = HDKey.fromMasterSeed(masterSeed, network.bip32);
-
-    // Get the master seed above even though we're accessing an persisted private key, namely because we want to ensure
-    // that the wallet is unlocked for this API call to succeed.
+    // For imported key accounts (BYOK), never derive from HD seed.
     if (account.prv) {
       let addressNode = {
         privateKey: this.utilities.hexToArray(account.prv),
         publicKey: this.utilities.hexToArray(getPublicKey(account.prv)),
       };
       return addressNode;
-    } else {
-      let addressNode = masterNode.derive(`m/${account.purpose}'/${account.network}'/${account.index}'/0/0`);
-      return addressNode;
     }
+
+    // Get the secret seed.
+    const masterSeedBase64 = this.secure.get(wallet.id);
+
+    if (!masterSeedBase64) {
+      throw new Error('Wallet is locked or missing HD seed.');
+    }
+
+    const masterSeed = Buffer.from(masterSeedBase64, 'base64');
+
+    if (masterSeed.length === 0) {
+      throw new Error('Wallet does not contain a valid HD seed.');
+    }
+
+    // Create the master node.
+    const masterNode = HDKey.fromMasterSeed(masterSeed, network.bip32);
+
+    let addressNode = masterNode.derive(`m/${account.purpose}'/${account.network}'/${account.index}'/0/0`);
+    return addressNode;
   }
 
   async createIdentityDocument(privateKey: Uint8Array, services?: ServiceEndpoint[]) {
