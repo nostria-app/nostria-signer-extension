@@ -141,13 +141,7 @@ export class BackgroundManager {
   async isKeyUnlocked(walletId: string) {
     await this.sharedManager.loadPrivateKeys();
 
-    const masterSeedBase64 = this.sharedManager.getPrivateKey(walletId);
-
-    if (!masterSeedBase64) {
-      return false;
-    }
-
-    return true;
+    return this.sharedManager.unlocked(walletId);
   }
 
   async getKey(walletId: string, accountId: string, keyId: string, secure: any = null) {
