@@ -140,6 +140,30 @@ export class AppComponent implements OnInit {
     await this.walletManager.setActiveAccount(accountId);
   }
 
+  async onWalletSelected(walletId: string) {
+    const walletChanged = await this.walletManager.setActiveWallet(walletId);
+
+    if (walletChanged) {
+      const selectedWallet = this.walletManager.activeWallet;
+
+      if (selectedWallet?.accounts?.length > 0) {
+        const identityAccount = selectedWallet.accounts.find((account) => account.type === 'identity' && account.networkType === 'NOSTR');
+        const fallbackAccount = identityAccount ?? selectedWallet.accounts[0];
+
+        if (fallbackAccount) {
+          await this.walletManager.setActiveAccount(fallbackAccount.identifier);
+        }
+      }
+    }
+
+    if (this.uiState.action?.action) {
+      this.router.navigate(['action', this.uiState.action.action]);
+      return;
+    }
+
+    this.router.navigate(['/dashboard', walletId]);
+  }
+
   getAccountLink(account: Account) {
     if (account.type === 'identity' && account.networkType === 'NOSTR') {
       return ['/', 'account', 'identity', account.identifier];

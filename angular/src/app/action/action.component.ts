@@ -217,6 +217,17 @@ export class ActionComponent implements OnInit {
 
     if (this.actionService.walletId) {
       await this.walletManager.setActiveWallet(this.actionService.walletId);
+
+      const wallet = this.walletManager.activeWallet;
+
+      if (wallet?.accounts?.length > 0) {
+        const identityAccount = wallet.accounts.find((account) => account.type === 'identity' && account.networkType === 'NOSTR');
+        const fallbackAccount = identityAccount ?? wallet.accounts[0];
+
+        if (fallbackAccount) {
+          await this.walletManager.setActiveAccount(fallbackAccount.identifier);
+        }
+      }
     }
 
     // this.selectedNetwork = this.networkService.getNetwork(this.network);
