@@ -28,3 +28,88 @@ textarea {
 .input-button {
   right: 0px;
 }
+
+.final-step {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.final-step__hero {
+  margin: 0 0 20px 0;
+  padding: 20px 16px 14px 16px;
+  text-align: center;
+}
+
+.final-step__hero-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.final-step__hero-icon .mat-icon {
+  font-size: 44px;
+  width: 44px;
+  height: 44px;
+}
+
+.final-step__hero-subtitle {
+  margin-top: 10px;
+}
+
+.final-step__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.final-step__card {
+  margin: 0;
+  padding: 10px 8px;
+}
+
+.final-step__card h2 {
+  margin: 0;
+  font-size: 1.35em;
+}
+
+.final-step__heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.final-step__card p,
+.final-step__list li {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.final-step__list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.final-step__emphasis {
+  font-weight: 600;
+}
+
+.final-step__disclaimer {
+  opacity: 0.9;
+}
+
+.final-step__policy {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.final-step__actions {
+  margin-top: 20px;
+}
+
+@media (min-width: 760px) {
+  .final-step__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

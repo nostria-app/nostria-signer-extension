@@ -149,20 +149,42 @@
     </form>
   </div>
 
-  <div *ngIf="step == 3">
-    <h1>{{ "Wallet.AllDone" | translate }}</h1>
-    <p>{{ "Wallet.AllDoneDescription" | translate }}</p>
-    <br /><br />
-    <h2>{{ "Wallet.ProtectYourWallet" | translate }}</h2>
-    <p>{{ "Wallet.ProtectYourWalletP1" | translate }}</p>
-    <p>{{ "Wallet.ProtectYourWalletP2" | translate }}</p>
-    <p>
-      {{ "Wallet.ProtectYourWalletP3L1" | translate }}<br />
-      {{ "Wallet.ProtectYourWalletP3L2" | translate }}<br />
-    </p>
-    <a href="https://www.nostria.app/policy" target="_blank">{{ "Wallet.PrivacyPolicy" | translate }}</a>
-    <div>
-      <br /><br /><br />
+  <div *ngIf="step == 3" class="final-step">
+    <mat-card class="final-step__hero" [class.mat-elevation-z6]="true">
+      <div class="final-step__hero-icon">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+      <h1>{{ "Wallet.AllDone" | translate }}</h1>
+      <p class="final-step__hero-subtitle">{{ "Wallet.AllDoneDescription" | translate }}</p>
+    </mat-card>
+
+    <div class="final-step__grid">
+      <mat-card class="final-step__card" [class.mat-elevation-z4]="true">
+        <div class="final-step__heading">
+          <mat-icon>security</mat-icon>
+          <h2>{{ "Wallet.ProtectYourWallet" | translate }}</h2>
+        </div>
+
+        <ul class="final-step__list">
+          <li>{{ "Wallet.ProtectYourWalletP1" | translate }}</li>
+          <li>{{ "Wallet.ProtectYourWalletP2" | translate }}</li>
+          <li class="final-step__emphasis">{{ "Wallet.ProtectYourWalletP3L1" | translate }}</li>
+          <li>{{ "Wallet.ProtectYourWalletP3L2" | translate }}</li>
+        </ul>
+      </mat-card>
+
+      <mat-card class="final-step__card" [class.mat-elevation-z4]="true">
+        <div class="final-step__heading">
+          <mat-icon>info</mat-icon>
+          <h2>{{ "Settings.Information" | translate }}</h2>
+        </div>
+
+        <p class="final-step__disclaimer">{{ "Wallet.Disclaimer" | translate }}</p>
+        <a class="final-step__policy" href="https://www.nostria.app/policy" target="_blank" rel="noopener">{{ "Wallet.PrivacyPolicy" | translate }}</a>
+      </mat-card>
+    </div>
+
+    <div class="final-step__actions">
       <button class="signup-button" mat-flat-button color="primary" routerLink="/">{{ "Wallet.GotIt" | translate }}</button>
     </div>
   </div>
