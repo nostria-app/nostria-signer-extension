@@ -39,6 +39,7 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
   privateKeyImport: string;
   more = false;
   color: string = '#5f9ea0';
+  keyOnlyWallet = false;
 
   private normalizeColor(value?: string) {
     return /^#[0-9a-fA-F]{6}$/.test(value || '') ? (value as string) : '#5f9ea0';
@@ -74,6 +75,7 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.uiState.title = await this.translate.get('Account.CreateAccount').toPromise();
+    this.keyOnlyWallet = this.walletManager.activeWallet?.keyOnly === true;
 
     this.firstFormGroup = this._formBuilder.group({
       // firstCtrl: ['', Validators.required]
@@ -203,6 +205,15 @@ export class AccountCreateComponent implements OnInit, OnDestroy {
   }
 
   async create() {
+    if (this.keyOnlyWallet) {
+      this.snackBar.open(await this.translate.get('Account.KeyOnlyWalletImportOnly').toPromise(), await this.translate.get('Settings.Close').toPromise(), {
+        duration: 8000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+      });
+      return;
+    }
+
     const splittedPathReplaced = this.derivationPath.replaceAll(`'`, ``).split('/');
 
     const parsedPurpose = Number(splittedPathReplaced[1]);

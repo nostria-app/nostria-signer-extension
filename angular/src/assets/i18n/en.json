@@ -125,6 +125,11 @@
   "Wallet": {
     "CreateNewWallet": "Create New Vault",
     "RecoverWallet": "Recover Vault",
+    "ImportPrivateKey": "Import Private Key",
+    "ImportPrivateKeyDescription": "Import an existing Nostr private key (nsec or hex) and use signer without creating an HD vault.",
+    "PrivateKey": "Private Key",
+    "Continue": "Continue",
+    "DefaultImportedAccountName": "Nostr Key",
     "Recover": "Use Existing Secret Recovery Phrase",
     "SecretRecoveryPhrase": "Secret Recovery Phrase",
     "Confirm": "OK, I have saved it",
@@ -196,6 +201,9 @@
   },
   "Account": {
     "Account": "Account",
+    "ImportKey": "Import Key",
+    "ImportPrivateKey": "Import Private Key",
+    "KeyOnlyWalletImportOnly": "This wallet only supports imported private keys. Use the Import Key tab.",
     "Name": "Name",
     "Icon": "Icon",
     "Network": "Network",

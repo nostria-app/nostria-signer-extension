@@ -1,6 +1,6 @@
 <div class="page-small-top">
   <mat-tab-group class="account-tabs">
-    <mat-tab>
+    <mat-tab *ngIf="!keyOnlyWallet">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">calendar_today</mat-icon>
         <span>&nbsp;Account Setup</span>
@@ -98,7 +98,7 @@
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">calendar_today</mat-icon>
-        <span>&nbsp;Import Key</span>
+        <span>&nbsp;{{ (keyOnlyWallet ? 'Account.ImportPrivateKey' : 'Account.ImportKey') | translate }}</span>
       </ng-template>
 
       <div class="page">

@@ -7,6 +7,9 @@ import { map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { nip19 } from 'nostr-tools';
+import * as secp from '@noble/secp256k1';
+import { Account } from '../../../shared/interfaces';
 const { v4: uuidv4 } = require('uuid');
 
 @Component({
@@ -28,6 +31,7 @@ export class WalletCreateComponent implements OnInit {
   wordlist: string;
   optionsOpen = false;
   extensionWords = '';
+  importMode = false;
 
   get passwordValidated(): boolean {
     return this.password === this.password2 && this.secondFormGroup.valid;
@@ -94,6 +98,7 @@ export class WalletCreateComponent implements OnInit {
   create() {
     this.next(1);
     this.recover = false;
+    this.importMode = false;
     this.generate();
 
     this.firstFormGroup = this.fb.group({
@@ -115,9 +120,21 @@ export class WalletCreateComponent implements OnInit {
   restore() {
     this.step = 1;
     this.recover = true;
+    this.importMode = false;
     this.firstFormGroup = this.fb.group({
       extensionWordsCtrl: [''],
       firstCtrl: [null, [Validators.required], [WalletCreateComponent.validateMnemonic(this.crypto)]],
+    });
+  }
+
+  importKeyOnly() {
+    this.step = 1;
+    this.recover = false;
+    this.importMode = true;
+    this.firstFormGroup = this.fb.group({
+      extensionWordsCtrl: [''],
+      privateKeyCtrl: [null, [Validators.required]],
+      importAccountNameCtrl: [this.translate.instant('Wallet.DefaultImportedAccountName')],
     });
   }
 
@@ -136,7 +153,8 @@ export class WalletCreateComponent implements OnInit {
   }
 
   async save() {
-    let recoveryPhraseCipher = await this.crypto.encryptData(this.mnemonic, this.password);
+    const mnemonicToEncrypt = this.importMode ? '' : this.mnemonic;
+    let recoveryPhraseCipher = await this.crypto.encryptData(mnemonicToEncrypt, this.password);
     let extensionWordsCipher = undefined;
 
     if (this.extensionWords != null && this.extensionWords != '') {
@@ -157,6 +175,7 @@ export class WalletCreateComponent implements OnInit {
       var wallet: Wallet = {
         biometrics: biometrics,
         restored: this.recover,
+        keyOnly: this.importMode,
         id: id,
         name: walletName,
         mnemonic: recoveryPhraseCipher,
@@ -172,7 +191,35 @@ export class WalletCreateComponent implements OnInit {
         throw new Error('Unable to unlock newly created vault.');
       }
 
-      await this.walletManager.ensureNostrIdentityAccount(wallet);
+      if (this.importMode) {
+        let importedPrivateKey = this.firstFormGroup.controls['privateKeyCtrl']?.value?.trim();
+        const importedAccountName = this.firstFormGroup.controls['importAccountNameCtrl']?.value?.trim() || this.translate.instant('Wallet.DefaultImportedAccountName');
+
+        if (importedPrivateKey.startsWith('nsec')) {
+          const decoded = nip19.decode(importedPrivateKey);
+          importedPrivateKey = secp.utils.bytesToHex(decoded.data as Uint8Array);
+        }
+
+        const account: Account = {
+          prv: importedPrivateKey,
+          identifier: uuidv4(),
+          type: 'identity',
+          mode: 'normal',
+          singleAddress: true,
+          networkType: 'NOSTR',
+          name: importedAccountName,
+          index: -1,
+          network: 1237,
+          purpose: 44,
+          purposeAddress: 340,
+          icon: 'account_circle',
+          color: undefined,
+        };
+
+        await this.walletManager.addAccount(account, wallet, false);
+      } else {
+        await this.walletManager.ensureNostrIdentityAccount(wallet);
+      }
 
       // Save the newly added wallet.
       await this.walletManager.save();

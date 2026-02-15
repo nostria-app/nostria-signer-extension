@@ -11,13 +11,15 @@
     <button class="signup-button" mat-flat-button color="primary" (click)="create()">{{ "Wallet.CreateWallet" | translate }}</button>
     <br />
     <button class="signup-button" mat-flat-button (click)="restore()">{{ "Wallet.RecoverWallet" | translate }}</button>
+    <br />
+    <button class="signup-button" mat-flat-button (click)="importKeyOnly()">{{ "Wallet.ImportPrivateKey" | translate }}</button>
     <br /><br />
     <br />
     <!-- <div class="sub-title">{{ "App.Version" | translate }} {{ uiState.manifest?.version }}</div> -->
 
     <div class="sub-title">{{ "Wallet.Disclaimer" | translate }}
       <br><br>
-      <a href="https://www.blockcore.net/policy" target="_blank">{{ "Wallet.PrivacyPolicy" | translate }}</a>
+      <a href="https://www.nostria.app/policy" target="_blank">{{ "Wallet.PrivacyPolicy" | translate }}</a>
       <!-- <br /><br /><br />
       <div>{{ "App.Version" | translate }} {{ uiState.manifest?.version }}</div> -->
     </div>
@@ -46,19 +48,21 @@
             <mat-step [stepControl]="firstFormGroup" [editable]="false"> -->
     <form [formGroup]="firstFormGroup">
 
-      <h1 *ngIf="!recover">{{ "Wallet.CreateWallet" | translate }}</h1>
+      <h1 *ngIf="!recover && !importMode">{{ "Wallet.CreateWallet" | translate }}</h1>
 
       <h1 *ngIf="recover">{{ "Wallet.RecoverWallet" | translate }}</h1>
+      <h1 *ngIf="importMode">{{ "Wallet.ImportPrivateKey" | translate }}</h1>
 
-      <p *ngIf="!recover">{{ "Wallet.CreateWalletDescription" | translate }}
+      <p *ngIf="!recover && !importMode">{{ "Wallet.CreateWalletDescription" | translate }}
         <br />
         <strong>{{ "Wallet.NeverShareIt" | translate }}</strong>
       </p>
 
       <p *ngIf="recover">{{ "Wallet.RecoverWalletDescription" | translate }}</p>
       <p class="mat-caption"*ngIf="recover">{{ "Wallet.RecoverWalletNote" | translate }}</p>
+      <p *ngIf="importMode">{{ "Wallet.ImportPrivateKeyDescription" | translate }}</p>
 
-      <mat-card dir="ltr" *ngIf="!recover" class="recovery-phrase selectable" [class.mat-elevation-z8]="true">{{ mnemonic }}
+      <mat-card dir="ltr" *ngIf="!recover && !importMode" class="recovery-phrase selectable" [class.mat-elevation-z8]="true">{{ mnemonic }}
         <button class="copy-button" mat-icon-button (click)="copy()">
           <mat-icon>content_copy</mat-icon>
         </button>
@@ -69,12 +73,22 @@
         <textarea matInput [(ngModel)]="mnemonic" formControlName="firstCtrl" required></textarea>
       </mat-form-field>
 
+      <mat-form-field *ngIf="importMode" class="input-full-width" appearance="outline">
+        <mat-label>{{ "Wallet.PrivateKey" | translate }}</mat-label>
+        <input matInput type="password" formControlName="privateKeyCtrl" required />
+      </mat-form-field>
+
+      <mat-form-field *ngIf="importMode" class="input-full-width" appearance="outline">
+        <mat-label>{{ "Account.AccountName" | translate }}</mat-label>
+        <input matInput formControlName="importAccountNameCtrl" />
+      </mat-form-field>
+
       <br />
 
-      <button class="full-width" (click)="toggleOptions()" mat-raised-button>{{ "Wallet.Options" | translate }}...</button>
+      <button *ngIf="!importMode" class="full-width" (click)="toggleOptions()" mat-raised-button>{{ "Wallet.Options" | translate }}...</button>
       <br />
 
-      <div *ngIf="optionsOpen">
+      <div *ngIf="optionsOpen && !importMode">
         <mat-form-field class="input-full-width" appearance="outline">
           <mat-label>{{ "Wallet.Language" | translate }}</mat-label>
           <mat-select (selectionChange)="onLanguageChanged($event)" [(value)]="wordlist">
@@ -92,8 +106,9 @@
 
       <div>
         <br />
-        <button *ngIf="!recover" class="signup-button" mat-flat-button color="primary" (click)="next(2)">{{ "Wallet.Confirm" | translate }}</button>
+        <button *ngIf="!recover && !importMode" class="signup-button" mat-flat-button color="primary" (click)="next(2)">{{ "Wallet.Confirm" | translate }}</button>
         <button *ngIf="recover" class="signup-button" mat-flat-button color="primary" (click)="next(2)" [disabled]="!firstFormGroup.valid">{{ "Wallet.RecoverWallet" | translate }}</button>
+        <button *ngIf="importMode" class="signup-button" mat-flat-button color="primary" (click)="next(2)" [disabled]="!firstFormGroup.valid">{{ "Wallet.Continue" | translate }}</button>
         <button class="signup-button" mat-stroked-button (click)="cancel()">{{ "App.Cancel" | translate }}</button>
       </div>
     </form>
@@ -145,7 +160,7 @@
       {{ "Wallet.ProtectYourWalletP3L1" | translate }}<br />
       {{ "Wallet.ProtectYourWalletP3L2" | translate }}<br />
     </p>
-    <a href="https://www.blockcore.net/policy" target="_blank">{{ "Wallet.PrivacyPolicy" | translate }}</a>
+    <a href="https://www.nostria.app/policy" target="_blank">{{ "Wallet.PrivacyPolicy" | translate }}</a>
     <div>
       <br /><br /><br />
       <button class="signup-button" mat-flat-button color="primary" routerLink="/">{{ "Wallet.GotIt" | translate }}</button>

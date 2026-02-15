@@ -443,13 +443,18 @@ export class WalletManager {
       }
     }
 
-    if (unlockedMnemonic) {
+    if (unlockedMnemonic !== null) {
       // From the secret receovery phrase, the master seed is derived.
       // Learn more about the HD keys: https://raw.githubusercontent.com/bitcoin/bips/master/bip-0032/derivation.png
-      const masterSeed = mnemonicToSeedSync(unlockedMnemonic, unlockedExtensionWords);
+      if (unlockedMnemonic !== '') {
+        const masterSeed = mnemonicToSeedSync(unlockedMnemonic, unlockedExtensionWords);
 
-      // Store the decrypted master seed in session state.
-      await this.secure.set(walletId, Buffer.from(masterSeed).toString('base64'));
+        // Store the decrypted master seed in session state.
+        await this.secure.set(walletId, Buffer.from(masterSeed).toString('base64'));
+      } else {
+        // Key-only wallets don't have a mnemonic-derived seed, but should still be treated as unlocked.
+        await this.secure.set(walletId, '');
+      }
 
       await this.setActiveWallet(wallet.id);
 
@@ -468,7 +473,7 @@ export class WalletManager {
     }
 
     const unlockedMnemonic = await this.cryptoService.decryptData(wallet.mnemonic, password);
-    return unlockedMnemonic != null && unlockedMnemonic != '';
+    return unlockedMnemonic != null;
   }
 
   /** Cange the wallet password in one operation. */
@@ -488,17 +493,22 @@ export class WalletManager {
       unlockedExtensionWords = await this.cryptoService.decryptData(wallet.extensionWords, oldpassword);
     }
 
-    if (unlockedMnemonic) {
+    if (unlockedMnemonic !== null) {
       // Encrypt the recovery phrase with new password and persist.
       wallet.mnemonic = await this.cryptoService.encryptData(unlockedMnemonic, newpassword);
 
       // Make sure we persist the newly encrypted recovery phrase.
       await this.store.save();
 
-      const masterSeed = mnemonicToSeedSync(unlockedMnemonic, unlockedExtensionWords);
+      if (unlockedMnemonic !== '') {
+        const masterSeed = mnemonicToSeedSync(unlockedMnemonic, unlockedExtensionWords);
 
-      // Store the decrypted master seed in session state.
-      await this.secure.set(walletId, Buffer.from(masterSeed).toString('base64'));
+        // Store the decrypted master seed in session state.
+        await this.secure.set(walletId, Buffer.from(masterSeed).toString('base64'));
+      } else {
+        // Key-only wallets don't have a mnemonic-derived seed, but should still be treated as unlocked.
+        await this.secure.set(walletId, '');
+      }
 
       return true;
     } else {
@@ -921,6 +931,10 @@ export class WalletManager {
   async ensureNostrIdentityAccount(wallet: Wallet) {
     if (!wallet) {
       throw new Error('Wallet is required.');
+    }
+
+    if (wallet.keyOnly) {
+      return;
     }
 
     if (wallet.accounts?.some((account) => account.networkType === 'NOSTR')) {

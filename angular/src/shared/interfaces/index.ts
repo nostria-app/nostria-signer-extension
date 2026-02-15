@@ -362,6 +362,8 @@ interface ContactAddress {
 interface Wallet {
   /** Indicates if this wallet was restored or created as new. If the wallet is restored, we will automatically scan the blockchains to data when new accounts are added. */
   restored: boolean;
+  /** Indicates this wallet does not have an HD mnemonic and is intended for imported private keys only. */
+  keyOnly?: boolean;
   id: string;
   name: string;
   // network: string;
