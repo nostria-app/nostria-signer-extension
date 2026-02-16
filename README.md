@@ -72,6 +72,14 @@ To install the extension, follow the instructions here: https://docs.microsoft.c
 
 Choose the `nostria-signer\dist\extension` folder when picking folder for extension to load from.
 
+## Wallet Migration on Updates
+
+When this extension is shipped as an update to the same Chrome Web Store listing (same extension ID), existing user wallets and settings are preserved automatically.
+
+On startup, the storage layer also attempts legacy key migration from older database names into the current database without overwriting existing keys.
+
+If you publish as a new Chrome Web Store item (different extension ID), browser storage isolation applies and automatic wallet transfer is not possible.
+
 ## Update Allow/Deny lists
 
 The `lists` is a git submodule and to update to latest:

@@ -284,9 +284,11 @@ export class Storage {
     }
 
     private async migrateLegacyDatabasesIfNeeded() {
-        if (await this.hasData('bucket')) {
+        if (!this.db.objectStoreNames.contains('bucket')) {
             return;
         }
+
+        const existingKeys = await this.getExistingBucketKeys();
 
         const legacyDatabases = await this.getExistingLegacyDatabases();
 
@@ -305,11 +307,23 @@ export class Storage {
                 const items = await legacyDb.getAll('bucket');
 
                 if (items?.length > 0) {
+                    let migratedEntries = 0;
+
                     for (let j = 0; j < items.length; j++) {
-                        await this.db.put('bucket', items[j]);
+                        const item = items[j];
+
+                        if (!item || !item.id || existingKeys.has(item.id)) {
+                            continue;
+                        }
+
+                        await this.db.put('bucket', item);
+                        existingKeys.add(item.id);
+                        migratedEntries++;
                     }
 
-                    console.log(`Migrated ${items.length} entries from legacy database \"${legacyName}\" to \"${this.name}\".`);
+                    if (migratedEntries > 0) {
+                        console.log(`Migrated ${migratedEntries} entries from legacy database \"${legacyName}\" to \"${this.name}\".`);
+                    }
                 }
             } catch (error) {
                 console.warn(`Failed migration from legacy database \"${legacyName}\".`, error);
@@ -318,10 +332,15 @@ export class Storage {
                     legacyDb.close();
                 }
             }
+        }
+    }
 
-            if (await this.hasData('bucket')) {
-                break;
-            }
+    private async getExistingBucketKeys(): Promise<Set<string>> {
+        try {
+            const keys = await this.db.getAllKeys('bucket');
+            return new Set(keys.map((key) => `${key}`));
+        } catch {
+            return new Set<string>();
         }
     }
 

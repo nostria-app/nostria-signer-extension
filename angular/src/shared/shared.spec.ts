@@ -16,7 +16,7 @@ import { Wallet } from './interfaces';
 import { AccountHistoryStore, SettingStore } from './store';
 import { AddressStore } from './store/address-store';
 import { NetworkLoader } from './network-loader';
-import { Database } from './store/storage';
+import { Database, Storage } from './store/storage';
 
 describe('SharedTests', () => {
   beforeEach(async () => {
@@ -122,6 +122,45 @@ describe('SharedTests', () => {
     // Get again from the wallet store, this should just be by-reference:
     const wallets3 = walletStore.getWallets();
     expect(wallets3[0].name).toBe('Wallet2');
+  });
+
+  it('Migrates missing keys from legacy database without overwriting existing keys', async () => {
+    const runId = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    const targetName = `nostria-migration-target-${runId}`;
+    const legacyName = `nostria-migration-legacy-${runId}`;
+
+    const legacyStorage = new Storage(legacyName);
+    const targetStorage = new Storage(targetName, [legacyName]);
+
+    try {
+      await legacyStorage.open();
+      await legacyStorage.putBucket('wallet', { name: 'legacy-wallet' });
+      await legacyStorage.putBucket('settings', { language: 'en' });
+
+      await targetStorage.open();
+      await targetStorage.putBucket('wallet', { name: 'new-wallet' });
+
+      targetStorage.close();
+
+      const reopenedTargetStorage = new Storage(targetName, [legacyName]);
+
+      await reopenedTargetStorage.open();
+
+      const wallet = await reopenedTargetStorage.getBucket('wallet');
+      const settings = await reopenedTargetStorage.getBucket('settings');
+
+      expect(wallet.value.name).toBe('new-wallet');
+      expect(settings.value.language).toBe('en');
+
+      await reopenedTargetStorage.deleteDatabase();
+      reopenedTargetStorage.close();
+    } finally {
+      await legacyStorage.deleteDatabase();
+      legacyStorage.close();
+
+      await targetStorage.deleteDatabase();
+      targetStorage.close();
+    }
   });
 
   // it('Validate Indexer', async () => {
