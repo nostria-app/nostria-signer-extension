@@ -39,18 +39,18 @@ export class NostriaRequestProvider {
           if (data.response.notification) {
             const popupWindow = document.createElement('DIV');
             popupWindow.style.display = 'block';
-            popupWindow.style.padding = '20px';
+            popupWindow.style.padding = '8px 14px';
             popupWindow.style.color = '#212121';
             popupWindow.style.backgroundColor = 'white';
             popupWindow.style.zIndex = '2147483647';
             popupWindow.style.border = 'solid gray 1px';
             popupWindow.style.borderRadius = '6px';
             popupWindow.style.position = 'fixed';
-            popupWindow.style.width = '320px';
-            popupWindow.style.top = '10px';
-            popupWindow.style.margin = '0 auto';
-            popupWindow.style.left = '50%';
-            popupWindow.style.transform = 'translate(-50%, 0%)';
+            popupWindow.style.fontSize = '13px';
+            popupWindow.style.lineHeight = '1.3';
+            popupWindow.style.bottom = '16px';
+            popupWindow.style.right = '16px';
+            popupWindow.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
             popupWindow.innerHTML = data.response.notification;
 
             document.body.appendChild(popupWindow);

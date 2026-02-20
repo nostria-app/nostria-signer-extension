@@ -28,6 +28,10 @@ export class AppComponent implements OnInit {
 
   instanceName: string;
 
+  /** Notification text shown briefly in the side panel after signing. */
+  notificationText: string | null = null;
+  private notificationTimer: any;
+
   constructor(
     private logMonitor: LoggingMonitor,
     private frontendService: FrontendService,
@@ -50,6 +54,7 @@ export class AppComponent implements OnInit {
     public appUpdateService: AppUpdateService,
     public action: ActionService,
     private rightClickDisable: DisableRightClickService,
+    private communication: CommunicationService,
     @Inject(DOCUMENT) private document: Document
   ) {
     // This must happen in the constructor on app component, or when loading in PWA, it won't
@@ -122,6 +127,19 @@ export class AppComponent implements OnInit {
 
     // Send event every time the UI has been activated.
     this.message.send(this.message.createMessage('activated'));
+
+    // Listen for signing notifications (shown in the side panel).
+    if (this.communication.isSidePanel) {
+      this.communication.notification$.subscribe((text) => {
+        clearTimeout(this.notificationTimer);
+        this.notificationText = text;
+        this.cd.detectChanges();
+        this.notificationTimer = setTimeout(() => {
+          this.notificationText = null;
+          this.cd.detectChanges();
+        }, 1500);
+      });
+    }
   }
 
   lock() {

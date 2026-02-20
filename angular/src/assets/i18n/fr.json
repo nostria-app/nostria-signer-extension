@@ -44,7 +44,9 @@
     "Exchange": "Échange (achat/vente)",
     "ScanPayment": "Scanner un paiement",
     "ZeroAccounts": "Your vault has zero accounts.",
-    "SignVerify": "Signer et vérifier"
+    "SignVerify": "Signer et vérifier",
+    "SetAsActive": "Définir comme compte actif",
+    "ActiveAccount": "Compte actif"
   },
   "Settings": {
     "Settings": "Paramètres",

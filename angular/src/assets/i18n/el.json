@@ -41,7 +41,10 @@
     "AddWallet": "Add Vault",
     "Exchange": "Ανταλλαγή (αγορά/πώληση)",
     "ScanPayment": "Σάρωση Πληρωμής",
-    "ZeroAccounts": "Your vault has zero accounts."
+    "ZeroAccounts": "Your vault has zero accounts.",
+    "SignVerify": "Υπογραφή & Επαλήθευση",
+    "SetAsActive": "Ορισμός ως ενεργός λογαριασμός",
+    "ActiveAccount": "Ενεργός λογαριασμός"
   },
   "Settings": {
     "Settings": "Ρυθμίσεις",

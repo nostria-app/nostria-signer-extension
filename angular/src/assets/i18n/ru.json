@@ -41,7 +41,10 @@
     "AddWallet": "Add Vault",
     "Exchange": "Обмен (покупка/продажа)",
     "ScanPayment": "Отсканировать платёж",
-    "ZeroAccounts": "Your vault has zero accounts."
+    "ZeroAccounts": "Your vault has zero accounts.",
+    "SignVerify": "Подписать и проверить",
+    "SetAsActive": "Сделать активным аккаунтом",
+    "ActiveAccount": "Активный аккаунт"
   },
   "Settings": {
     "Settings": "Настройки",

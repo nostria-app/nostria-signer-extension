@@ -154,6 +154,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  isActiveAccount(account: Account): boolean {
+    return this.walletManager.activeAccountId === account.identifier;
+  }
+
+  async setActive(account: Account) {
+    await this.walletManager.setActiveAccount(account.identifier);
+  }
+
   async logWatcher() {
     this.logger.info(this.addressWatchStore);
   }

@@ -43,3 +43,46 @@
   top: 2.8em;
   font-size: 0.8em !important;
 }
+
+.account-row {
+  display: flex;
+  align-items: center;
+}
+
+.account-row .account-link {
+  flex: 1;
+  min-width: 0;
+}
+
+.account-row .set-active-button,
+.account-row .active-indicator {
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+[dir=rtl] .account-row .set-active-button,
+[dir=rtl] .account-row .active-indicator {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+.account-row .set-active-button {
+  color: gray;
+}
+
+.account-row .set-active-button:hover {
+  color: #1976d2;
+}
+
+.account-row .active-indicator {
+  color: #1976d2 !important;
+}
+
+.account-row-active {
+  background-color: rgba(25, 118, 210, 0.08);
+  border-radius: 4px;
+}
+
+:host-context(.dark-mode) .account-row-active {
+  background-color: rgba(25, 118, 210, 0.15);
+}

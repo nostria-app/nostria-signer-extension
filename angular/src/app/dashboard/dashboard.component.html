@@ -9,13 +9,29 @@
       <mat-nav-list>
         <div class="centered" *ngIf="nostrAccounts().length == 0">{{ "Dashboard.ZeroAccounts" | translate }}<br /><br /></div>
 
-        <a mat-list-item *ngFor="let account of nostrAccounts(); let i = index" routerLinkActive="active-link" [routerLink]="getLink(account)">
-          <app-account-icon mat-list-icon [value]="account"></app-account-icon>
-          <div mat-line>
-            {{ account.name }}
-          </div>
-          <div mat-line>{{ account | network }}</div>
-        </a>
+        <div class="account-row" [class.account-row-active]="isActiveAccount(account)" *ngFor="let account of nostrAccounts(); let i = index">
+          <a mat-list-item routerLinkActive="active-link" [routerLink]="getLink(account)" class="account-link">
+            <app-account-icon mat-list-icon [value]="account"></app-account-icon>
+            <div mat-line>
+              {{ account.name }}
+            </div>
+            <div mat-line>{{ account | network }}</div>
+          </a>
+          <button mat-icon-button
+            class="set-active-button"
+            *ngIf="!isActiveAccount(account)"
+            (click)="setActive(account); $event.stopPropagation()"
+            [matTooltip]="'Dashboard.SetAsActive' | translate">
+            <mat-icon>radio_button_unchecked</mat-icon>
+          </button>
+          <button mat-icon-button
+            class="active-indicator"
+            *ngIf="isActiveAccount(account)"
+            [matTooltip]="'Dashboard.ActiveAccount' | translate"
+            disabled>
+            <mat-icon>radio_button_checked</mat-icon>
+          </button>
+        </div>
 
         <!-- TODO: Hidden until fully implemented -->
         <!-- <mat-divider></mat-divider>

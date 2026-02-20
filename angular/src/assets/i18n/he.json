@@ -41,7 +41,10 @@
     "AddWallet": "Add Vault",
     "Exchange": "החלפת מטבעות",
     "ScanPayment": "סריקת תשלום",
-    "ZeroAccounts": "Your vault has zero accounts."
+    "ZeroAccounts": "Your vault has zero accounts.",
+    "SignVerify": "חתימה ואימות",
+    "SetAsActive": "הגדר כחשבון פעיל",
+    "ActiveAccount": "חשבון פעיל"
   },
   "Settings": {
     "Settings": "הגדרות",

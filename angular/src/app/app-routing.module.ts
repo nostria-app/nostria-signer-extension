@@ -71,6 +71,11 @@ const routes: Routes = [
     data: { popup: true },
   },
   {
+    path: 'side',
+    component: LoadingComponent,
+    data: { side: true },
+  },
+  {
     path: 'home',
     component: HomeComponent,
     resolve: {

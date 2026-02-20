@@ -41,7 +41,10 @@
     "AddWallet": "Add Vault",
     "Exchange": "صرافی (خرید/فروش)",
     "ScanPayment": "اسکن پرداخت",
-    "ZeroAccounts": "Your vault has zero accounts."
+    "ZeroAccounts": "Your vault has zero accounts.",
+    "SignVerify": "امضا و تأیید",
+    "SetAsActive": "تنظیم به عنوان حساب فعال",
+    "ActiveAccount": "حساب فعال"
   },
   "Settings": {
     "Settings": "تنظیمات",

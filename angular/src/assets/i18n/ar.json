@@ -44,7 +44,9 @@
     "Exchange": "التبادل (شراء/بيع)",
     "ScanPayment": "مسح الدفع",
     "ZeroAccounts": "Your vault has zero accounts.",
-    "SignVerify": "توقيع والتحقق"
+    "SignVerify": "توقيع والتحقق",
+    "SetAsActive": "تعيين كحساب نشط",
+    "ActiveAccount": "الحساب النشط"
   },
   "Settings": {
     "Settings": "الإعدادات",

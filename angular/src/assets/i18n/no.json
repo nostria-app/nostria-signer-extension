@@ -41,7 +41,10 @@
     "AddWallet": "Add Vault",
     "Exchange": "Bytte (kjøp/selg)",
     "ScanPayment": "Skann betaling",
-    "ZeroAccounts": "Your vault has zero accounts."
+    "ZeroAccounts": "Your vault has zero accounts.",
+    "SignVerify": "Signer og verifiser",
+    "SetAsActive": "Sett som aktiv konto",
+    "ActiveAccount": "Aktiv konto"
   },
   "Settings": {
     "Settings": "Innstillinger",

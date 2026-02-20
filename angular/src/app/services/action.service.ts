@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AccountFilter, Action, ActionMessage, ActionStore, MessageService } from 'src/shared';
 import { CommunicationService } from './communication.service';
 import { UIState } from './ui-state.service';
@@ -8,7 +9,14 @@ import { WalletManager } from './wallet-manager';
   providedIn: 'root',
 })
 export class ActionService {
-  constructor(private communication: CommunicationService, private message: MessageService, private store: ActionStore, public uiState: UIState, public walletManager: WalletManager) {}
+  constructor(
+    private communication: CommunicationService,
+    private message: MessageService,
+    private store: ActionStore,
+    public uiState: UIState,
+    public walletManager: WalletManager,
+    private router: Router
+  ) {}
   accountFilter: AccountFilter;
   walletId: string;
   accountId: string;
@@ -133,6 +141,13 @@ export class ActionService {
 
       // Inform the provider script that user has signed the data.
       this.message.send(reply);
+    }
+
+    // In the side panel, navigate back to the dashboard after authorization.
+    // The popup window is closed by the background, but the side panel stays open.
+    if (this.communication.isSidePanel) {
+      this.uiState.action = undefined;
+      this.router.navigateByUrl('/dashboard');
     }
   }
 }

@@ -47,6 +47,15 @@ interface QueuedRequest {
 let requestQueue: QueuedRequest[] = [];
 let isProcessingQueue = false;
 
+// Side panel connection tracking.
+// When the side panel is open, it connects via a named port ('sidepanel').
+// We track this port so we can send signing requests directly to the side panel
+// instead of opening a new popup window.
+let sidePanelPort: chrome.runtime.Port | null = null;
+
+// Whether the current prompt is being served via the side panel (true) or a popup window (false).
+let promptViaSidePanel = false;
+
 function getRequestSignature(state: ActionState): string {
   const method = state.message.request.method;
   const app = state.message.app ?? '';
@@ -108,6 +117,21 @@ chrome.runtime.onMessage.addListener((msg: ActionMessage, sender, sendResponse) 
         return;
       } else if (msg.source == 'provider') {
         const result = await handleContentScriptMessage(msg);
+
+        // If the side panel is connected, route the notification there instead
+        // of showing it on the website.
+        if (result && result.notification && sidePanelPort) {
+          try {
+            sidePanelPort.postMessage({
+              type: 'notification',
+              data: { text: result.notification },
+            });
+          } catch (e) {
+            // Port may have disconnected; ignore.
+          }
+          delete result.notification;
+        }
+
         sendResponse(result);
         return;
       } else if (msg.source == 'tabs') {
@@ -355,10 +379,14 @@ async function handlePromptMessage(message: ActionMessage, sender: any) {
   prompt = null;
   releaseMutex();
 
-  if (sender) {
+  // Only close the window if the prompt was served via a popup window (not the side panel).
+  // sender.tab may be undefined for extension pages like the side panel.
+  if (!promptViaSidePanel && sender?.tab?.windowId != null) {
     // Remove the popup window that was opened:
     browser.windows.remove(sender.tab.windowId);
   }
+
+  promptViaSidePanel = false;
   
   // Continue processing the queue after this prompt is handled
   processNextInQueue();
@@ -502,7 +530,8 @@ async function promptPermission(state: ActionState): Promise<Permission | null> 
   return queuePermissionRequest(state);
 }
 
-// Actually show the popup window for a permission request
+// Actually show the popup window for a permission request.
+// If the side panel is open, send the action there instead of opening a new popup.
 async function showPermissionPopup(state: ActionState): Promise<Permission> {
   await permissionService.refresh();
   const existingPermission = findExistingPermissionForState(state);
@@ -523,11 +552,28 @@ async function showPermissionPopup(state: ActionState): Promise<Permission> {
     queueLength: requestQueue.length, // Pass queue length so UI can show "X more requests pending"
   };
 
-  let qs = new URLSearchParams(parameters);
-
   return new Promise((resolve, reject) => {
     // Set the global prompt object:
     prompt = { resolve, reject };
+
+    // If the side panel is connected, send the action request there instead of opening a popup window.
+    if (sidePanelPort) {
+      try {
+        promptViaSidePanel = true;
+        sidePanelPort.postMessage({
+          type: 'action-request',
+          data: parameters,
+        });
+        return;
+      } catch (e) {
+        // Side panel port may have been disconnected; fall through to popup.
+        sidePanelPort = null;
+        promptViaSidePanel = false;
+      }
+    }
+
+    promptViaSidePanel = false;
+    let qs = new URLSearchParams(parameters);
 
     browser.windows.create({
       url: `${browser.runtime.getURL('index.html')}?${qs.toString()}`,
@@ -564,6 +610,24 @@ if (typeof chrome !== 'undefined' && chrome.runtime?.onSuspend) {
 
 browser.runtime.onConnect.addListener((port) => {
   console.log('onConnect:', port);
+
+  if (port.name === 'sidepanel') {
+    sidePanelPort = port as unknown as chrome.runtime.Port;
+    port.onDisconnect.addListener(() => {
+      sidePanelPort = null;
+
+      // If the side panel is closed while a prompt is active, reject the prompt
+      // (same behavior as closing a popup window).
+      if (prompt && promptViaSidePanel) {
+        prompt?.reject?.();
+        prompt = null;
+        promptViaSidePanel = false;
+        releaseMutex();
+        isProcessingQueue = false;
+        processNextInQueue();
+      }
+    });
+  }
 });
 
 browser.runtime.onInstalled.addListener(async ({ reason }) => {
