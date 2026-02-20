@@ -401,8 +401,16 @@ async function processQueuedRequestsWithPermission(grantedPermission: Permission
   // Find and resolve queued requests that match the granted permission
   const matchingRequests: QueuedRequest[] = [];
   const remainingRequests: QueuedRequest[] = [];
+  const activeRequest = isProcessingQueue ? requestQueue[0] : null;
 
   for (const queuedRequest of requestQueue) {
+    // Never mutate or auto-resolve the request currently being actively processed.
+    // It is resolved by processNextInQueue after showPermissionPopup returns.
+    if (activeRequest && queuedRequest === activeRequest) {
+      remainingRequests.push(queuedRequest);
+      continue;
+    }
+
     const method = queuedRequest.state.message.request.method;
     const app = queuedRequest.state.message.app;
     const params = queuedRequest.state.message.request.params ? queuedRequest.state.message.request.params[0] : undefined;
@@ -515,7 +523,9 @@ async function processNextInQueue() {
   }
 
   isProcessingQueue = false;
-  // Note: processNextInQueue will be called from handlePromptMessage after popup closes
+  // Continue draining the queue. handlePromptMessage may run before this function
+  // clears isProcessingQueue, so relying only on that callback can leave items stuck.
+  processNextInQueue();
 }
 
 // Queue-based prompt: adds request to queue instead of directly showing popup
