@@ -1,6 +1,6 @@
 {
   "name": "Nostria Signer",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "manifest_version": 3,
   "description": "Nostr signer for your Browser",
   "author": "Nostria",
