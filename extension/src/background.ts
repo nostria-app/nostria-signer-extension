@@ -335,7 +335,8 @@ async function handleContentScriptMessage(message: ActionMessage) {
 
     // If this execution required consent then display a notification.
     if (prepare.consent) {
-      result.notification = `Nostria Signer: ${(<Permission>permission).action} (${executions})`;
+      const actionLabel = (<Permission>permission).action.replace(/^nostr\./, '');
+      result.notification = `Nostria Signer: ${actionLabel} (${executions})`;
     }
 
     return result;
