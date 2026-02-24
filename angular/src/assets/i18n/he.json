@@ -378,6 +378,7 @@
     "ReadYourPublicKey": "קרא את המפתח הציבורי שלך",
     "BlockcoreVaultSetupDescription": "אתה מבצע בקשה להגדרת כספת Nostria. פעולה זו כוללת בחירת מזהה מבוזר שברצונך להיות הבעלים של כספת Nostria.",
     "Key": "מפתח",
+    "Approve": "Approve",
     "Once": "פעם אחת",
     "AuthorizeOnce": "אשר פעם אחת",
     "AuthorizeFor5Minutes": "אשר ל-5 דקות",

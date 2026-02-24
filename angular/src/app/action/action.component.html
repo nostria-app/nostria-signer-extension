@@ -54,18 +54,30 @@
     <button class="action-button" mat-flat-button (click)="actionService.authorize('no')">{{ "Action.Cancel" | translate }}</button>
   </div>
   <div *ngIf="actionService.consentType === 'regular'">
-    <button class="action-button" mat-flat-button color="primary" (click)="actionService.authorize('once')">{{ "Action.Once" | translate }}</button>&nbsp;
-    <button class="action-button" mat-flat-button (click)="actionService.authorize('expirable', 5 * 60)">{{ "Action.ApprovalDuration5Minutes" | translate }}</button>
-    <button class="action-button" mat-flat-button [matMenuTriggerFor]="approvalDurationMenu" aria-label="Select approval duration">
-      <mat-icon>arrow_drop_down</mat-icon>
-    </button>&nbsp;
+    <mat-card class="auto-lock-prompt" *ngIf="showAutoLockPrompt">
+      <mat-card-content>
+        The selected approval timeout ({{ pendingApprovalDurationLabel }}) is longer than your Auto-Lock Timer ({{ currentAutoLockTimeoutMinutes }} minutes).
+        Do you also want to increase Auto-Lock Timer to {{ suggestedAutoLockTimeoutMinutes }} minutes?
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="respondToAutoLockPrompt(true)">Increase Auto-Lock</button>
+        <button mat-flat-button (click)="respondToAutoLockPrompt(false)">Keep Current Timer</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <div class="approval-button-group">
+      <button class="action-button approval-button" mat-flat-button color="primary" (click)="approveSelectedDuration()">{{ "Action.Approve" | translate }}</button>
+      <button class="action-button approval-dropdown-button" mat-flat-button color="primary" [matMenuTriggerFor]="approvalDurationMenu" aria-label="Select approval duration">
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+    </div>
     <mat-menu #approvalDurationMenu="matMenu">
-      <button mat-menu-item (click)="actionService.authorize('expirable', 5 * 60)">{{ "Action.ApprovalDuration5Minutes" | translate }}</button>
-      <button mat-menu-item (click)="actionService.authorize('expirable', 15 * 60)">{{ "Action.ApprovalDuration15Minutes" | translate }}</button>
-      <button mat-menu-item (click)="actionService.authorize('expirable', 60 * 60)">{{ "Action.ApprovalDuration1Hour" | translate }}</button>
-      <button mat-menu-item (click)="actionService.authorize('expirable', 24 * 60 * 60)">{{ "Action.ApprovalDuration1Day" | translate }}</button>
+      <button mat-menu-item (click)="approveWithDuration(5 * 60)">{{ "Action.ApprovalDuration5Minutes" | translate }}</button>
+      <button mat-menu-item (click)="approveWithDuration(15 * 60)">{{ "Action.ApprovalDuration15Minutes" | translate }}</button>
+      <button mat-menu-item (click)="approveWithDuration(60 * 60)">{{ "Action.ApprovalDuration1Hour" | translate }}</button>
+      <button mat-menu-item (click)="approveWithDuration(24 * 60 * 60)">{{ "Action.ApprovalDuration1Day" | translate }}</button>
     </mat-menu>
-    <button class="action-button" mat-flat-button (click)="actionService.authorize('forever')">{{ "Action.Forever" | translate }}</button>&nbsp;
+    &nbsp;
     <button class="action-button" mat-flat-button (click)="actionService.authorize('no')">{{ "Action.Cancel" | translate }}</button>
   </div>
 </div>

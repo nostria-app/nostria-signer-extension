@@ -361,6 +361,7 @@
     "Connect": "Connect",
     "wallets": "Connect",
     "Authorize": "Authorize",
+    "Approve": "Approve",
     "vaultSetup": "Vault Setup",
     "signMessage": "Sign Message",
     "signPsbt": "Sign PSBT",

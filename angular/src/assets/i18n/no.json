@@ -355,6 +355,7 @@
     "vaultSetup": "Hvelv installasjon",
     "signMessage": "Signer melding",
     "SigningAccount": "Signer konto",
+      "Approve": "Approve",
     "DerivationPath": "Avledningsbane",
     "SigningAccountMessage": "Du attesterer med din valgte konto følgende innhold",
     "SigningContentLabel": "Signer innhold",

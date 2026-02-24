@@ -330,6 +330,7 @@
     "wallets": "محافظ",
     "Authorize": "تفويض",
     "vaultSetup": "إعداد الخزنة",
+    "Approve": "الموافقة",
     "signMessage": "توقيع رسالة",
     "SigningAccount": "الحساب الموقع",
     "DerivationPath": "مسار الاشتقاق",

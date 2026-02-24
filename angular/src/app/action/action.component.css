@@ -1,0 +1,27 @@
+.approval-button-group {
+	display: inline-flex;
+	align-items: stretch;
+}
+
+.approval-button {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	margin-right: 0;
+}
+
+.approval-dropdown-button {
+	min-width: 40px;
+	padding: 0 8px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	margin-left: 0;
+}
+
+.auto-lock-prompt {
+	margin-bottom: 12px;
+}
+
+.auto-lock-prompt mat-card-actions {
+	display: flex;
+	gap: 8px;
+}

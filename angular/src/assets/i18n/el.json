@@ -353,6 +353,7 @@
     "vaultSetup": "Ρύθμιση Θησαυροφυλακίου",
     "signMessage": "Υπογραφή Μηνύματος",
     "SigningAccount": "Υπογραφή Λογαριασμού",
+    "Approve": "Approve",
     "DerivationPath": "Διαδρομή Παραγωγής",
     "SigningAccountMessage": "Επιβεβαιώνετε με τον επιλεγμένο λογαριασμό σας το ακόλουθο περιεχόμενο",
     "SigningContentLabel": "Υπογραφή Περιεχομένου",

@@ -6,6 +6,7 @@ import { AppManager, NetworksService, UIState, WalletManager } from '../services
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { SigningUtilities } from '../../shared/identity/signing-utilities';
+import { SettingsService } from '../services/settings.service';
 
 @Component({
   selector: 'app-action',
@@ -22,6 +23,12 @@ export class ActionComponent implements OnInit {
   requestedKey: string;
   keySelectionDisabled = false;
   utility = new SigningUtilities();
+  approvalDurationSeconds = 5 * 60;
+  showAutoLockPrompt = false;
+  pendingApprovalDurationSeconds: number = undefined;
+  suggestedAutoLockTimeoutMinutes = 0;
+  currentAutoLockTimeoutMinutes = 0;
+  pendingApprovalDurationLabel = '';
 
   constructor(
     public translate: TranslateService,
@@ -30,6 +37,7 @@ export class ActionComponent implements OnInit {
     private accountStateStore: AccountStateStore,
     private permissionStore: PermissionStore,
     public actionService: ActionService,
+    private settingsService: SettingsService,
     public networkService: NetworksService,
     public walletManager: WalletManager,
     private manager: AppManager,
@@ -263,5 +271,94 @@ export class ActionComponent implements OnInit {
   onKeyChanged() {
     const address = this.addresses.find((a) => a.keyId == this.actionService.keyId);
     this.actionService.key = address.key;
+  }
+
+  setApprovalDuration(durationSeconds: number) {
+    this.approvalDurationSeconds = durationSeconds;
+  }
+
+  async approveWithDuration(durationSeconds: number) {
+    this.setApprovalDuration(durationSeconds);
+    await this.approveSelectedDuration();
+  }
+
+  async approveSelectedDuration() {
+    await this.requestApproval(this.approvalDurationSeconds);
+  }
+
+  private async requestApproval(permissionDurationSeconds: number) {
+    if (this.shouldPromptForAutoLockIncrease(permissionDurationSeconds)) {
+      this.pendingApprovalDurationSeconds = permissionDurationSeconds;
+      this.pendingApprovalDurationLabel = this.getReadableDuration(permissionDurationSeconds);
+      this.showAutoLockPrompt = true;
+      return;
+    }
+
+    await this.actionService.authorize('expirable', permissionDurationSeconds);
+  }
+
+  async respondToAutoLockPrompt(increaseAutoLockTimeout: boolean) {
+    const pendingApprovalDurationSeconds = this.pendingApprovalDurationSeconds;
+
+    this.showAutoLockPrompt = false;
+    this.pendingApprovalDurationSeconds = undefined;
+    this.pendingApprovalDurationLabel = '';
+
+    if (!pendingApprovalDurationSeconds) {
+      return;
+    }
+
+    if (increaseAutoLockTimeout) {
+      const settings = this.settingsService.values;
+
+      if (settings) {
+        settings.autoTimeout = this.suggestedAutoLockTimeoutMinutes;
+        await this.settingsService.save();
+        await this.walletManager.resetTimer();
+      }
+    }
+
+    await this.actionService.authorize('expirable', pendingApprovalDurationSeconds);
+  }
+
+  private shouldPromptForAutoLockIncrease(permissionDurationSeconds: number) {
+    const settings = this.settingsService.values;
+
+    if (!settings) {
+      return false;
+    }
+
+    const permissionDurationMinutes = Math.ceil(permissionDurationSeconds / 60);
+    const currentAutoTimeoutMinutes = settings.autoTimeout ?? 0;
+
+    this.currentAutoLockTimeoutMinutes = currentAutoTimeoutMinutes;
+    this.suggestedAutoLockTimeoutMinutes = permissionDurationMinutes;
+
+    if (permissionDurationMinutes <= currentAutoTimeoutMinutes) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private getReadableDuration(durationSeconds: number): string {
+    if (durationSeconds === 5 * 60) {
+      return '5 minutes';
+    }
+
+    if (durationSeconds === 15 * 60) {
+      return '15 minutes';
+    }
+
+    if (durationSeconds === 60 * 60) {
+      return '1 hour';
+    }
+
+    if (durationSeconds === 24 * 60 * 60) {
+      return '1 day';
+    }
+
+    const minutes = Math.ceil(durationSeconds / 60);
+    return `${minutes} minutes`;
   }
 }

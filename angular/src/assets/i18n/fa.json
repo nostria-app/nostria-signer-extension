@@ -378,6 +378,7 @@
     "ReadYourPublicKey": "خواندن کلید عمومی",
     "BlockcoreVaultSetupDescription": "شما در حال انجام یک درخواست برای راه‌اندازی Nostria Vault هستید. این اقدام شامل انتخاب شناسه غیرمتمرکز مورد نظر شما برای مالکیت نمونه Nostria Vault است.",
     "Key": "کلید",
+    "Approve": "Approve",
     "Once": "یک بار",
     "AuthorizeOnce": "مجاز برای یک بار",
     "AuthorizeFor5Minutes": "مجاز به مدت 5 دقیقه",
