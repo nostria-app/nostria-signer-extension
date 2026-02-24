@@ -70,7 +70,7 @@ export class ActionService {
   /** Define a callback that must return true for the process to complete. */
   public component: any;
 
-  async authorize(permission: string) {
+  async authorize(permission: string, permissionDurationSeconds?: number) {
     let customResult = undefined;
 
     if (permission !== 'no') {
@@ -112,6 +112,10 @@ export class ActionService {
         keyId: this.keyId,
         key: key,
       };
+
+      if (permission === 'expirable' && permissionDurationSeconds) {
+        reply.permissionDurationSeconds = permissionDurationSeconds;
+      }
 
       if (customResult) {
         reply.promptResponse = customResult;

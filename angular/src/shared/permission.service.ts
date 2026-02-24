@@ -32,7 +32,9 @@ export class PermissionServiceShared {
         for (let j = 0; j < perms.length; j++) {
           const perm = perms[j];
 
-          if (perm.type === 'expirable' && perm.created < Date.now() / 1000 - 5 * 60) {
+          const expiresAt = perm.expiresAt ?? perm.created + 5 * 60;
+
+          if (perm.type === 'expirable' && expiresAt < Date.now() / 1000) {
             await this.removeExecution(perm); // Remove the execution history for this permission.
             perms.splice(j, 1);
             // delete permissionSet.permissions[permission];
@@ -61,6 +63,11 @@ export class PermissionServiceShared {
       keyId: message.keyId,
       key: message.key,
     };
+
+    if (permission.type === 'expirable') {
+      const durationSeconds = message.permissionDurationSeconds ?? 5 * 60;
+      permission.expiresAt = permission.created + durationSeconds;
+    }
 
     return permission;
   }

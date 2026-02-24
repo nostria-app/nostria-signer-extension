@@ -451,6 +451,7 @@ interface Permission {
   app: string;
   type: string;
   created: number;
+  expiresAt?: number;
   walletId: string;
   accountId: string;
   keyId: string;
@@ -618,6 +619,7 @@ interface ActionMessage {
   ext: string;
   id: string;
   permission?: string;
+  permissionDurationSeconds?: number;
   app?: string;
   walletId?: string;
   accountId?: string;
