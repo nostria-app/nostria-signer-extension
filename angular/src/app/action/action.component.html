@@ -66,17 +66,20 @@
     </mat-card>
 
     <div class="approval-button-group">
-      <button class="action-button approval-button" mat-flat-button color="primary" (click)="approveSelectedDuration()">{{ "Action.Approve" | translate }}</button>
-      <button class="action-button approval-dropdown-button" mat-flat-button color="primary" [matMenuTriggerFor]="approvalDurationMenu" aria-label="Select approval duration">
-        <mat-icon>arrow_drop_down</mat-icon>
-      </button>
+      <button class="action-button approval-button" mat-flat-button color="primary" (click)="approveOnce()">{{ "Action.Approve" | translate }}</button>
+      <ng-container *ngIf="isDurationApprovalAllowed()">
+        <button class="action-button approval-dropdown-button" mat-flat-button color="primary" [matMenuTriggerFor]="approvalDurationMenu" aria-label="Select approval duration">
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+
+        <mat-menu #approvalDurationMenu="matMenu">
+          <button mat-menu-item (click)="approveWithDuration(5 * 60)">{{ "Action.ApprovalDuration5Minutes" | translate }}</button>
+          <button mat-menu-item (click)="approveWithDuration(15 * 60)">{{ "Action.ApprovalDuration15Minutes" | translate }}</button>
+          <button mat-menu-item (click)="approveWithDuration(60 * 60)">{{ "Action.ApprovalDuration1Hour" | translate }}</button>
+          <button mat-menu-item (click)="approveWithDuration(24 * 60 * 60)">{{ "Action.ApprovalDuration1Day" | translate }}</button>
+        </mat-menu>
+      </ng-container>
     </div>
-    <mat-menu #approvalDurationMenu="matMenu">
-      <button mat-menu-item (click)="approveWithDuration(5 * 60)">{{ "Action.ApprovalDuration5Minutes" | translate }}</button>
-      <button mat-menu-item (click)="approveWithDuration(15 * 60)">{{ "Action.ApprovalDuration15Minutes" | translate }}</button>
-      <button mat-menu-item (click)="approveWithDuration(60 * 60)">{{ "Action.ApprovalDuration1Hour" | translate }}</button>
-      <button mat-menu-item (click)="approveWithDuration(24 * 60 * 60)">{{ "Action.ApprovalDuration1Day" | translate }}</button>
-    </mat-menu>
     &nbsp;
     <button class="action-button" mat-flat-button (click)="actionService.authorize('no')">{{ "Action.Cancel" | translate }}</button>
   </div>

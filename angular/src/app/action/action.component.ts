@@ -277,6 +277,14 @@ export class ActionComponent implements OnInit {
     this.approvalDurationSeconds = durationSeconds;
   }
 
+  isDurationApprovalAllowed() {
+    return this.uiState.action?.action !== 'nostr.publickey';
+  }
+
+  async approveOnce() {
+    await this.actionService.authorize('once');
+  }
+
   async approveWithDuration(durationSeconds: number) {
     this.setApprovalDuration(durationSeconds);
     await this.approveSelectedDuration();
