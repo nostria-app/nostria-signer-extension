@@ -290,6 +290,10 @@ export class ActionComponent implements OnInit {
     await this.approveSelectedDuration();
   }
 
+  async approveForever() {
+    await this.actionService.authorize('forever');
+  }
+
   async approveSelectedDuration() {
     await this.requestApproval(this.approvalDurationSeconds);
   }
