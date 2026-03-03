@@ -12,6 +12,7 @@ import { RuntimeService } from '../../angular/src/shared/runtime.service';
 import { NetworkLoader } from '../../angular/src/shared/network-loader';
 import { MessageService } from '../../angular/src/shared';
 import { EventBus } from '../../angular/src/shared/event-bus';
+import { UIStore } from '../../angular/src/shared/store/ui-store';
 
 import { Database } from '../../angular/src/shared/store/storage';
 
@@ -262,14 +263,21 @@ async function handleContentScriptMessage(message: ActionMessage) {
     if (params?.key) {
       permission = permissionService.findPermissionByKey(message.app!, method, params.key);
     } else {
-      // Get all existing permissions that exists for this app and method:
-      let permissions = permissionService.findPermissions(message.app!, method) as any[];
+      // When no specific key is requested, find a permission matching the current active wallet/account.
+      // This ensures that switching accounts returns the correct public key instead of a stale one.
+      const { walletId: activeWalletId, accountId: activeAccountId } = await getActiveWalletAndAccount();
 
-      // If there are no specific key specified in the signing request, just grab the first permission that is approved for this
-      // website and use that. Normally there will only be a single one if the web app does not request specific key.
-      // This key is selected based upon app and method.
-      if (permissions?.length > 0) {
-        permission = permissions[0];
+      if (activeWalletId && activeAccountId) {
+        permission = permissionService.findPermission(message.app!, method, activeWalletId, activeAccountId, undefined);
+      }
+
+      // Fallback: if no permission found for active account, check if any permission exists at all.
+      // This handles the case where activeWalletId/activeAccountId are not yet set.
+      if (!permission) {
+        let permissions = permissionService.findPermissions(message.app!, method) as any[];
+        if (permissions?.length > 0) {
+          permission = permissions[0];
+        }
       }
     }
 
@@ -288,16 +296,6 @@ async function handleContentScriptMessage(message: ActionMessage) {
         return {
           error: { message: `Insufficient permissions, required "${method}".` },
         };
-      }
-    } else {
-      // TODO: This logic can be put into the query into permission set, because permissions
-      // must be stored with more keys than just "action", it must contain wallet/account and potentially keyId.
-
-      // If there exists an permission, verify that the permission applies to the specified (or active) wallet and account.
-      // If the caller has supplied walletId and accountId, use that.
-      if (message.walletId && message.accountId) {
-      } else {
-        // If nothing is supplied, verify against the current active wallet/account.
       }
     }
   }
@@ -440,7 +438,23 @@ async function processQueuedRequestsWithPermission(grantedPermission: Permission
   }
 }
 
-function findExistingPermissionForState(state: ActionState): Permission | null {
+/** Read the currently active wallet and account IDs from the persisted UI state. */
+async function getActiveWalletAndAccount(): Promise<{ walletId: string | undefined; accountId: string | undefined }> {
+  try {
+    const uiStore = new UIStore();
+    await uiStore.load();
+    const appState = uiStore.get();
+    return {
+      walletId: appState?.previousWalletId ?? undefined,
+      accountId: appState?.previousAccountId ?? undefined,
+    };
+  } catch (e) {
+    // Ignore errors – fall back to undefined so callers use the generic lookup.
+    return { walletId: undefined, accountId: undefined };
+  }
+}
+
+async function findExistingPermissionForState(state: ActionState): Promise<Permission | null> {
   const method = state.message.request.method;
   const app = state.message.app;
   const params = state.message.request.params ? state.message.request.params[0] : undefined;
@@ -453,6 +467,18 @@ function findExistingPermissionForState(state: ActionState): Permission | null {
     return permissionService.findPermissionByKey(app, method, params.key);
   }
 
+  // Prefer permission matching the current active wallet/account so that switching accounts
+  // returns the correct public key.
+  const { walletId: activeWalletId, accountId: activeAccountId } = await getActiveWalletAndAccount();
+
+  if (activeWalletId && activeAccountId) {
+    const activePermission = permissionService.findPermission(app, method, activeWalletId, activeAccountId, undefined);
+    if (activePermission) {
+      return activePermission;
+    }
+  }
+
+  // Fallback to any existing permission for backward compatibility.
   const permissions = permissionService.findPermissions(app, method) as any[];
   if (permissions?.length > 0) {
     return permissions[0];
@@ -501,7 +527,7 @@ async function processNextInQueue() {
   }
 
   // Re-check for existing permission
-  const existingPermission = findExistingPermissionForState(nextRequest.state);
+  const existingPermission = await findExistingPermissionForState(nextRequest.state);
 
   if (existingPermission) {
     // Permission already exists, resolve without popup
@@ -532,7 +558,7 @@ async function processNextInQueue() {
 // Queue-based prompt: adds request to queue instead of directly showing popup
 async function promptPermission(state: ActionState): Promise<Permission | null> {
   await permissionService.refresh();
-  const existingPermission = findExistingPermissionForState(state);
+  const existingPermission = await findExistingPermissionForState(state);
 
   if (existingPermission) {
     return existingPermission;
@@ -545,7 +571,7 @@ async function promptPermission(state: ActionState): Promise<Permission | null> 
 // If the side panel is open, send the action there instead of opening a new popup.
 async function showPermissionPopup(state: ActionState): Promise<Permission> {
   await permissionService.refresh();
-  const existingPermission = findExistingPermissionForState(state);
+  const existingPermission = await findExistingPermissionForState(state);
 
   if (existingPermission) {
     return existingPermission;
