@@ -266,18 +266,17 @@ async function handleContentScriptMessage(message: ActionMessage) {
       // When no specific key is requested, find a permission matching the current active wallet/account.
       // This ensures that switching accounts returns the correct public key instead of a stale one.
       const { walletId: activeWalletId, accountId: activeAccountId } = await getActiveWalletAndAccount();
+      let permissions = permissionService.findPermissions(message.app!, method) as Permission[];
 
-      if (activeWalletId && activeAccountId) {
-        permission = permissionService.findPermission(message.app!, method, activeWalletId, activeAccountId, undefined);
-      }
+      if (activeWalletId && activeAccountId && permissions?.length > 0) {
+        // Find a permission that belongs to the current active wallet and account.
+        permission = permissions.find((p) => p.walletId === activeWalletId && p.accountId === activeAccountId) ?? null;
 
-      // Fallback: if no permission found for active account, check if any permission exists at all.
-      // This handles the case where activeWalletId/activeAccountId are not yet set.
-      if (!permission) {
-        let permissions = permissionService.findPermissions(message.app!, method) as any[];
-        if (permissions?.length > 0) {
-          permission = permissions[0];
-        }
+        // Do NOT fall back to a permission from a different account or wallet — that would return the wrong key.
+        // Instead, let the code below trigger the prompt for the new active account.
+      } else if (permissions?.length > 0) {
+        // Fallback only when active wallet/account IDs are not available.
+        permission = permissions[0];
       }
     }
 
@@ -467,19 +466,17 @@ async function findExistingPermissionForState(state: ActionState): Promise<Permi
     return permissionService.findPermissionByKey(app, method, params.key);
   }
 
-  // Prefer permission matching the current active wallet/account so that switching accounts
-  // returns the correct public key.
   const { walletId: activeWalletId, accountId: activeAccountId } = await getActiveWalletAndAccount();
+  const permissions = permissionService.findPermissions(app, method) as Permission[];
 
-  if (activeWalletId && activeAccountId) {
-    const activePermission = permissionService.findPermission(app, method, activeWalletId, activeAccountId, undefined);
-    if (activePermission) {
-      return activePermission;
-    }
+  if (activeWalletId && activeAccountId && permissions?.length > 0) {
+    // Find a permission matching the active wallet and account.
+    const match = permissions.find((p) => p.walletId === activeWalletId && p.accountId === activeAccountId) ?? null;
+    // Do NOT fall back to a different account or wallet's permission.
+    return match;
   }
 
-  // Fallback to any existing permission for backward compatibility.
-  const permissions = permissionService.findPermissions(app, method) as any[];
+  // Fallback only when active wallet/account IDs are not available.
   if (permissions?.length > 0) {
     return permissions[0];
   }
