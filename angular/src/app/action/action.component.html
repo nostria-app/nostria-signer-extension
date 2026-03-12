@@ -66,7 +66,7 @@
     </mat-card>
 
     <div class="approval-button-group">
-      <button class="action-button approval-button" mat-flat-button color="primary" (click)="approveSelectedDuration()">{{ "Action.Approve" | translate }}</button>
+      <button class="action-button approval-button" mat-flat-button color="primary" (click)="approveOnce()">{{ "Action.Approve" | translate }}</button>
       <button class="action-button approval-dropdown-button" mat-flat-button color="primary" [matMenuTriggerFor]="approvalDurationMenu" aria-label="Select approval duration">
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
