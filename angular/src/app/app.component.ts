@@ -24,7 +24,6 @@ export class AppComponent implements OnInit {
   title = 'nostria-signer';
   wallet: any;
   @ViewChild('drawer') drawer!: MatSidenav;
-  @ViewChild('draweraccount') draweraccount!: MatSidenav;
 
   instanceName: string;
 
@@ -154,8 +153,16 @@ export class AppComponent implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
-  async onAccountChanged(accountId: string) {
-    await this.walletManager.setActiveAccount(accountId);
+  async onAccountSelected(account: Account) {
+    await this.walletManager.setActiveAccount(account.identifier);
+  }
+
+  nostrAccounts(): Account[] {
+    if (!this.walletManager.activeWallet?.accounts) {
+      return [];
+    }
+
+    return this.walletManager.activeWallet.accounts.filter((account) => account.type === 'identity' && account.networkType === 'NOSTR');
   }
 
   async onWalletSelected(walletId: string) {

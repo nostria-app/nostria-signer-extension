@@ -6,6 +6,14 @@
     </ng-template>
 
     <div class="page centered wrap">
+      <div class="account-summary" *ngIf="walletManager.activeAccount">
+        <app-account-icon [large]="true" [value]="walletManager.activeAccount"></app-account-icon>
+        <div class="account-summary-meta">
+          {{ walletManager.activeAccount | network }}<br />
+          {{ "Account.Index" | translate }}: {{ walletManager.activeAccount?.index }}
+        </div>
+      </div>
+
       <h2>Nostr Public Key</h2>
 
       <p class="selectable">
@@ -20,6 +28,12 @@
       </p>
       <div class="dimmed">{{ identifier }}</div>
 
+      <p>
+        <button mat-stroked-button [routerLink]="['/account', 'edit', walletManager.activeAccountId]">
+          <mat-icon>edit</mat-icon>
+          {{ "App.EditAccount" | translate }}
+        </button>
+      </p>
     </div>
   </mat-tab>
 

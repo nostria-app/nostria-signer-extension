@@ -47,6 +47,7 @@ describe('AppComponent wallet switch', () => {
       {} as any,
       {} as any,
       {} as any,
+      {} as any,
       { body: { classList: { add: () => { }, remove: () => { }, contains: () => false } } } as any
     );
 
@@ -87,5 +88,27 @@ describe('AppComponent wallet switch', () => {
     expect(router.navigateByUrl).toHaveBeenCalledWith('/home');
     expect(router.navigate).not.toHaveBeenCalledWith(['action', 'nostr.signevent']);
     expect(router.navigate).not.toHaveBeenCalledWith(['/dashboard', 'wallet-2']);
+  });
+
+  it('sets the selected account as active', async () => {
+    const { component, walletManager } = createComponent();
+    const account = { identifier: 'acc-identity', type: 'identity', networkType: 'NOSTR' } as any;
+
+    await component.onAccountSelected(account);
+
+    expect(walletManager.setActiveAccount).toHaveBeenCalledWith('acc-identity');
+  });
+
+  it('returns only Nostr identity accounts', () => {
+    const { component } = createComponent();
+
+    expect(component.nostrAccounts().map((account) => account.identifier)).toEqual(['acc-identity']);
+  });
+
+  it('links Nostr identity accounts to the identity page', () => {
+    const { component } = createComponent();
+    const account = { identifier: 'acc-identity', type: 'identity', networkType: 'NOSTR' } as any;
+
+    expect(component.getAccountLink(account)).toEqual(['/', 'account', 'identity', 'acc-identity']);
   });
 });

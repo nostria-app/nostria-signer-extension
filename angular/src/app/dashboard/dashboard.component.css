@@ -54,16 +54,26 @@
   min-width: 0;
 }
 
+.account-row .edit-account-button,
 .account-row .set-active-button,
 .account-row .active-indicator {
   flex-shrink: 0;
   margin-right: 8px;
 }
 
+[dir=rtl] .account-row .edit-account-button,
 [dir=rtl] .account-row .set-active-button,
 [dir=rtl] .account-row .active-indicator {
   margin-right: 0;
   margin-left: 8px;
+}
+
+.account-row .edit-account-button {
+  color: gray;
+}
+
+.account-row .edit-account-button:hover {
+  color: #1976d2;
 }
 
 .account-row .set-active-button {

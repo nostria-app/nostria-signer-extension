@@ -36,3 +36,32 @@ textarea {
   width: 100%;
   min-height: 520px;
 }
+
+.account-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.account-summary-meta {
+  text-align: left;
+  line-height: 1.8em;
+  margin-left: 0.5em;
+}
+
+[dir="rtl"] .account-summary-meta {
+  text-align: right;
+  margin-left: 0;
+  margin-right: 0.5em;
+}
+
+button[mat-stroked-button] mat-icon {
+  margin-right: 0.3em;
+  vertical-align: middle;
+}
+
+[dir="rtl"] button[mat-stroked-button] mat-icon {
+  margin-right: 0;
+  margin-left: 0.3em;
+}

@@ -33,7 +33,8 @@
   margin-right: 0.8em;
 }
 
-.selectedWallet {
+.selectedWallet,
+.selectedAccount {
   color: rgb(207, 207, 207) !important;
   background-color: gray;
 }
@@ -61,14 +62,6 @@
   }
 }
 
-.account-details {
-  padding: 1em;
-}
-
-.detail-box {
-  display: flex;
-}
-
 .toolbar-icon {
   width: 40px !important;
   height: 40px !important;
@@ -76,34 +69,10 @@
   padding-top: 6px;
 }
 
-.detail-network {
-  line-height: 1.8em;
-  margin-left: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-[dir="rtl"] .detail-network {
-  line-height: 1.8em;
-  margin-right: 0.5em;
-  margin-bottom: 0.5em;
-}
-
 .name-field {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.close-sidenav-icon {
-  float: right;
-  margin-right: -0.5em;
-  margin-top: -0.5em;
-}
-
-[dir="rtl"] .close-sidenav-icon {
-  float: left;
-  margin-left: -0.5em;
-  margin-top: -0.5em;
 }
 
 .mat-form-field {

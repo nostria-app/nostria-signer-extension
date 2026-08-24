@@ -18,6 +18,12 @@
             <div mat-line>{{ account | network }}</div>
           </a>
           <button mat-icon-button
+            class="edit-account-button"
+            [routerLink]="['/account', 'edit', account.identifier]"
+            [matTooltip]="'App.EditAccount' | translate">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button
             class="set-active-button"
             *ngIf="!isActiveAccount(account)"
             (click)="setActive(account); $event.stopPropagation()"
@@ -32,6 +38,11 @@
             <mat-icon>radio_button_checked</mat-icon>
           </button>
         </div>
+
+        <a mat-list-item [routerLink]="['/account/create']">
+          <mat-icon mat-list-icon>add_circle_outline</mat-icon>
+          <div mat-line>{{ "App.CreateAccount" | translate }}</div>
+        </a>
 
         <!-- TODO: Hidden until fully implemented -->
         <!-- <mat-divider></mat-divider>

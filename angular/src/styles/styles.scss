@@ -110,10 +110,8 @@ body {
 }
 
 .sidenav-left {
-}
-
-.sidenav-right {
-  min-width: 200px;
+  min-width: 240px;
+  overflow-y: auto;
 }
 
 .unselectable {
